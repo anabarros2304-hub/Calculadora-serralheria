@@ -160,7 +160,7 @@ function updateChapaOpts() {
   let tipoSelected = document.getElementById('bTipoInox').value;
   let el = document.getElementById('bChapa');
   let filtered = materials.filter(m => m === tipoSelected);
-  el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
+  el.innerHTML = filtered.map(m => `<option value="${m}">${m}</option>`).join('');
 }
 
 function init(){
