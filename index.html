@@ -1,18 +1,94 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Calculadora de Serralheria</title>
 <style>
 :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--dark:#111827;--line:#e5e7eb}
-body{margin:0;background:var(--bg);font-family:system-ui,sans-serif;color:var(--ink)}
-header{background:#111827;color:white;padding:20px}main{max-width:800px;margin:auto;padding:16px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,sans-serif;color:var(--ink)}
+header{background:#111827;color:white;padding:20px;text-align:center}
+main{max-width:600px;margin:auto;padding:16px}.screen{display:none}.screen.active{display:block}
+.menu button,.back,.primary{width:100%;border:0;border-radius:10px;padding:14px;font-weight:700;cursor:pointer;margin-bottom:10px}
+.menu button{background:var(--card);text-align:left;box-shadow:0 2px 5px #0001;font-size:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px}
+.field{margin-bottom:12px}.field label{display:block;font-size:12px;font-weight:700;margin-bottom:4px}
+.field input,.field select{width:100%;padding:10px;border:1px solid #ccc;border-radius:8px}
+.primary{background:var(--dark);color:white}.result{background:#111827;color:#fff;padding:15px;border-radius:12px;margin-top:10px}
 </style>
 </head>
 <body>
 <header><h1>Calculadora de Serralheria</h1></header>
-<main><div class="card"><p>Acesse a aplicação completa de orçamento para móveis, bancadas e barras.</p></div></main>
+<main>
+<section id="home" class="screen active">
+<h2>O que você quer orçar?</h2>
+<div class="menu">
+<button onclick="show('bancadas')">🔧 Bancadas em Inox</button>
+<button onclick="show('precos')">💰 Preços das Chapas</button>
+</div>
+</section>
+
+<section id="bancadas" class="screen">
+<button class="back" onclick="show('home')">← Voltar</button>
+<div class="card">
+<h3>Orçamento de Bancada</h3>
+<div class="field"><label>Comprimento (m)</label><input id="bC" type="number" step="0.01" value="2.00"></div>
+<div class="field"><label>Largura (m)</label><input id="bL" type="number" step="0.01" value="0.70"></div>
+<div class="field"><label>Escolha a Chapa</label>
+<select id="bChapa">
+<option value="chapa300">Inox 3,00 x 1,25 m</option>
+<option value="chapa200">Inox 2,00 x 1,25 m</option>
+</select></div>
+<div class="field"><label>Margem de Lucro (%)</label><input id="bMargem" type="number" value="50"></div>
+<button class="primary" onclick="calcBancada()">Calcular</button>
+<div id="bResult"></div>
+</div>
+</section>
+
+<section id="precos" class="screen">
+<button class="back" onclick="show('home')">← Voltar</button>
+<div class="card">
+<h3>Preços das Chapas (R$)</h3>
+<div class="field"><label>Chapa 3,00 x 1,25 m</label><input id="p300" type="number" value="600"></div>
+<div class="field"><label>Chapa 2,00 x 1,25 m</label><input id="p200" type="number" value="400"></div>
+<button class="primary" onclick="salvarPrecos()">Salvar Preços</button>
+</div>
+</section>
+</main>
+
+<script>
+function show(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+function salvarPrecos(){
+    localStorage.setItem('p300', document.getElementById('p300').value);
+    localStorage.setItem('p200', document.getElementById('p200').value);
+    alert('Preços salvos com sucesso!');
+}
+window.onload = functionName => {
+    if(localStorage.getItem('p300')) document.getElementById('p300').value = localStorage.getItem('p300');
+    if(localStorage.getItem('p200')) document.getElementById('p200').value = localStorage.getItem('p200');
+}
+function calcBancada(){
+    let c = parseFloat(document.getElementById('bC').value);
+    let l = parseFloat(document.getElementById('bL').value);
+    let margem = parseFloat(document.getElementById('bMargem').value);
+    let tipo = document.getElementById('bChapa').value;
+    
+    let precoChapa = tipo === 'chapa300' ? parseFloat(document.getElementById('p300').value) : parseFloat(document.getElementById('p200').value);
+    let areaChapa = tipo === 'chapa300' ? (3.00 * 1.25) : (2.00 * 1.25);
+    
+    let areaBancada = c * l;
+    let custoMaterial = (areaBancada / areaChapa) * precoChapa;
+    let precoVenda = custoMaterial * (1 + (margem / 100));
+    
+    document.getElementById('bResult').innerHTML = `
+        <div class="result">
+            <p>Área da Bancada: ${areaBancada.toFixed(2)} m²</p>
+            <p>Custo do Inox: R$ ${custoMaterial.toFixed(2)}</p>
+            <h3>Preço de Venda: R$ ${precoVenda.toFixed(2)}</h3>
+        </div>`;
+}
+</script>
 </body>
 </html>
