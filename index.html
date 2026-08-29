@@ -158,8 +158,11 @@ document.getElementById('mResult').innerHTML=box(rows,total,'CUSTO TOTAL') + `<d
 
 function updateChapaOpts() {
   let tipoSelected = document.getElementById('bTipoInox').value;
-  opts('bChapa', m => m[0] === tipoSelected, '3.00x1.25m Ch18');
+  let el = document.getElementById('bChapa');
+  let filtered = materials.filter(m => m[0] === tipoSelected);
+  el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
 }
+
 
 function init(){
   opts('mMdf', m => m[0] === 'MDF', 'Louro Freijó');
