@@ -161,6 +161,27 @@ let total=rows.reduce((s,r)=>s+parseFloat(r[1].replace(/[^\d,-]/g,'').replace(/\
 let venda=margin<1?total/(1-margin):total;
 document.getElementById('mResult').innerHTML=box(rows,total,'CUSTO TOTAL') + `<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
 }
+function updateChapaOpts() {
+  let tipoSelected = document.getElementById('bTipoInox').value;
+  let el = document.getElementById('bChapa');
+  let termoBusca = tipoSelected.includes('304') ? '304' : '430';
+  let filtered = materials.filter(m => m[0].startsWith('Chapa') && (m[1].includes(termoBusca) || m[0].includes(termoBusca)));
+  el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
+}
+
+// Sobrescreve o init antigo para garantir que rode a versão correta
+window.init = function() {
+  opts('mMdf', m => m[0] === 'MDF', 'Louro Freijó');
+  opts('mMetalon', m => m[0] === 'Metalon Ferro', '30x40 Chapa 18');
+  opts('bTubo', m => m[0] === 'Tubo Inox Bancada', '1.1/2" Chapa 18');
+  updateChapaOpts();
+};
+show = (function(orig) {
+  return function(id) {
+    orig(id);
+    if(id === 'bancadas') updateChapaOpts();
+  };
+})(show);
 
 function updateChapaOpts() {
   let tipoSelected = document.getElementById('bTipoInox').value;
@@ -230,7 +251,7 @@ let total=rows.reduce((s,r)=>s+parseFloat(r[1].replace(/[^\d,-]/g,'').replace(/\
 document.getElementById('aResult').innerHTML=box(rows,total,'CUSTO TOTAL DA BARRA')+`<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
 }
 
-window.onload = init;
+window.onload = function() { window.init(); };
 </script>
 </body>
 </html>
