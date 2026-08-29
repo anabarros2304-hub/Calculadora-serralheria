@@ -159,7 +159,7 @@ document.getElementById('mResult').innerHTML=box(rows,total,'CUSTO TOTAL') + `<d
 function updateChapaOpts() {
   let tipoSelected = document.getElementById('bTipoInox').value;
   let el = document.getElementById('bChapa');
-  let filtered = materials.filter(m => m[0] === tipoSelected);
+  let filtered = materials.filter(m => m === tipoSelected);
   el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
 }
 
