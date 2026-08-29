@@ -165,7 +165,7 @@ function updateChapaOpts() {
   let tipoSelected = document.getElementById('bTipoInox').value;
   let el = document.getElementById('bChapa');
   let termoBusca = tipoSelected.includes('304') ? '304' : '430';
-  let filtered = materials.filter(m => m[1].includes(termoBusca) || m[0].includes(termoBusca));
+    let filtered = materials.filter(m => m[0].startsWith('Chapa') && (m[1].includes(termoBusca) || m[0].includes(termoBusca)));
   el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
 }
 
