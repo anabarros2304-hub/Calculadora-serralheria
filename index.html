@@ -154,16 +154,39 @@ let venda=margin<1?total/(1-margin):total;
 document.getElementById('mResult').innerHTML=box(rows,total,'CUSTO TOTAL') + `<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
 }
 
-function calcBancada(){
-let c=num('bC'),l=num('bL'),a=num('bA'),modelo=num('bModelo'),margin=num('bMargem')/100;
-let chapa=price(document.getElementById('bChapa').value),tubo=price(document.getElementById('bTubo').value);
-let qChapa=modelo===1?(c*l/3.75)*2:(c*l/3.75);
-let qDobra=modelo===1?((c+l)*2)*2:(c+l)*2;
-let qTubo=modelo===1?((a*4)+(c*4)+(l*4))/6:((a*4)+(c*4)+(l*4)+(c*3))/6;
-let rows=[['Chapa de Aço Inox',brl(qChapa*chapa)],['Dobra de Chapa',brl(qDobra*price('Dobra de Chapa Inox'))],['Estrutura e Gradeado',brl(qTubo*tubo)],['Borrachas (4 un.)',brl(4*price('Borracha para Pés'))],['Solda TIG + Argônio',brl(price('Solda TIG + Argônio'))],['Insumos de Polimento',brl(price('Insumos Polimento'))]];
-let total=rows.reduce((s,r)=>s+parseFloat(r[1].replace(/[^\d,-]/g,'').replace(/\./g,'').replace(',','.')),0),venda=total/(1-margin);
-document.getElementById('bResult').innerHTML=box(rows,total,'CUSTO TOTAL DA BANCADA')+`<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
+function updateChapaOpts() {
+  let tipoSelected = document.getElementById('bTipoInox').value;
+  opts('bChapa', m => m[0] === tipoSelected, '3.00x1.25m Ch18');
 }
+
+function init(){
+  opts('mMdf', m => m[0] === 'MDF', 'Louro Freijó');
+  opts('mMetalon', m => m[0] === 'Metalon Ferro', '30x40 Chapa 18');
+  opts('bTubo', m => m[0] === 'Tubo Inox Bancada', '1.1/2" Chapa 18');
+  updateChapaOpts();
+}
+
+
+function calcBancada(){
+  let c = num('bC'), l = num('bL'), a = num('bA'), modelo = num('bModelo'), margin = num('bMargem')/100;
+  let chapa = price(document.getElementById('bChapa').value), tubo = price(document.getElementById('bTubo').value);
+  let qChapa = modelo === 1 ? (c * l / 3.75) * 2 : (c * l / 3.75);
+  let qDobra = modelo === 1 ? ((c + l) * 2) * 2 : (c + l) * 2;
+  let qTubo = modelo === 1 ? ((a * 4) + (c * 4) + (l * 4)) / 6 : ((a * 4) + (c * 4) + (l * 4) + (c * 3)) / 6;
+  let rows = [
+    ['Chapa de Aço Inox', brl(qChapa * chapa)],
+    ['Dobra de Chapa', brl(qDobra * price('Dobra de Chapa Inox'))],
+    ['Estrutura e Gradeado', brl(qTubo * tubo)],
+    ['Borrachas (4 un.)', brl(4 * price('Borracha para Pés'))],
+    ['Solda TIG + Argônio', brl(price('Solda TIG + Argônio'))],
+    ['Insumos de Polimento', brl(price('Insumos Polimento'))]
+  ];
+  let total = rows.reduce((s, r) => s + parseFloat(r[1].replace(/[^\d,-]/g, '').replace(/\./g, '').replace(',', '.')), 0);
+  let venda = total / (1 - margin);
+  document.getElementById('bResult').innerHTML = box(rows, total, 'CUSTO TOTAL DA BANCADA') + 
+    `<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
+}
+
 
 function calcBarra(){
 let modelo=num('aModelo'),c=num('aC'),a=num('aA'),margin=num('aMargem')/100;
