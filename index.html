@@ -64,31 +64,3 @@ function salvarPrecos(){
     localStorage.setItem('p300', document.getElementById('p300').value);
     localStorage.setItem('p200', document.getElementById('p200').value);
     alert('Preços salvos com sucesso!');
-}
-window.onload = functionName => {
-    if(localStorage.getItem('p300')) document.getElementById('p300').value = localStorage.getItem('p300');
-    if(localStorage.getItem('p200')) document.getElementById('p200').value = localStorage.getItem('p200');
-}
-function calcBancada(){
-    let c = parseFloat(document.getElementById('bC').value);
-    let l = parseFloat(document.getElementById('bL').value);
-    let margem = parseFloat(document.getElementById('bMargem').value);
-    let tipo = document.getElementById('bChapa').value;
-    
-    let precoChapa = tipo === 'chapa300' ? parseFloat(document.getElementById('p300').value) : parseFloat(document.getElementById('p200').value);
-    let areaChapa = tipo === 'chapa300' ? (3.00 * 1.25) : (2.00 * 1.25);
-    
-    let areaBancada = c * l;
-    let custoMaterial = (areaBancada / areaChapa) * precoChapa;
-    let precoVenda = custoMaterial * (1 + (margem / 100));
-    
-    document.getElementById('bResult').innerHTML = `
-        <div class="result">
-            <p>Área da Bancada: ${areaBancada.toFixed(2)} m²</p>
-            <p>Custo do Inox: R$ ${custoMaterial.toFixed(2)}</p>
-            <h3>Preço de Venda: R$ ${precoVenda.toFixed(2)}</h3>
-        </div>`;
-}
-</script>
-</body>
-</html>
