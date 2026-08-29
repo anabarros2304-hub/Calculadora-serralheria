@@ -170,13 +170,6 @@ function init(){
   updateChapaOpts();
 }
 
-  opts('bTubo', m => m[0] === 'Tubo Inox Bancada', '1.1/2" Chapa 18');
-  updateChapaOpts();
-}
-
-
-function calcBancada(){
-  let c = num('bC'), l = num('bL'), a = num('bA'), modelo = num('bModelo'), margin = num('bMargem')/100;
   let chapa = price(document.getElementById('bChapa').value), tubo = price(document.getElementById('bTubo').value);
   let qChapa = modelo === 1 ? (c * l / 3.75) * 2 : (c * l / 3.75);
   let qDobra = modelo === 1 ? ((c + l) * 2) * 2 : (c + l) * 2;
