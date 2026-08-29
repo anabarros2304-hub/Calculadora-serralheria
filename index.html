@@ -47,18 +47,20 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 6px;b
 </section>
 
 <section id="bancadas" class="screen">
-<button class="back" onclick="show('home')">← Voltar</button><h2>Orçamento de Bancadas em Inox</h2>
+<button class="back" onclick="show('home')">← Voltar</button>
 <div class="card"><div class="grid">
 <div class="field"><label>Comprimento (m)</label><input id="bC" type="number" step="0.01" value="2"></div>
 <div class="field"><label>Largura (m)</label><input id="bL" type="number" step="0.01" value="0.7"></div>
 <div class="field"><label>Altura (m)</label><input id="bA" type="number" step="0.01" value="0.85"></div>
 <div class="field"><label>Modelo</label><select id="bModelo"><option value="1">Bancada Dupla</option><option value="2">Simples Gradeada</option></select></div>
+<div class="field"><label>Tipo do Inox</label><select id="bTipoInox" onchange="updateChapaOpts()"><option value="Chapa Inox 304">Inox 304</option><option value="Chapa Inox 430">Inox 430</option></select></div>
 <div class="field"><label>Chapa de Inox</label><select id="bChapa"></select></div>
 <div class="field"><label>Tubo Inox (pés)</label><select id="bTubo"></select></div>
 <div class="field"><label>Margem de lucro (%)</label><input id="bMargem" type="number" step="1" value="50"></div>
 </div><div class="actions"><button class="primary" onclick="calcBancada()">Calcular orçamento</button><button class="secondary" onclick="window.print()">Imprimir</button></div></div>
 <div id="bResult"></div>
-</section
+</section>
+
 
 <section id="barras" class="screen">
 <button class="back" onclick="show('home')">← Voltar</button><h2>Orçamento de Barras de Apoio</h2>
