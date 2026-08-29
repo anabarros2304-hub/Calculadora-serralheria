@@ -163,10 +163,13 @@ function updateChapaOpts() {
   el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
 }
 
-
 function init(){
   opts('mMdf', m => m[0] === 'MDF', 'Louro Freijó');
   opts('mMetalon', m => m[0] === 'Metalon Ferro', '30x40 Chapa 18');
+  opts('bTubo', m => m[0] === 'Tubo Inox Bancada', '1.1/2" Chapa 18');
+  updateChapaOpts();
+}
+
   opts('bTubo', m => m[0] === 'Tubo Inox Bancada', '1.1/2" Chapa 18');
   updateChapaOpts();
 }
