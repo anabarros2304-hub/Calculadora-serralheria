@@ -1,28 +1,28 @@
-    <!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#111827"><title>Calculadora de Serralheria</title>
 <style>
 :root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--dark:#111827;--line:#e5e7eb}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,sans-serif;color:var(--ink)}
-header{background:linear-gradient(135deg,#111827,#374151);color:white;padding:20px;text-align:center}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink)}
+header{background:linear-gradient(135deg,#111827,#374151);color:white;padding:24px 16px 28px;text-align:center}
 header h1{margin:0;font-size:22px}header p{margin:5px 0 0;color:#d1d5db;font-size:13px}
 main{max-width:800px;margin:auto;padding:16px}.screen{display:none}.screen.active{display:block}
-.menu{display:grid;grid-template-columns:1fr;gap:10px}
-.menu button,.back,.primary,.secondary{border:0;border-radius:12px;background:var(--card);padding:16px;text-align:left;box-shadow:0 2px 6px #0001;font-weight:700;font-size:15px;color:var(--ink);cursor:pointer;width:100%}
-.menu button span{font-size:20px;margin-right:8px}.back{background:none;box-shadow:none;padding:0 0 12px;color:#374151}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
-h2,h3{margin:4px 0 12px;font-size:18px}.grid{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:500px){.grid{grid-template-columns:repeat(2,1fr)}.menu{grid-template-columns:repeat(2,1fr)}}
-.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:4px}
-.field input,.field select{width:100%;padding:11px;border:1px solid #d1d5db;border-radius:8px;background:white;font-size:14px}
-.actions{display:flex;gap:10px;margin-top:12px}.primary{background:var(--dark);color:white;text-align:center}.secondary{background:#e5e7eb;color:#111827;text-align:center}
-.result{background:#111827;color:white;border-radius:14px;padding:16px;margin-top:12px}
-.result .row{display:flex;justify-content:space-between;padding:5px 0;color:#d1d5db;font-size:14px}
-.result .total{font-size:22px;font-weight:800;color:#fbbf24;border-top:1px solid #ffffff22;margin-top:6px;padding-top:10px}
-table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:8px 4px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--muted);font-size:11px}.price-input{width:100%;padding:6px;border:1px solid #ddd;border-radius:6px}
+.menu{display:grid;grid-template-columns:1fr;gap:12px}
+.menu button,.back,.primary,.secondary{border:0;border-radius:14px;background:var(--card);padding:18px 16px;text-align:left;box-shadow:0 2px 8px #0000000d;font-weight:700;font-size:15px;color:var(--ink);cursor:pointer;width:100%}
+.menu button span{font-size:22px;margin-right:10px}.back{background:none;box-shadow:none;padding:0 0 12px;color:#374151}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 6px #00000005}
+h2,h3{margin:4px 0 14px;font-size:19px}.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:550px){.grid{grid-template-columns:repeat(2,1fr)}.menu{grid-template-columns:repeat(2,1fr)}}
+.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.field input,.field select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;background:white;font-size:14px;color:var(--ink)}
+.actions{display:flex;gap:10px;margin-top:14px}.primary{background:var(--dark);color:white;text-align:center}.secondary{background:#e5e7eb;color:#111827;text-align:center}
+.result{background:#111827;color:white;border-radius:16px;padding:18px;margin-top:14px}
+.result .row{display:flex;justify-content:space-between;padding:6px 0;color:#d1d5db;font-size:14px}
+.result .total{font-size:24px;font-weight:900;color:#fbbf24;border-top:1px solid #ffffff22;margin-top:8px;padding-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 6px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--muted);font-size:11px;text-transform:uppercase}.price-input{width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;font-size:14px}
 </style></head>
 <body>
 <header><h1>Calculadora de Serralheria</h1><p>Móveis Industriais, Bancadas Inox e Barras de Apoio</p></header>
@@ -38,73 +38,68 @@ th{color:var(--muted);font-size:11px}.price-input{width:100%;padding:6px;border:
 </section>
 
 <section id="moveis" class="screen">
-<button class="back" onclick="show('home')">← Voltar</button><h2>Móveis Industriais</h2>
+<button class="back" onclick="show('home')">← Voltar</button><h2>Orçamento de Móveis Industriais</h2>
 <div class="card"><div class="grid">
 <div class="field"><label>Comprimento (m)</label><input id="mC" type="number" step="0.01" value="1.50"></div>
 <div class="field"><label>Largura (m)</label><input id="mL" type="number" step="0.01" value="0.80"></div>
 <div class="field"><label>Altura (m)</label><input id="mA" type="number" step="0.01" value="0.75"></div>
-<div class="field"><label>Cor do MDF</label><select id="mMdf"></select></div>
-<div class="field"><label>Modelo Metalon</label><select id="mMetalon"></select></div>
-<div class="field"><label>Margem de lucro (%)</label><input id="mMargem" type="number" value="50"></div>
-</div><div class="actions"><button class="primary" onclick="calcMoveis()">Calcular</button></div></div>
+<div class="field"><label>Cor do MDF desejada</label><select id="mMdf"></select></div>
+<div class="field"><label>Modelo Metalon desejado</label><select id="mMetalon"></select></div>
+<div class="field"><label>Margem de lucro desejada (%)</label><input id="mMargem" type="number" value="50"></div>
+</div><div class="actions"><button class="primary" onclick="calcMoveis()">Calcular orçamento</button></div></div>
 <div id="mResult"></div>
 </section>
 
 <section id="bancadas" class="screen">
-<button class="back" onclick="show('home')">← Voltar</button><h2>Bancadas em Inox</h2>
+<button class="back" onclick="show('home')">← Voltar</button><h2>Orçamento de Bancadas em Inox</h2>
 <div class="card"><div class="grid">
 <div class="field"><label>Comprimento (m)</label><input id="bC" type="number" step="0.01" value="2.00"></div>
 <div class="field"><label>Largura (m)</label><input id="bL" type="number" step="0.01" value="0.70"></div>
 <div class="field"><label>Altura (m)</label><input id="bA" type="number" step="0.01" value="0.85"></div>
-<div class="field"><label>Modelo Estrutura</label><select id="bModelo"><option value="1">Bancada Dupla</option><option value="2">Simples Gradeada</option></select></div>
-<div class="field"><label>Chapa de Inox</label><select id="bChapa"></select></div>
-<div class="field"><label>Tubo Inox (Pés)</label><select id="bTubo"></select></div>
-<div class="field"><label>Margem de lucro (%)</label><input id="bMargem" type="number" value="50"></div>
-</div><div class="actions"><button class="primary" onclick="calcBancada()">Calcular</button></div></div>
+<div class="field"><label>Modelo</label><select id="bModelo"><option value="1">1 = Bancada Dupla</option><option value="2">2 = Simples Gradeada</option></select></div>
+<div class="field"><label>Chapa de Inox Escolhida</label><select id="bChapa"></select></div>
+<div class="field"><label>Modelo do Tubo Inox (Pés)</label><select id="bTubo"></select></div>
+<div class="field"><label>Margem de lucro desejada (%)</label><input id="bMargem" type="number" value="50"></div>
+</div><div class="actions"><button class="primary" onclick="calcBancada()">Calcular orçamento</button></div></div>
 <div id="bResult"></div>
 </section>
 
 <section id="barras" class="screen">
-<button class="back" onclick="show('home')">← Voltar</button><h2>Barras de Apoio</h2>
+<button class="back" onclick="show('home')">← Voltar</button><h2>Orçamento de Barras de Apoio</h2>
 <div class="card"><div class="grid">
-<div class="field"><label>Modelo</label><select id="aModelo"><option value="1">Barra Reta</option><option value="2">Em L — Parede ao Chão</option></select></div>
-<div class="field"><label>Comprimento / Avanço (m)</label><input id="aC" type="number" step="0.01" value="0.70"></div>
-<div class="field"><label>Altura / Descida (m)</label><input id="aA" type="number" step="0.01" value="0.75"></div>
-<div class="field"><label>Margem de lucro (%)</label><input id="aMargem" type="number" value="50"></div>
-</div><div class="actions"><button class="primary" onclick="calcBarra()">Calcular</button></div></div>
+<div class="field"><label>Modelo</label><select id="aModelo"><option value="1">1 = Barra Reta</option><option value="2">2 = Em L Parede ao Chão</option></select></div>
+<div class="field"><label>Comprimento (Avanço na Parede - m)</label><input id="aC" type="number" step="0.01" value="0.70"></div>
+<div class="field"><label>Altura (Descida até o Chão - m)</label><input id="aA" type="number" step="0.01" value="0.75"></div>
+<div class="field"><label>Margem de lucro desejada (%)</label><input id="aMargem" type="number" value="50"></div>
+</div><div class="actions"><button class="primary" onclick="calcBarra()">Calcular orçamento</button></div></div>
 <div id="aResult"></div>
 </section>
 
 <section id="precos" class="screen">
-<button class="back" onclick="show('home')">← Voltar</button><h2>Preços dos Materiais</h2>
-<div class="card"><div style="overflow:auto"><table><thead><tr><th>Material / Especificação</th><th>Preço (R$)</th></tr></thead><tbody id="priceTable"></tbody></table></div>
-<div class="actions"><button class="primary" onclick="savePrecos()">Salvar Preços</button></div></div>
+<button class="back" onclick="show('home')">← Voltar</button><h2>Preços de Custo dos Materiais</h2>
+<div class="card"><p class="note">Os valores abaixo são carregados da sua planilha. Alterações feitas ficam salvas localmente neste aparelho.</p>
+<div style="overflow:auto;max-height:400px;"><table><thead><tr><th>Material / Especificação</th><th>Preço Custo (R$)</th></tr></thead><tbody id="priceTable"></tbody></table></div>
+<div class="actions"><button class="primary" onclick="savePrecos()">Salvar Valores</button></div></div>
 </section>
 </main>
 <script>
-const padrao = [
-    ["MDF_Preto","MDF Preto (Chapa 2.75x1.84m)",250],["MDF_Branco","MDF Branco (Chapa 2.75x1.84m)",210],["MDF_Cinza","MDF Cinza (Chapa 2.75x1.84m)",240],["MDF_Freijo","MDF Louro Freijó (Chapa 2.75x1.84m)",310],
-    ["Fita_Preto","Fita de Borda Preto (20m)",45],["Fita_Branco","Fita de Borda Branco (20m)",35],["Fita_Cinza","Fita de Borda Cinza (20m)",40],["Fita_Freijo","Fita de Borda Louro Freijó (20m)",55],
-    ["Metalon_15_18","Metalon Ferro 15x15 Ch18 (6m)",45],["Metalon_15_20","Metalon Ferro 15x15 Ch20 (6m)",38],["Metalon_20_18","Metalon Ferro 20x20 Ch18 (6m)",55],["Metalon_20_20","Metalon Ferro 20x20 Ch20 (6m)",48],["Metalon_2030_18","Metalon Ferro 20x30 Ch18 (6m)",65],["Metalon_2030_20","Metalon Ferro 20x30 Ch20 (6m)",58],["Metalon_3040_18","Metalon Ferro 30x40 Ch18 (6m)",85],["Metalon_3040_20","Metalon Ferro 30x40 Ch20 (6m)",75],["Metalon_3050_18","Metalon Ferro 30x50 Ch18 (6m)",95],["Metalon_3050_20","Metalon Ferro 30x50 Ch20 (6m)",85],["Metalon_3070_18","Metalon Ferro 30x70 Ch18 (6m)",125],["Metalon_3070_20","Metalon Ferro 30x70 Ch20 (6m)",110],
-    ["Inox304_200_18","Chapa Inox 304 2.00x1.25m Ch18",450],["Inox304_200_20","Chapa Inox 304 2.00x1.25m Ch20",380],["Inox304_200_22","Chapa Inox 304 2.00x1.25m Ch22",320],["Inox304_300_18","Chapa Inox 304 3.00x1.25m Ch18",650],["Inox304_300_20","Chapa Inox 304 3.00x1.25m Ch20",550],["Inox304_300_22","Chapa Inox 304 3.00x1.25m Ch22",470],
-    ["Inox430_200_18","Chapa Inox 430 2.00x1.25m Ch18",350],["Inox430_200_20","Chapa Inox 430 2.00x1.25m Ch20",290],["Inox430_200_22","Chapa Inox 430 2.00x1.25m Ch22",240],["Inox430_300_18","Chapa Inox 430 3.00x1.25m Ch18",520],["Inox430_300_20","Chapa Inox 430 3.00x1.25m Ch20",430],["Inox430_300_22","Chapa Inox 430 3.00x1.25m Ch22",370],
-    ["Tubo_B_18","Tubo Inox Bancada 1.1/2 Ch18 (6m)",140],["Tubo_B_20","Tubo Inox Bancada 1.1/2 Ch20 (6m)",115],["Tubo_A_18","Tubo Inox Barra Apoio 1.1/4 Ch18 (6m)",120],
-    ["Curva","Componente Curva 90 1.1/4",15],["Flange","Componente Flange 1.1/4",8],["Canopla","Componente Canopla 1.1/4",6],["Borracha","Componente Borracha para Pés",3.5],
-    ["Dobra","Serviço Dobra de Chapa (por Metro)",25],["Pe_Regulagem","Insumo Pé Regulagem Mesa",5],["Disco_Corte","Insumo Disco de Corte",4.5],["Disco_Flap","Insumo Disco Flap",7],["Parafusos","Insumo Parafusos Caixa (100un)",25],
-    ["Solda_Mesa","Insumo Solda Mesa/Bancada Ferro",15],["Pintura_Mesa","Insumo Pintura Estrutura Mesa",20],["Solda_TIG","Insumo Solda TIG + Argônio",30],["Polimento","Insumo Polimento Peça",12]
-];
+const db = {
+    "MDF_Preto": ["MDF Preto (Chapa 2.75x1.84m)", 250], "MDF_Branco": ["MDF Branco (Chapa 2.75x1.84m)", 210], "MDF_Cinza": ["MDF Cinza (Chapa 2.75x1.84m)", 240], "MDF_Freijo": ["MDF Louro Freijó (Chapa 2.75x1.84m)", 310],
+    "Fita_Preto": ["Fita de Borda Preto (Rolo 20m)", 45], "Fita_Branco": ["Fita de Borda Branco (Rolo 20m)", 35], "Fita_Cinza": ["Fita de Borda Cinza (Rolo 20m)", 40], "Fita_Freijo": ["Fita de Borda Louro Freijó (Rolo 20m)", 55],
+    "Metalon_1515_18": ["Metalon Ferro 15x15 Ch18 (6m)", 45], "Metalon_1515_20": ["Metalon Ferro 15x15 Ch20 (6m)", 38], "Metalon_2020_18": ["Metalon Ferro 20x20 Ch18 (6m)", 55], "Metalon_2020_20": ["Metalon Ferro 20x20 Ch20 (6m)", 48], "Metalon_2030_18": ["Metalon Ferro 20x30 Ch18 (6m)", 65], "Metalon_2030_20": ["Metalon Ferro 20x30 Ch20 (6m)", 58], "Metalon_3040_18": ["Metalon Ferro 30x40 Ch18 (6m)", 85], "Metalon_3040_20": ["Metalon Ferro 30x40 Ch20 (6m)", 75], "Metalon_3050_18": ["Metalon Ferro 30x50 Ch18 (6m)", 95], "Metalon_3050_20": ["Metalon Ferro 30x50 Ch20 (6m)", 85], "Metalon_3070_18": ["Metalon Ferro 30x70 Ch18 (6m)", 125], "Metalon_3070_20": ["Metalon Ferro 30x70 Ch20 (6m)", 110],
+    "Inox304_200_18": ["Chapa Inox 304 2.00x1.25m Ch18", 450], "Inox304_200_20": ["Chapa Inox 304 2.00x1.25m Ch20", 380], "Inox304_200_22": ["Chapa Inox 304 2.00x1.25m Ch22", 320], "Inox304_300_18": ["Chapa Inox 304 3.00x1.25m Ch18", 650], "Inox304_300_20": ["Chapa Inox 304 3.00x1.25m Ch20", 550], "Inox304_300_22": ["Chapa Inox 304 3.00x1.25m Ch22", 470],
+    "Inox430_200_18": ["Chapa Inox 430 2.00x1.25m Ch18", 350], "Inox430_200_20": ["Chapa Inox 430 2.00x1.25m Ch20", 290], "Inox430_200_22": ["Chapa Inox 430 2.00x1.25m Ch22", 240], "Inox430_300_18": ["Chapa Inox 430 3.00x1.25m Ch18", 520], "Inox430_300_20": ["Chapa Inox 430 3.00x1.25m Ch20", 430], "Inox430_300_22": ["Chapa Inox 430 3.00x1.25m Ch22", 370],
+    "Tubo_Mesa_18": ["Tubo Inox Bancada 1.1/2 Ch18 (6m)", 140], "Tubo_Mesa_20": ["Tubo Inox Bancada 1.1/2 Ch20 (6m)", 115], "Tubo_Barra_18": ["Tubo Inox Barra Apoio 1.1/4 Ch18 (6m)", 120],
+    "Curva": ["Componente Curva 90° 1.1/4", 15], "Flange": ["Componente Flange 1.1/4", 8], "Canopla": ["Componente Canopla 1.1/4", 6], "Borracha": ["Componente Borracha para Pés", 3.5],
+    "Dobra": ["Serviço Dobra de Chapa (por Metro)", 25], "Pe_Regulagem": ["Insumo Pé de Regulagem Mesa", 5], "Disco_Corte": ["Insumo Disco de Corte", 4.5], "Disco_Flap": ["Insumo Disco Flap", 7], "Parafusos": ["Insumo Parafusos Caixa (100 un)", 25],
+    "Solda_Ferro": ["Insumo Solda (Eletrodo/MIG)", 15], "Pintura_Ferro": ["Insumo Pintura Estrutura Mesa", 20], "Solda_TIG": ["Insumo Solda TIG + Argônio", 30], "Polimento": ["Insumo Insumos Polimento", 12]
+};
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active')}
-function getVal(key){let item=padrao.find(p=>p[0]===key);return parseFloat(localStorage.getItem(key)||item[2])}
+function getV(k){return parseFloat(localStorage.getItem(k)||db[k][1])}
 function init(){
     let t=document.getElementById('priceTable');t.innerHTML='';
-    padrao.forEach(p=>{
-        let v=localStorage.getItem(p[0])||p[2];
-        t.innerHTML+=`<tr><td>${p[1]}</td><td><input id="p_${p[0]}" type="number" class="price-input" value="${v}"></td></tr>`;
+    Object.keys(db).forEach(k=>{
+        let v=localStorage.getItem(k)||db[k][1];
+        t.innerHTML+=`<tr><td>${db[k][0]}</td><td><input id="p_${k}" type="number" class="price-input" value="${v}"></td></tr>`;
     });
-    let mdfSel=document.getElementById('mMdf');mdfSel.innerHTML='';
-    padrao.filter(p=>p[0].startsWith('MDF_')).forEach(p=>mdfSel.innerHTML+=`<option value="${p[0]}">${p[1]}</option>`);
-    let metSel=document.getElementById('mMetalon');metSel.innerHTML='';
-    padrao.filter(p=>p[0].startsWith('Metalon_')).forEach(p=>metSel.innerHTML+=`<option value="${p[0]}">${p[1]}</option>`);
-    let chapaSel=document.getElementById('bChapa');chapaSel.innerHTML='';
-    padrao.filter(p=>p[0].startsWith('Inox304_')||p[0].startsWith('Inox430_')).forEach(p=>chapaSel.innerHTML+=`<option value="${p[0]}">${p[1]}</option>`);
-    let tuboSel=document.getElementById('bTubo');tuboSel.innerHTML='';
+    let mdf=document.getElementById('mMdf');mdf.innerHTML='';
