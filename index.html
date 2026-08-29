@@ -177,15 +177,50 @@ function init(){
 }
 
 function calcBancada(){
-let c=num('bC'), l=num('bL'), a=num('bA'), modelo=num('bModelo'), margin=num('bMargem')/100;
-let chapa=price(document.getElementById('bChapa').value), tubo=price(document.getElementById('bTubo').value);
-let qChapa=modelo===1?(c*l/3.75)*2:(c*l/3.75);
-let qDobra=modelo===1?((c+l)*2)*2:(c+l)*2;
-let qTubo=modelo===1?((a*4)+(c*4)+(l*4))/6:((a*4)+(c*4)+(l*4)+(c*3))/6;
-let rows=[['Chapa de Aço Inox',brl(qChapa*chapa)],['Dobra de Chapa',brl(qDobra*price('Dobra de Chapa Inox'))],['Estrutura e Gradeado',brl(qTubo*tubo)],['Borrachas (4 un.)',brl(4*price('Borracha para Pés'))],['Solda TIG + Argônio',brl(price('Solda TIG + Argônio'))],['Insumos de Polimento',brl(price('Insumos Polimento'))]];
-let total=rows.reduce((s,r)=>s+parseFloat(r[1].replace(/[^\d,-]/g,'').replace(/\./g,'').replace(',','.')),0),venda=total/(1-margin);
-document.getElementById('bResult').innerHTML=box(rows,total,'CUSTO TOTAL DA BANCADA')+`<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
+  let c = num('bC'), l = num('bL'), a = num('bA'), modelo = num('bModelo'), margin = num('bMargem')/100;
+  let chapa = price(document.getElementById('bChapa').value), tubo = price(document.getElementById('bTubo').value);
+  
+  // 1. Cálculo proporcional da chapa pela área da bancada (baseado na chapa padrão de 3.75 m²)
+  let areaChapaPadrao = 3.75; 
+  let qChapaProporcional = (c * l) / areaChapaPadrao;
+  if(modelo === 1) qChapaProporcional = qChapaProporcional * 2; // Dobra a chapa se for modelo Duplo
+
+  // 2. Custo da Dobra FIXO por chapa (Simples = R$ 180 / Dupla = R$ 360)
+  let custoDobra = (modelo === 1) ? 360 : 180;
+  
+  // 3. Cálculo detalhado da estrutura em Tubo 1.1/2" (em metros lineares)
+  let metrosPes = a * 4;                       // 4 pés verticais
+  let metrosQuadroSuperior = (c * 2) + (l * 2); // Aro de cima onde apoia o tampo
+  let metrosQuadroInferior = (c * 2) + (l * 2); // Aro de baixo que estrutura o gradeado
+  
+  // Gradeado de baixo (paneleiro): assume uma barra interna a cada 15cm na largura
+  let espacamentoGrade = 0.15; 
+  let quantidadeBarrasGrade = Math.floor(c / espacamentoGrade) - 1;
+  if(quantidadeBarrasGrade < 0) quantidadeBarrasGrade = 0;
+  let metrosGradeado = quantidadeBarrasGrade * l;
+  
+  // Soma tudo e descobre quantas barras de 6 metros serão necessárias
+  let totalMetrosTubo = metrosPes + metrosQuadroSuperior + metrosQuadroInferior + metrosGradeado;
+  let qTubo = Math.ceil(totalMetrosTubo / 6); 
+  if(qTubo < 1) qTubo = 1; // Garante ao menos 1 barra de tubo
+
+  // 4. Montagem das linhas de custo para exibição na tela
+  let rows = [
+    ['Chapa de Aço Inox', brl(qChapaProporcional * chapa)],
+    ['Dobra de Chapa', brl(custoDobra)],
+    [`Estrutura e Gradeado Tubo (${qTubo} barras)`, brl(qTubo * tubo)],
+    ['Borrachas / Pés (4 un.)', brl(4 * price('Borracha para Pés'))],
+    ['Solda TIG + Argônio', brl(price('Solda TIG + Argônio'))],
+    ['Insumos de Polimento', brl(price('Insumos Polimento'))]
+  ];
+  
+  let total = rows.reduce((s, r) => s + parseFloat(r.replace(/[^\d,-]/g, '').replace(/\./g, '').replace(',', '.')), 0);
+  let venda = margin < 1 ? total / (1 - margin) : total;
+  
+  document.getElementById('bResult').innerHTML = box(rows, total, 'CUSTO TOTAL DA BANCADA') + 
+    `<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
 }
+
 
 function calcBarra(){
 let modelo=num('aModelo'),c=num('aC'),a=num('aA'),margin=num('aMargem')/100;
