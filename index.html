@@ -162,6 +162,14 @@ let venda=margin<1?total/(1-margin):total;
 document.getElementById('mResult').innerHTML=box(rows,total,'CUSTO TOTAL') + `<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA SUGERIDO</span><strong>${brl(venda)}</strong></div></div>`;
 }
 
+function updateChapaOpts() {
+  let tipoSelected = document.getElementById('bTipoInox').value;
+  let el = document.getElementById('bChapa');
+  let termoBusca = tipoSelected.includes('304') ? '304' : '430';
+  let filtered = materials.filter(m => m[0].startsWith('Chapa') && (m[0].includes(termoBusca) || m[1].includes(termoBusca)));
+  el.innerHTML = filtered.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
+}
+
 function calcBancada(){
   let c = num('bC');
   let l = num('bL');
