@@ -166,18 +166,27 @@ const extraMaterials = [
 ];
 
 window.init = function() {
-  localStorage.removeItem('serralheria_original_mats');
-  localStorage.removeItem('serralheria_v5_mats');
-  localStorage.removeItem('serralheria_v6_mats');
-  localStorage.removeItem('serralheria_v4_mats');
-  localStorage.removeItem('serralheria_v8_mats');
-  localStorage.removeItem('serralheria_v9_mats');
+  let mdfSel = document.getElementById('mMdf'), pMdfSel = document.getElementById('pMdf');
+  let metSel = document.getElementById('mMetalon'), pMetSel = document.getElementById('pMetalon');
+  let pinusSel = document.getElementById('pPinus'), bTuboSel = document.getElementById('bTubo');
   
-  let fullList = original.concat(extraMaterials);
-  materiais = JSON.parse(localStorage.getItem('serralheria_v12_mats')) || fullList;
-  if(!localStorage.getItem('serralheria_v12_mats')) localStorage.setItem('serralheria_v12_mats', JSON.stringify(materiais));
-  buildDropdowns();
+  if(mdfSel) mdfSel.innerHTML = ''; if(pMdfSel) pMdfSel.innerHTML = '';
+  if(metSel) metSel.innerHTML = ''; if(pMetSel) pMetSel.innerHTML = '';
+  if(pinusSel) pinusSel.innerHTML = ''; if(bTuboSel) bTuboSel.innerHTML = '';
+
+  materiais.forEach(m => {
+    // CORREÇÃO: m[1] pega o nome do material e m[3] pega o preço base da tabela
+    let opt = `<option value="${m[1]}">${m[1]} (R$ ${m[3].toFixed(2)})</option>`;
+    
+    // CORREÇÃO: m[0] checa a categoria correta (ex: se é "MDF" ou "Metalon")
+    if(m[0] === "MDF") { if(mdfSel) mdfSel.innerHTML += opt; if(pMdfSel) pMdfSel.innerHTML += opt; }
+    if(m[0] === "Metalon") { if(metSel) metSel.innerHTML += opt; if(pMetSel) pMetSel.innerHTML += opt; }
+    if(m[0] === "Pinus" && pinusSel) pinusSel.innerHTML += opt;
+    if(m[0] === "Tubo Inox" && bTuboSel) bTuboSel.innerHTML += opt;
+  });
+  updateChapaOpts();
 };
+
 
 function save() { localStorage.setItem('serralheria_v12_mats', JSON.stringify(materiais)); buildDropdowns(); }
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
