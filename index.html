@@ -193,27 +193,30 @@ function price(especificacao) {
   let mat = materiais.find(m => m === especificacao);
   return mat ? parseFloat(mat) : 0;
 }
-
 function buildDropdowns() {
-  let mMdf = document.getElementById('mMdf'), mMetalon = document.getElementById('mMetalon'), bTubo = document.getElementById('bTubo');
+  let mMdf = document.getElementById('mMdf'), mMetalon = document.getElementById('mMetalon');
+  let bTubo = document.getElementById('bTubo'), aTubo = document.getElementById('aTubo');
   let pMetalon = document.getElementById('pMetalon'), pMdf = document.getElementById('pMdf'), pPinus = document.getElementById('pPinus');
   
-  let optMdf = materiais.filter(m => m === 'MDF').map(m => `<option value="${m}">${m}</option>`).join('');
-  let optMetalon = materiais.filter(m => m === 'Metalon').map(m => `<option value="${m}">${m}</option>`).join('');
-  let optTubo = materiais.filter(m => m === 'Tubo Inox').map(m => `<option value="${m}">${m}</option>`).join('');
+  let optMdf = materiais.filter(m => m[0] === 'MDF').map(m => <option value="${m[1]}">${m[1]}</option>).join('');
+  let optMetalon = materiais.filter(m => m[0] === 'Metalon').map(m => <option value="${m[1]}">${m[1]}</option>).join('');
+  let optTubo = materiais.filter(m => m[0] === 'Tubo Inox').map(m => <option value="${m[1]}">${m[1]}</option>).join('');
 
   if(mMdf) mMdf.innerHTML = optMdf; if(pMdf) pMdf.innerHTML = optMdf;
   if(mMetalon) mMetalon.innerHTML = optMetalon; if(pMetalon) pMetalon.innerHTML = optMetalon;
   if(bTubo) bTubo.innerHTML = optTubo;
-  if(pPinus) pPinus.innerHTML = materiais.filter(m => m === 'Tábua Pinus').map(m => `<option value="${m}">${m}</option>`).join('');
+  if(aTubo) aTubo.innerHTML = materiais.filter(m => m[0] === 'Tubo Inox' && m[1].includes('1.1/4')).map(m => <option value="${m[1]}">${m[1]}</option>).join('');
+  if(pPinus) pPinus.innerHTML = materiais.filter(m => m[0] === 'Tábua Pinus').map(m => <option value="${m[1]}">${m[1]}</option>).join('');
   updateChapaOpts();
 }
 
 function updateChapaOpts() {
   let tipo = document.getElementById('bTipoInox')?.value;
   let bChapa = document.getElementById('bChapa');
-  if(bChapa && tipo) bChapa.innerHTML = materiais.filter(m => m === tipo).map(m => `<option value="${m}">${m}</option>`).join('');
-}
+  if(!bChapa || !tipo) return;
+  
+  bChapa.innerHTML = materiais.filter(m => m[0] === tipo).map(m => <option value="${m[1]}">${m[1]}</option>).join('');
+
 
 function toggleMadeiraGroup() {
   let val = document.getElementById('pTipoMadeira').value;
