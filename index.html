@@ -170,18 +170,20 @@ let materiais = [];
 let cachePDF = {};
 
 window.init = function() {
+  // Limpa memórias antigas que travavam as caixas em branco
   localStorage.removeItem('serralheria_original_mats');
   localStorage.removeItem('serralheria_v5_mats');
   localStorage.removeItem('serralheria_v6_mats');
   localStorage.removeItem('serralheria_v4_mats');
+  localStorage.removeItem('serralheria_v8_mats');
   
-  materiais = JSON.parse(localStorage.getItem('serralheria_v9_mats')) || JSON.parse(JSON.stringify(original));
-  if(!localStorage.getItem('serralheria_v9_mats')) localStorage.setItem('serralheria_v9_mats', JSON.stringify(materiais));
+  materiais = JSON.parse(localStorage.getItem('serralheria_v10_mats')) || JSON.parse(JSON.stringify(original));
+  if(!localStorage.getItem('serralheria_v10_mats')) localStorage.setItem('serralheria_v10_mats', JSON.stringify(materiais));
   buildDropdowns();
 };
 
 function save() {
-  localStorage.setItem('serralheria_v9_mats', JSON.stringify(materiais));
+  localStorage.setItem('serralheria_v10_mats', JSON.stringify(materiais));
   buildDropdowns();
 }
 
@@ -193,6 +195,11 @@ function show(id) {
 
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
+
+function price(especificacao) {
+  let mat = materiais.find(m => m[1] === especificacao);
+  return mat ? parseFloat(mat[3]) : 0;
+}
 
 function price(especificacao) {
   let mat = materiais.find(m => m[1] === especificacao);
