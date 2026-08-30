@@ -189,10 +189,11 @@ function show(id) {
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
-function price(especificacao) {
-  let mat = materiais.find(m => m === especificacao);
-  return mat ? parseFloat(mat) : 0;
+unction price(especificacao) {
+  let mat = materiais.find(m => m[1] === especificacao);
+  return mat ? parseFloat(mat[3]) : 0;
 }
+
 function buildDropdowns() {
   let mMdf = document.getElementById('mMdf'), mMetalon = document.getElementById('mMetalon');
   let bTubo = document.getElementById('bTubo'), aTubo = document.getElementById('aTubo');
@@ -211,9 +212,20 @@ function buildDropdowns() {
 }
 
 function updateChapaOpts() {
-  let tipo = document.getElementById('bTipoInox')?.value;
+  let tipo = document.getElementById('bTipoInox')?.value; 
   let bChapa = document.getElementById('bChapa');
   if(!bChapa || !tipo) return;
+  
+  bChapa.innerHTML = materiais.filter(m => m[0] === tipo).map(m => <option value="${m[1]}">${m[1]}</option>).join('');
+}
+
+// Força a limpeza da memória antiga na primeira execução do código atualizado
+if(localStorage.getItem('serralheria_v8_mats')) {
+  let checagem = JSON.parse(localStorage.getItem('serralheria_v8_mats'));
+  if(checagem[0] && typeof checagem[0] === 'string') {
+    localStorage.removeItem('serralheria_v8_mats');
+  }
+}
   
   bChapa.innerHTML = materiais.filter(m => m[0] === tipo).map(m => <option value="${m[1]}">${m[1]}</option>).join('');
 
