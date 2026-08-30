@@ -33,8 +33,14 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 6px;b
 <button onclick="show('bancadas')"><span>🔧</span>Bancadas em Inox<small>Simples ou dupla gradeada</small></button>
 <button onclick="show('barras')"><span>♿</span>Barras de Apoio<small>Reta ou em L</small></button>
 <button onclick="show('prateleiras')"><span>🪜</span>Prateleiras Industriais<small>Estrutura + MDF ou Pinus</small></button>
+<button onclick="show('historico')"><span>📂</span>Orçamentos Salvos<small>Consultar e exportar PDFs</small></button>
 <button onclick="show('precos')"><span>💰</span>Preços dos Materiais<small>Consultar e alterar valores</small></button>
 </div>
+</section>
+<section id="historico" class="screen">
+<button class="back" onclick="show('home')">← Voltar</button>
+<h2>Orçamentos Salvos no Sistema</h2>
+<div class="card"><div class="history-list" id="historyContainer"></div></div>
 </section>
 
 <section id="moveis" class="screen">
@@ -191,8 +197,41 @@ function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   if (id === 'precos') renderTable();
+  if (id === 'historico') renderHistorico();
+}
+function renderHistorico() {
+  let container = document.getElementById('historyContainer');
+  let salvos = JSON.parse(localStorage.getItem('serralheria_saved_orcs')) || [];
+  if(!container) return;
+  if(salvos.length === 0) { container.innerHTML = "<p class='note'>Nenhum orçamento salvo ainda.</p>"; return; }
+  container.innerHTML = salvos.map((o, idx) => `
+    <div class="history-item" style="background:var(--bg); padding:12px; border-radius:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+      <div><strong>${o.cliente}</strong><br><small>${o.modelo} | ${o.dimensoes}<br>${o.materialText}</small><br><span style="color:var(--accent); font-weight:900">${brl(o.total)}</span></div>
+      <div style="display:flex; gap:6px;">
+        <button class="primary" style="padding:6px 10px; font-size:12px;" onclick="exportHistoricPDF(${idx})">PDF</button>
+        <button class="btn-danger" style="padding:6px 10px; font-size:12px; background:var(--danger);" onclick="deleteHistoric(${idx})">X</button>
+      </div>
+    </div>`).join('');
 }
 
+function deleteHistoric(idx) {
+  let salvos = JSON.parse(localStorage.getItem('serralheria_saved_orcs')) || [];
+  if(confirm("Remover este orçamento permanentemente?")) { salvos.splice(idx,1); localStorage.setItem('serralheria_saved_orcs', JSON.stringify(salvos)); renderHistorico(); }
+}
+
+function exportHistoricPDF(idx) {
+  let salvos = JSON.parse(localStorage.getItem('serralheria_saved_orcs')) || [];
+  let o = salvos[idx];
+  const { jsPDF } = window.jspdf; const doc = new jsPDF();
+  doc.setFont("Helvetica", "bold"); doc.setFontSize(20); doc.text("ORÇAMENTO DE SERRALHERIA", 14, 25);
+  doc.setLineWidth(0.5); doc.line(14, 28, 196, 28);
+  doc.setFontSize(12); doc.text(CLIENTE: ${o.cliente.toUpperCase()}, 14, 40); doc.text(DATA: ${new Date().toLocaleDateString('pt-BR')}, 14, 47);
+  doc.setFont("Helvetica", "normal"); doc.text("Especificações do Produto solicitado:", 14, 60); doc.rect(14, 65, 182, 35);
+  doc.setFont("Helvetica", "bold"); doc.text(Modelo Comercial: ${o.modelo}, 18, 73); doc.text(Dimensões Executadas: ${o.dimensoes}, 18, 81); doc.text(Principais Materiais: ${o.materialText}, 18, 89);
+  doc.setFillColor(17, 24, 39); doc.rect(14, 110, 182, 16, "F"); doc.setTextColor(255, 255, 255); doc.setFontSize(14); doc.text("VALOR TOTAL DO INVESTIMENTO:", 20, 120); doc.text(${brl(o.total)}, 140, 120);
+  doc.setTextColor(107, 114, 128); doc.setFontSize(10); doc.setFont("Helvetica", "italic"); doc.text("Validade: 10 dias. Sujeito a alteração de custos dos distribuidores.", 14, 145);
+  doc.save(Orcamento_${o.cliente.replace(/\s+/g, '_')}.pdf);
+}
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
