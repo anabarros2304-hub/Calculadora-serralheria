@@ -310,6 +310,61 @@ function calcPrateleira() {
   pushOrcamento(cliente, lbl, txtMat, c.toFixed(2) + "x" + l.toFixed(2) + "x" + a.toFixed(2) + "m [" + planos + " Planos]", venda);
   document.getElementById('pResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
 }
+  function calcMoveis() {
+  // 1. Captura os valores brutos usando os inputs em cm e as funções padrão do seu sistema
+  let cliente = document.getElementById('mCliente').value;
+  let compCm = num('mC'), largCm = num('mL'), altCm = num('mA');
+  let margin = num('mMargem') / 100;
+  let mdfSel = document.getElementById('mMdf').value;
+  let metSel = document.getElementById('mMetalon').value;
+
+  if (!cliente) { alert("Por favor, insira o nome do cliente."); return; }
+
+  // 2. CONVERSÃO: Transforma centímetros para metros para fins de cálculo de custo
+  let c = compCm / 100;
+  let l = largCm / 100;
+  let a = altCm / 100;
+
+  // 3. Cálculos de Consumo (Lógica baseada nos preços cadastrados na tabela do seu sistema)
+  // Área de MDF em m² (Tampo da mesa)
+  let areaMdf = c * l;
+  let custoMdf = areaMdf * price(mdfSel);
+
+  // Metros lineares de Metalon (Estrutura base da mesa: 2 comprimentos + 2 larguras + 4 pés)
+  let metrosTubo = (c * 2) + (l * 2) + (a * 4);
+  // O seu sistema divide o preço do tubo por 6 porque a barra comercial padrão tem 6 metros
+  let custoTubo = metrosTubo * (price(metSel) / 6); 
+
+  // Componentes fixadores e consumíveis (Buscando os itens direto da sua tabela de preços)
+  let fixacoes = price('Borracha para Pés') ? (4 * price('Borracha para Pés')) : 0;
+  let consumiveis = price('Discos e Flaps') ? price('Discos e Flaps') : 0;
+
+  // 4. Totalização e Margem de Lucro (Usando a mesma lógica de divisor da prateleira)
+  let total = custoTubo + custoMdf + fixacoes + consumiveis; 
+  let venda = margin < 1 ? total / (1 - margin) : total;
+
+  // 5. Montagem das linhas para exibição no box estruturado do seu sistema
+  let rows = [
+    [`Metalon - ${metrosTubo.toFixed(2)}m`, brl(custoTubo)],
+    [`MDF - ${areaMdf.toFixed(2)}m²`, brl(custoMdf)],
+    [`Componentes e Consumíveis`, brl(fixacoes + consumiveis)]
+  ];
+
+  let lbl = "Móvel / Mesa Industrial";
+  let txtMat = metSel + " + MDF " + mdfSel;
+  
+  // Exibição amigável em cm para o texto de tamanho
+  let txtTamanho = compCm + "x" + largCm + "x" + altCm + "cm";
+
+  // 6. Integração com o Gerador de PDF e com o Histórico LocalStorage do seu sistema
+  cachePDF = { cliente, modelo: lbl, material: txtMat, tamanho: txtTamanho, preco: venda };
+  pushOrcamento(cliente, lbl, txtMat, txtTamanho, venda);
+
+  // 7. Renderiza o resultado na div 'mResult' usando o padrão visual do seu HTML
+  document.getElementById('mResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + 
+    '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
+}
+
 function generatePDF(screen) {
   if (!cachePDF.preco) { alert("Por favor, realize o cálculo na tela antes de gerar o PDF."); return; }
   const { jsPDF } = window.jspdf; const doc = new jsPDF();
