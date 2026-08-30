@@ -1,4 +1,4 @@
-  <!doctype html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -38,7 +38,6 @@ th{color:var(--muted);font-size:11px;text-transform:uppercase}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.menu{grid-template-columns:1fr}table{font-size:12px}}
 @media print{header,.back,.actions,.menu,.no-print{display:none!important}.screen{display:block!important}.card{box-shadow:none;border:0}}
 </style>
-<!-- Inclusão da biblioteca externa necessária para gerar PDFs via JS de forma nativa -->
 <script src="https://cloudflare.com"></script>
 </head>
 <body>
@@ -161,7 +160,7 @@ th{color:var(--muted);font-size:11px;text-transform:uppercase}
   <button class="back" onclick="showScreen('home')">← Voltar</button>
   <h2>Preços dos Materiais (Valores Inteiros Comerciais)</h2>
   <div class="card">
-    <p class="note">Insira as dimensões comerciais e preços da barra (6 metros) ou chapa/rolo completo. O fracionamento por metro linear ou m² é feito de forma automática nos cálculos.</p>
+    <p class="note">Insira as dimensões comerciais e preços da barra (6 metros) ou chapa/rolo completo. O fracionamento por metro ou m² é feito de forma automática nos cálculos.</p>
     <div style="overflow:auto">
       <table>
         <thead><tr><th>Categoria</th><th>Especificação</th><th>Preço Todo (R$)</th><th>C1 (m/Qtd)</th><th>C2 (m)</th><th>Ações</th></tr></thead>
@@ -173,33 +172,41 @@ th{color:var(--muted);font-size:11px;text-transform:uppercase}
 </section>
 </main>
 <script>
-// Banco de dados base com tamanhos comerciais reais e valores inteiros de venda
+// Banco de dados original restaurado com Chapas 2m e 3m, bitolas #22, #20, #18 e cores individuais
 const defaultMaterials = [
-  ["Metalon", "Metalon 20x20 Ch18", 60.00, 6.00, 0],
-  ["Metalon", "Metalon 30x30 Ch18", 85.00, 6.00, 0],
-  ["Metalon", "Metalon 15x15 Ch18", 50.00, 6.00, 0],
-  ["Tubo Inox", "Tubo Inox 1.1/2\" 304", 180.00, 6.00, 0],
-  ["Tubo Inox", "1.1/4\" 304 Ch18", 150.00, 6.00, 0],
-  ["Chapa Inox 304", "Chapa Inox 304 #1.0mm", 470.00, 2.00, 1.25],
-  ["Chapa Inox 430", "Chapa Inox 430 #1.0mm", 380.00, 2.00, 1.25],
-  ["MDF", "Preto Amadeirado", 250.00, 2.75, 1.84],
-  ["MDF", "Branco Supremo", 210.00, 2.75, 1.84],
-  ["Tábua Pinus", "Pinus Aparelhado", 45.00, 3.00, 0.30],
-  ["Fita de Borda", "Rolo Fita Comum", 62.00, 20.00, 0],
-  ["Acessórios Inox", "Curva 90° 1.1/4\"", 10.00, 1, 0],
-  ["Acessórios Inox", "Flange 1.1/4\"", 10.00, 1, 0],
-  ["Acessórios Inox", "Canopla 1.1/4\"", 10.00, 1, 0],
-  ["Acessórios Inox", "Borracha para Pés", 5.00, 1, 0],
-  ["Insumos Fixo", "Solda TIG + Argônio", 120.00, 1, 0],
-  ["Insumos Fixo", "Insumos Polimento", 80.00, 1, 0],
-  ["Insumos Fixo", "Discos e Flaps", 35.00, 1, 0],
-  ["Insumos Fixo", "Parafusos e Buchas", 20.00, 1, 0]
+  ["MDF", "Preto", 250, 2.75, 1.84],
+  ["MDF", "Branco", 210, 2.75, 1.84],
+  ["MDF", "Cinza", 240, 2.75, 1.84],
+  ["MDF", "Louro Freijó", 310, 2.75, 1.84],
+  ["Fita de Borda", "Preto", 45, 20, 0],
+  ["Fita de Borda", "Branco", 35, 20, 0],
+  ["Fita de Borda", "Cinza", 40, 20, 0],
+  ["Fita de Borda", "Louro Freijó", 50, 20, 0],
+  ["Metalon", "15x15mm Ch18", 50, 6, 0],
+  ["Metalon", "20x20mm Ch18", 65, 6, 0],
+  ["Metalon", "30x30mm Ch18", 85, 6, 0],
+  ["Metalon", "40x40mm Ch15", 120, 6, 0],
+  ["Chapa Inox 304", "Escovada #20 (1.0mm) 3x1.25m", 720, 3.00, 1.25],
+  ["Chapa Inox 304", "Polida #22 (0.8mm) 2x1.25m", 490, 2.00, 1.25],
+  ["Chapa Inox 430", "Escovada #20 (1.0mm) 3x1.25m", 480, 3.00, 1.25],
+  ["Chapa Inox 430", "Polida #22 (0.8mm) 2x1.25m", 320, 2.00, 1.25],
+  ["Tubo Inox", "Tubo Inox 1.1/2\" 304", 180, 6, 0],
+  ["Tubo Inox", "Tubo Inox 1.1/2\" 430", 130, 6, 0],
+  ["Tubo Inox", "1.1/4\" 304 Ch18", 150, 6, 0],
+  ["Tábua Pinus", "Pinus Aparelhado", 45, 3.00, 0.30],
+  ["Acessórios Inox", "Curva 90° 1.1/4\"", 10, 1, 0],
+  ["Acessórios Inox", "Flange 1.1/4\"", 10, 1, 0],
+  ["Acessórios Inox", "Canopla 1.1/4\"", 10, 1, 0],
+  ["Acessórios Inox", "Borracha para Pés", 5, 1, 0],
+  ["Insumos Fixo", "Solda TIG + Argônio", 120, 1, 0],
+  ["Insumos Fixo", "Insumos Polimento", 80, 1, 0],
+  ["Insumos Fixo", "Discos e Flaps", 35, 1, 0],
+  ["Insumos Fixo", "Parafusos e Buchas", 20, 1, 0]
 ];
 
 let materiais = [];
 let orçamentos = [];
 
-// Inicializador principal do sistema
 window.init = function() {
   materiais = JSON.parse(localStorage.getItem('serralheria_v4_mats')) || [...defaultMaterials];
   orçamentos = JSON.parse(localStorage.getItem('serralheria_v4_orcs')) || [];
@@ -220,13 +227,12 @@ function showScreen(id) {
 function getInput(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function formatMoney(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
-// Localizadores e fracionadores matemáticos dinâmicos
 function getMaterialUnitCost(spec) {
-  let item = materiais.find(m => m[1] === spec);
+  let item = materiais.find(m => m === spec);
   if(!item) return 0;
-  let precoTodo = item[2], c1 = item[3], c2 = item[4];
-  if(c2 > 0) return precoTodo / (c1 * c2); // Custo por m² (Chapas)
-  return precoTodo / c1; // Custo por metro linear ou unidade individual
+  let precoTodo = item, c1 = item, c2 = item;
+  if(c2 > 0) return precoTodo / (c1 * c2); // Valor por metro quadrado
+  return precoTodo / c1; // Valor por metro ou unidade
 }
 
 function togglePlanoInputs() {
@@ -235,7 +241,6 @@ function togglePlanoInputs() {
   document.querySelectorAll('.pinus-group').forEach(el => el.style.display = val === 'pinus' ? 'block' : 'none');
 }
 
-// GERAÇÃO DOS MENUS DE ESCOLHA DOS PRODUTOS
 function populateDropdowns() {
   const fillers = [
     ['mMetalon', 'Metalon'], ['pMetalon', 'Metalon'],
@@ -247,8 +252,8 @@ function populateDropdowns() {
   ];
   fillers.forEach(([id, filter]) => {
     let el = document.getElementById(id); if(!el) return;
-    let list = materiais.filter(m => Array.isArray(filter) ? filter.includes(m[0]) : m[0] === filter);
-    el.innerHTML = list.map(m => `<option value="${m[1]}">${m[1]}</option>`).join('');
+    let list = materiais.filter(m => Array.isArray(filter) ? filter.includes(m) : m === filter);
+    el.innerHTML = list.map(m => `<option value="${m}">${m}</option>`).join('');
   });
 }
 
@@ -257,126 +262,147 @@ function pushOrcamento(cliente, modelo, materialText, dimensoes, total) {
   saveOrcamentos();
 }
 
-// MOTOR 1: MÓVEIS INDUSTRIAIS
+function buildInternalTable(rows, total, venda) {
+  let html = `<div class="card" style="margin-top:15px"><h3>Detalhamento Interno (Apenas para Você)</h3><table>`;
+  rows.forEach(r => { html += `<tr><td>${r}</td><td style="text-align:right; font-weight:bold">${formatMoney(r)}</td></tr>`; });
+  html += `</table><div class="result" style="background:#2d3748;"><div class="row"><span>Custo Total de Fábrica:</span><span>${formatMoney(total)}</span></div></div>
+  <div class="result"><div class="row total"><span>PREÇO DE VENDA</span><strong>${formatMoney(venda)}</strong></div></div></div>`;
+  return html;
+}
+
 function calcMoveis() {
   let cliente = document.getElementById('mCliente').value;
   let c = getInput('mC'), l = getInput('mL'), a = getInput('mA'), margin = getInput('mMargem')/100;
   let metalon = document.getElementById('mMetalon').value, mdf = document.getElementById('mMdf').value, borda = document.getElementById('mBorda').value;
 
-  let mLinearTubo = (a * 4) + (l * 4) + (c * 2);
-  let custoTubo = mLinearTubo * getMaterialUnitCost(metalon);
+  let metrosTubo = (a * 4) + (l * 4) + (c * 2);
+  let custoTubo = metrosTubo * getMaterialUnitCost(metalon);
   let areaMdf = c * l;
   let custoMdf = areaMdf * getMaterialUnitCost(mdf);
-  let linearBorda = (c * 2) + (l * 2);
-  let custoBorda = linearBorda * getMaterialUnitCost(borda);
+  let metrosBorda = (c * 2) + (l * 2);
+  let custoBorda = metrosBorda * getMaterialUnitCost(borda);
   
-  let totalCusto = custoTubo + custoMdf + custoBorda + getMaterialUnitCost('Discos e Flaps') + getMaterialUnitCost('Parafusos e Buchas');
+  let cDiscos = getMaterialUnitCost('Discos e Flaps'), cParafusos = getMaterialUnitCost('Parafusos e Buchas');
+  let totalCusto = custoTubo + custoMdf + custoBorda + cDiscos + cParafusos;
   let totalVenda = totalCusto * (1 + margin);
   
-  pushOrcamento(cliente, "Mesa Industrial", `${metalon} + ${mdf}`, `${c.toFixed(2)}x${l.toFixed(2)}x${a.toFixed(2)}m`, totalVenda);
+  pushOrcamento(cliente, "Mesa Industrial", `${metalon} + MDF ${mdf}`, `${c.toFixed(2)}x${l.toFixed(2)}x${a.toFixed(2)}m`, totalVenda);
   
-  document.getElementById('mResult').innerHTML = `
-    <div class="result">
-      <div class="row"><span>Custo Base Computado:</span><span>${formatMoney(totalCusto)}</span></div>
-      <div class="total"><div class="row" style="color:inherit"><span>PREÇO SUGERIDO (MESA):</span><span>${formatMoney(totalVenda)}</span></div></div>
-    </div>`;
+  let rows = [
+    [`Estrutura de Ferro (${metalon}) - ${metrosTubo.toFixed(2)} m`, custoTubo],
+    [`Plano de MDF (${mdf}) - ${areaMdf.toFixed(2)} m²`, custoMdf],
+    [`Fita de Borda Coordenada (${borda}) - ${metrosBorda.toFixed(2)} m`, custoBorda],
+    [`Discos de Corte e Flaps`, cDiscos],
+    [`Parafusos e Buchas de Fixação`, cParafusos]
+  ];
+  document.getElementById('mResult').innerHTML = buildInternalTable(rows, totalCusto, totalVenda);
 }
 
-// MOTOR 2: BANCADAS EM INOX
 function calcBancada() {
   let cliente = document.getElementById('bCliente').value;
   let c = getInput('bC'), l = getInput('bL'), a = getInput('bA'), margin = getInput('bMargem')/100;
   let modelo = document.getElementById('bModelo').value, chapa = document.getElementById('bChapa').value, tubo = document.getElementById('bTubo').value;
 
-  let mLinearEstrutura = (a * 4) + (c * 2) + (l * 2);
+  let metrosTubo = (a * 4) + (c * 2) + (l * 2);
   if (modelo === 'simples') {
     let qTravessas = Math.ceil(c / 0.33) - 1;
     let maxVan = c / (qTravessas + 1);
     if(maxVan > 0.40) qTravessas = Math.ceil(c / 0.40) - 1;
     if(qTravessas < 0) qTravessas = 0;
-    mLinearEstrutura += (qTravessas * l);
+    metrosTubo += (qTravessas * l);
   }
-  let custoTubo = mLinearEstrutura * getMaterialUnitCost(tubo);
+  let custoTubo = metrosTubo * getMaterialUnitCost(tubo);
 
-  let m2IndividualChapa = (c + 0.06) * (l + 0.06); 
+  let areaComAbas = (c + 0.06) * (l + 0.06); 
   let numPlanos = (modelo === 'dupla') ? 2 : 1;
-  let custoChapa = (m2IndividualChapa * numPlanos) * getMaterialUnitCost(chapa);
+  let custoChapa = (areaComAbas * numPlanos) * getMaterialUnitCost(chapa);
 
-  let totalCusto = custoTubo + custoChapa + getMaterialUnitCost('Borracha para Pés')*4 + getMaterialUnitCost('Solda TIG + Argônio') + getMaterialUnitCost('Insumos Polimento');
+  let cBorrachas = getMaterialUnitCost('Borracha para Pés')*4, cSolda = getMaterialUnitCost('Solda TIG + Argônio'), cPolimento = getMaterialUnitCost('Insumos Polimento');
+  let totalCusto = custoTubo + custoChapa + cBorrachas + cSolda + cPolimento;
   let totalVenda = totalCusto * (1 + margin);
 
   let labelText = (modelo === 'dupla') ? "Bancada Dupla Inox" : "Bancada Simples Inox";
   pushOrcamento(cliente, labelText, `${chapa} + ${tubo}`, `${c.toFixed(2)}x${l.toFixed(2)}x${a.toFixed(2)}m`, totalVenda);
 
-  document.getElementById('bResult').innerHTML = `
-    <div class="result">
-      <div class="row"><span>Metragem Linear Estrutura:</span><span>${mLinearEstrutura.toFixed(2)} m</span></div>
-      <div class="row"><span>Custo Base Computado:</span><span>${formatMoney(totalCusto)}</span></div>
-      <div class="total"><div class="row" style="color:inherit"><span>PREÇO SUGERIDO (BANCADA):</span><span>${formatMoney(totalVenda)}</span></div></div>
-    </div>`;
+  let rows = [
+    [`Chapa de Aço Inox (Com Abas de Dobra) - ${(areaComAbas*numPlanos).toFixed(2)} m²`, custoChapa],
+    [`Estrutura e Gradeados (${tubo}) - ${metrosTubo.toFixed(2)} m`, custoTubo],
+    [`Borrachas de Proteção para Pés (4 un.)`, cBorrachas],
+    [`Gás Argônio e Varetas de Solda TIG`, cSolda],
+    [`Lixas, Massas e Insumos de Polimento`, cPolimento]
+  ];
+  document.getElementById('bResult').innerHTML = buildInternalTable(rows, totalCusto, totalVenda);
 }
-// MOTOR 3: BARRAS DE APOIO NORMAS
 function calcBarra() {
   let cliente = document.getElementById('aCliente').value;
   let c = getInput('aC'), margin = getInput('aMargem')/100, tubo = document.getElementById('aTubo').value;
 
   let custoTubo = c * getMaterialUnitCost(tubo);
-  let acessorios = (getMaterialUnitCost('Curva 90° 1.1/4"') * 2) + (getMaterialUnitCost('Flange 1.1/4"') * 2) + (getMaterialUnitCost('Canopla 1.1/4"') * 2);
-  let operacao = (getMaterialUnitCost('Solda TIG + Argônio') * 0.5) + (getMaterialUnitCost('Insumos Polimento') * 0.5);
+  let cCurvas = getMaterialUnitCost('Curva 90° 1.1/4"') * 2;
+  let cFlanges = getMaterialUnitCost('Flange 1.1/4"') * 2;
+  let cCanoplas = getMaterialUnitCost('Canopla 1.1/4"') * 2;
+  let cSolda = getMaterialUnitCost('Solda TIG + Argônio') * 0.5;
+  let cPolimento = getMaterialUnitCost('Insumos Polimento') * 0.5;
 
-  let totalCusto = custoTubo + acessorios + operacao;
+  let totalCusto = custoTubo + cCurvas + cFlanges + cCanoplas + cSolda + cPolimento;
   let totalVenda = totalCusto * (1 + margin);
 
-  pushOrcamento(cliente, "Barra de Apoio Reta", tubo, `${c.toFixed(2)}m`, totalVenda);
+  pushOrcamento(cliente, "Barra de Apoio Reta", tubo, `${c.toFixed(2)} m`, totalVenda);
 
-  document.getElementById('aResult').innerHTML = `
-    <div class="result">
-      <div class="row"><span>Componentes Inclusos (Fixo):</span><span>2 un. cada (Curva/Flange/Canopla)</span></div>
-      <div class="total"><div class="row" style="color:inherit"><span>PREÇO SUGERIDO (BARRA):</span><span>${formatMoney(totalVenda)}</span></div></div>
-    </div>`;
+  let rows = [
+    [`Tubo de Inox Fracionado - ${c.toFixed(2)} m`, custoTubo],
+    [`Curvas 90° de Encaixe (2 un.)`, cCurvas],
+    [`Flanges de Fixação (2 un.)`, cFlanges],
+    [`Canoplas de Acabamento (2 un.)`, cCanoplas],
+    [`Custo de Soldagem TIG Tabela`, cSolda],
+    [`Insumos de Polimento Espelhado`, cPolimento]
+  ];
+  document.getElementById('aResult').innerHTML = buildInternalTable(rows, totalCusto, totalVenda);
 }
 
-// MOTOR 4: PRATELEIRAS INDUSTRIAIS COMPLEXAS
 function calcPrateleira() {
   let cliente = document.getElementById('pCliente').value;
   let c = getInput('pC'), l = getInput('pL'), a = getInput('pA'), margin = getInput('pMargem')/100;
   let modelo = document.getElementById('pModelo').value, colunas = getInput('pColunas'), planos = getInput('pPlanos');
   let metalon = document.getElementById('pMetalon').value, tipoPlano = document.getElementById('pTipoPlano').value;
 
-  let mLinearEstrutura = (a * colunas * 2) + (l * colunas * 2); 
-  mLinearEstrutura += (c * planos * 2); 
-  if(modelo === 'chao') mLinearEstrutura += (l * 2); 
+  let metrosTubo = (a * colunas * 2) + (l * colunas * 2) + (c * planos * 2); 
+  if(modelo === 'chao') metrosTubo += (l * 2); 
 
-  let custoTubo = mLinearEstrutura * getMaterialUnitCost(metalon);
-  let custoPlanos = 0, planoText = "";
+  let custoTubo = metrosTubo * getMaterialUnitCost(metalon);
+  let custoPlanos = 0, planoText = "", itemLabel = "";
 
   if(tipoPlano === 'mdf') {
     let mdfSpec = document.getElementById('pMdf').value, bordaSpec = document.getElementById('pBorda').value;
-    custoPlanos = (c * l * planos) * getMaterialUnitCost(mdfSpec);
-    custoPlanos += ((c * 2) + (l * 2)) * planos * getMaterialUnitCost(bordaSpec);
-    planoText = `MDF (${mdfSpec})`;
+    let areaMdf = c * l * planos;
+    let mBorda = ((c * 2) + (l * 2)) * planos;
+    custoPlanos = areaMdf * getMaterialUnitCost(mdfSpec) + mBorda * getMaterialUnitCost(bordaSpec);
+    planoText = `MDF ${mdfSpec}`;
+    itemLabel = `Plano Fracionado MDF + Bordas (${mBorda.toFixed(1)}m)`;
   } else {
     let pinusSpec = document.getElementById('pPinus').value;
     custoPlanos = (c * l * planos) * getMaterialUnitCost(pinusSpec);
-    planoText = `Madeira (${pinusSpec})`;
+    planoText = `Pinus ${pinusSpec}`;
+    itemLabel = `Plano Madeira Pinus Comercial - ${(c*l*planos).toFixed(2)} m²`;
   }
 
   let fixacoes = (modelo === 'chao') ? getMaterialUnitCost('Borracha para Pés')*4 : getMaterialUnitCost('Parafusos e Buchas')*2;
-  let totalCusto = custoTubo + custoPlanos + fixacoes + getMaterialUnitCost('Discos e Flaps');
+  let cDiscos = getMaterialUnitCost('Discos e Flaps');
+  let totalCusto = custoTubo + custoPlanos + fixacoes + cDiscos;
   let totalVenda = totalCusto * (1 + margin);
 
   let labelModelo = `Prateleira Industrial (${modelo === 'chao' ? 'Chão' : 'Parede'})`;
   pushOrcamento(cliente, labelModelo, `${metalon} + ${planoText}`, `${c.toFixed(2)}x${l.toFixed(2)}x${a.toFixed(2)}m [${planos} Planos]`, totalVenda);
 
-  document.getElementById('pResult').innerHTML = `
-    <div class="result">
-      <div class="row"><span>Total Tubos Utilizados:</span><span>${mLinearEstrutura.toFixed(2)} m</span></div>
-      <div class="row"><span>Custo Base Computado:</span><span>${formatMoney(totalCusto)}</span></div>
-      <div class="total"><div class="row" style="color:inherit"><span>PREÇO SUGERIDO (ESTANTE):</span><span>${formatMoney(totalVenda)}</span></div></div>
-    </div>`;
+  let rows = [
+    [`Tubos Metalon da Estrutura - ${metrosTubo.toFixed(2)} m`, custoTubo],
+    [itemLabel, custoPlanos],
+    [`Borrachas de Pé ou Buchas de Parede`, fixacoes],
+    [`Discos abrasivos de Desbaste/Flap`, cDiscos]
+  ];
+  document.getElementById('pResult').innerHTML = buildInternalTable(rows, totalCusto, totalVenda);
 }
 
-// BANCO DE HISTÓRICO E EXPORTAÇÃO LIMPA EM PDF
 function renderHistorico() {
   let container = document.getElementById('historyContainer');
   if(orçamentos.length === 0) { container.innerHTML = "<p class='note'>Nenhum orçamento salvo ainda.</p>"; return; }
@@ -426,21 +452,20 @@ function exportPDF(idx) {
   doc.text(`${formatMoney(o.total)}`, 140, 120);
   
   doc.setTextColor(107, 114, 128); doc.setFontSize(10); doc.setFont("Helvetica", "italic");
-  doc.text("Validade deste orçamento: 10 dias. Sujeito a alteração de custos dos distribuidores.", 14, 145);
+  doc.text("Validade deste orçamento: 10 dias. Sujeito a alteração de custos dos distribuidores comerciais.", 14, 145);
 
   doc.save(`Orcamento_${o.cliente.replace(/\s+/g, '_')}.pdf`);
 }
 
-// GERENCIADOR DE PREÇOS DOS MATERIAIS INTEIROS
 function renderPrecosTable() {
   let tbody = document.getElementById('priceTable');
   tbody.innerHTML = materiais.map((m, idx) => `
     <tr>
-      <td><input type="text" class="table-input" value="${m[0]}" onchange="updatePrecoMat(${idx},0,this.value)"></td>
-      <td><input type="text" class="table-input" value="${m[1]}" onchange="updatePrecoMat(${idx},1,this.value)"></td>
-      <td><input type="number" class="price-input" value="${m[2]}" step="0.01" onchange="updatePrecoMat(${idx},2,this.value)"></td>
-      <td><input type="number" class="price-input" value="${m[3]}" step="0.01" onchange="updatePrecoMat(${idx},3,this.value)"></td>
-      <td><input type="number" class="price-input" value="${m[4]}" step="0.01" onchange="updatePrecoMat(${idx},4,this.value)"></td>
+      <td><input type="text" class="table-input" value="${m}" onchange="updatePrecoMat(${idx},0,this.value)"></td>
+      <td><input type="text" class="table-input" value="${m}" onchange="updatePrecoMat(${idx},1,this.value)"></td>
+      <td><input type="number" class="price-input" value="${m}" step="0.01" onchange="updatePrecoMat(${idx},2,this.value)"></td>
+      <td><input type="number" class="price-input" value="${m}" step="0.01" onchange="updatePrecoMat(${idx},3,this.value)"></td>
+      <td><input type="number" class="price-input" value="${m}" step="0.01" onchange="updatePrecoMat(${idx},4,this.value)"></td>
       <td><button class="btn-danger" onclick="deletePrecoMat(${idx})">X</button></td>
     </tr>
   `).join('');
@@ -452,11 +477,11 @@ function updatePrecoMat(idx, col, value) {
 }
 
 function deletePrecoMat(idx) {
-  if(confirm("Excluir insumo? Os produtos dependentes podem falhar.")) { materiais.splice(idx,1); savePrecos(); renderPrecosTable(); }
+  if(confirm("Excluir insumo comercial?")) { materiais.splice(idx,1); savePrecos(); renderPrecosTable(); }
 }
 
 function addNewMaterial() {
-  materiais.push(["Metalon", "Novo Tubo ou Chapa", 100, 6, 0]); savePrecos(); renderPrecosTable();
+  materiais.push(["Metalon", "Novo Material Spec", 100, 6, 0]); savePrecos(); renderPrecosTable();
 }
 
 window.onload = function() { window.init(); };
