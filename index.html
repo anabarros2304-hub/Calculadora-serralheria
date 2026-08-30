@@ -120,7 +120,7 @@ const original = [
   ["MDF", "Preto", "Chapa (2.75x1.84m)", 250],
   ["MDF", "Branco", "Chapa (2.75x1.84m)", 210],
   ["MDF", "Cinza", "Chapa (2.75x1.84m)", 240],
-  ["MDF", "Louro Freijó", "Chapa (2.75x1.84m)", 310],
+  ["MDF", "Louro Freijó", "Chapa (2.75x1.84m)", 375],
   ["Fita de Borda", "Preto", "Rolo (20 metros)", 62],
   ["Fita de Borda", "Branco", "Rolo (20 metros)", 52],
   ["Fita de Borda", "Cinza", "Rolo (20 metros)", 58],
@@ -351,10 +351,10 @@ function renderTable() {
   let tbody = document.getElementById('priceTable'); if(!tbody) return; tbody.innerHTML = '';
   materiais.forEach((mat, idx) => {
     let tr = document.createElement('tr');
-    tr.innerHTML = '<td><input class="table-input" value="' + mat + '" onchange="materiais[' + idx + ']=this.value; save();"></td>' +
-      '<td><input class="table-input" value="' + mat + '" onchange="materiais[' + idx + ']=this.value; save();"></td>' +
-      '<td><input class="table-input" value="' + mat + '" onchange="materiais[' + idx + ']=this.value; save();"></td>' +
-      '<td><input class="price-input" type="number" step="0.01" value="' + mat + '" onchange="materiais[' + idx + ']=parseFloat(this.value)||0; save();"></td>' +
+    tr.innerHTML = '<td><input class="table-input" value="' + mat[0] + '" onchange="materiais[' + idx + '][0]=this.value; save();"></td>' +
+      '<td><input class="table-input" value="' + mat[1] + '" onchange="materiais[' + idx + '][1]=this.value; save();"></td>' +
+      '<td><input class="table-input" value="' + mat[2] + '" onchange="materiais[' + idx + '][2]=this.value; save();"></td>' +
+      '<td><input class="price-input" type="number" step="0.01" value="' + mat[3] + '" onchange="materiais[' + idx + '][3]=parseFloat(this.value)||0; save();"></td>' +
       '<td><button class="btn-danger" onclick="materiais.splice(' + idx + ',1); save(); renderTable();">X</button></td>';
     tbody.appendChild(tr);
   });
