@@ -291,39 +291,6 @@ function calcBarra(){
 }
   // ... código anterior ...
 
-function calcMoveis() {
-  let cliente = document.getElementById('mCliente').value;
-  let compCm = num('mC'), largCm = num('mL'), altCm = num('mA');
-  let margin = num('mMargem') / 100;
-  let mdfSel = document.getElementById('mMdf').value;
-  let metSel = document.getElementById('mMetalon').value;
-
-  if (!cliente) { alert("Por favor, insira o nome do cliente."); return; }
-
-  let c = compCm / 100, l = largCm / 100, a = altCm / 100;
-  let areaMdf = c * l;
-  let custoMdf = areaMdf * price(mdfSel);
-  let metrosTubo = (c * 2) + (l * 2) + (a * 4);
-  let custoTubo = metrosTubo * (price(metSel) / 6); 
-  let fixacoes = price('Borracha para Pés') ? (4 * price('Borracha para Pés')) : 0;
-  let consumiveis = price('Discos e Flaps') ? price('Discos e Flaps') : 0;
-  let total = custoTubo + custoMdf + fixacoes + consumiveis; 
-  let venda = margin < 1 ? total / (1 - margin) : total;
-
-  let rows = [
-    [`Metalon - ${metrosTubo.toFixed(2)}m`, brl(custoTubo)],
-    [`MDF - ${areaMdf.toFixed(2)}m²`, brl(custoMdf)],
-    [`Componentes e Consumíveis`, brl(fixacoes + consumiveis)]
-  ];
-
-  let lbl = "Móvel / Mesa Industrial", txtMat = metSel + " + MDF " + mdfSel, txtTamanho = compCm + "x" + largCm + "x" + altCm + "cm";
-  cachePDF = { cliente, modelo: lbl, material: txtMat, tamanho: txtTamanho, preco: venda };
-  pushOrcamento(cliente, lbl, txtMat, txtTamanho, venda);
-
-  document.getElementById('mResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + 
-    '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
-}
-
 function calcPrateleira() {
   let cliente = document.getElementById('pCliente').value;
   // ... resto do seu código da prateleira que já existe ...
