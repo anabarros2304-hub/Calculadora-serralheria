@@ -19,7 +19,19 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 6px;b
 .btn-danger{background:var(--danger);color:white;border:0;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold}
 .btn-add{background:#10b981;color:white;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:12px;width:100%}
 @media(max-width:600px){.grid{grid-template-columns:1fr}.menu{grid-template-columns:1fr 1fr}main{padding:12px}.card{padding:14px}table{font-size:12px}}
-@media print{header,.back,.actions,.menu{display:none!important}.screen{display:block!important}.card{box-shadow:none}}
+@media print{header,.back,.actions,.menu{display:none!important}.screen{display:block!important}.card{box-shadow:none}}.btn-azul {
+  .btn-azul { 
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-weight: bold;}
+
 </style>
 <script src="https://cloudflare.com"></script>
 </head>
@@ -112,6 +124,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:9px 6px;b
 </table>
 </div>
 <button class="btn-add" onclick="addNewMaterial()">+ Adicionar Novo Material</button>
+<button id="btn-salvar" class="btn-azul">💾 Salvar Alterações</button>
 </div>
 </section>
 </main>
@@ -403,7 +416,43 @@ function renderTable() {
   });
 }
 function addNewMaterial() { materiais.push(["Nova Categoria", "Nova Especificação", "Unidade", 0]); save(); renderTable(); }
-window.onload = function() { window.init(); };
+function salvarMateriais() {
+    // Busca todas as linhas da tabela de materiais
+    let linhas = document.querySelectorAll('table tr');
+    let novosMateriais = [];
+
+    linhas.forEach(linha => {
+        let inputs = linha.querySelectorAll('input');
+        // Se a linha tiver os 4 campos (categoria, especificação, unidade, preço)
+        if (inputs.length >= 4) {
+            novosMateriais.push([
+                inputs[0].value,
+                inputs[1].value,
+                inputs[2].value,
+                inputs[3].value
+            ]);
+        }
+    });
+
+    // Atualiza a lista do sistema e salva permanentemente no celular
+    if (novosMateriais.length > 0) {
+        materiais = novosMateriais;
+        localStorage.setItem('materiais', JSON.stringify(materiais));
+        alert('✅ Alterações salvas com sucesso!');
+    } else {
+        alert('⚠️ Nenhum material encontrado para salvar.');
+    }
+}
+
+// Vincula a função ao clique do seu botão de salvar
+document.addEventListener('DOMContentLoaded', () => {
+    let btnSalvar = document.getElementById('btn-salvar');
+    if (btnSalvar) {
+        btnSalvar.addEventListener('click', salvarMateriais);
+    }
+});
+
+  window.onload = function() { window.init(); };
 </script>
 </body>
 </html>
