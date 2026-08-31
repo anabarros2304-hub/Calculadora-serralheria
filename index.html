@@ -181,7 +181,7 @@ window.init = function() {
     // CORREÇÃO: m[0] checa a categoria correta (ex: se é "MDF" ou "Metalon")
     if(m[0] === "MDF") { if(mdfSel) mdfSel.innerHTML += opt; if(pMdfSel) pMdfSel.innerHTML += opt; }
     if(m[0] === "Metalon") { if(metSel) metSel.innerHTML += opt; if(pMetSel) pMetSel.innerHTML += opt; }
-    if(m[0] === "Pinus" && pinusSel) pinusSel.innerHTML += opt;
+    if(m[0] === "Tábua Pinus" && pinusSel) pinusSel.innerHTML += opt;
     if(m[0] === "Tubo Inox" && bTuboSel) bTuboSel.innerHTML += opt;
   });
   updateChapaOpts();
@@ -192,8 +192,8 @@ function save() { localStorage.setItem('serralheria_v12_mats', JSON.stringify(ma
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 function price(especificacao) {
-  let mat = materiais.find(m => m === especificacao);
-  return mat ? parseFloat(mat) : 0;
+  let mat = materiais.find(m => m[1] === especificacao);
+  return mat ? parseFloat(mat[3]) : 0;
 }
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -201,7 +201,7 @@ function show(id) {
   if (id === 'precos') renderTable();
   if (id === 'historico') renderHistorico();
 }
-
+//menú de seleção dos materiais cadastrados
 function buildDropdowns() {
   let mMdf = document.getElementById('mMdf'), mMetalon = document.getElementById('mMetalon'), bTubo = document.getElementById('bTubo'), aTubo = document.getElementById('aTubo');
   let pMetalon = document.getElementById('pMetalon'), pMdf = document.getElementById('pMdf'), pPinus = document.getElementById('pPinus');
@@ -217,7 +217,7 @@ function buildDropdowns() {
   if(pPinus) pPinus.innerHTML = materiais.filter(m => m[0] === 'Tábua Pinus').map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
   updateChapaOpts();
 }
-
+//atualiza o menú de especificação da chapa de inox
 function updateChapaOpts() {
   let tipo = document.getElementById('bTipoInox')?.value; 
   let bChapa = document.getElementById('bChapa');
@@ -226,40 +226,25 @@ function updateChapaOpts() {
   bChapa.innerHTML = materiais.filter(m => m[0] === tipo).map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
 }
 
-
+//mostra a cor do mdf e a opção da tabuas de pinus
 function toggleMadeiraGroup() {
   let val = document.getElementById('pTipoMadeira').value;
   document.querySelector('.pmdf-group').style.display = val === 'mdf' ? 'block' : 'none';
   document.querySelector('.ppinus-group').style.display = val === 'pinus' ? 'block' : 'none';
 }
-
+//transforma as infomações em tabelas
 function box(rows, total, label) {
   let html = '<div class="card" style="margin-top:15px"><h2>Detalhamento do Custo</h2><table>';
-  rows.forEach(r => { html += '<tr><td>' + r + '</td><td style="text-align:right; font-weight:bold">' + r + '</td></tr>'; });
+  rows.forEach(r => { html += '<tr><td>' + r[0] + '</td><td style="text-align:right; font-weight:bold">' + r[1] + '</td></tr>'; });
   html += '</table><div class="result"><div class="row total"><span>' + label + '</span><strong>' + brl(total) + '</strong></div></div></div>';
   return html;
 }
-
+//salva o orçamento no hitórico
 function pushOrcamento(cliente, modelo, materialText, dimensoes, total) {
   let salvos = JSON.parse(localStorage.getItem('serralheria_saved_orcs')) || [];
   salvos.push({ id: Date.now(), cliente: cliente || "Cliente Geral", modelo, materialText, dimensoes, total });
   localStorage.setItem('serralheria_saved_orcs', JSON.stringify(salvos));
 }
-function calcMoveis() {
-  let cliente = document.getElementById('mCliente').value;
-  let c = num('mC'), l = num('mL'), a = num('mA'), margin = num('mMargem')/100;
-  let mdfSel = document.getElementById('mMdf').value, metalonSel = document.getElementById('mMetalon').value;
-  let metrosTubo = (a * 4) + (l * 4) + (c * 2); let custoTubo = metrosTubo * (price(metalonSel) / 6);
-  let custoMdf = ((c * l) / (2.75 * 1.84)) * price(mdfSel);
-  let metrosBorda = (c * 2) + (l * 2); let custoBorda = (metrosBorda / 20) * price(mdfSel);
-  let total = custoTubo + custoMdf + custoBorda + price('Discos e Flaps') + price('Parafusos e Buchas');
-  let venda = margin < 1 ? total / (1 - margin) : total;
-  let rows = [[`Metalon (${metalonSel}) - ${metrosTubo.toFixed(2)}m`, brl(custoTubo)], [`MDF Fracionado (${mdfSel}) - ${(c*l).toFixed(2)}m²`, brl(custoMdf)], [`Fita Borda - ${metrosBorda.toFixed(2)}m`, brl(custoBorda)], [`Consumíveis Fixos`, brl(price('Discos e Flaps') + price('Parafusos e Buchas'))]];
-  cachePDF = { cliente, modelo: "Mesa Industrial", material: metalonSel + " + MDF " + mdfSel, tamanho: c.toFixed(2) + "x" + l.toFixed(2) + "x" + a.toFixed(2) + "m", preco: venda };
-  pushOrcamento(cliente, "Mesa Industrial", metalonSel + " + MDF " + mdfSel, c.toFixed(2) + "x" + l.toFixed(2) + "x" + a.toFixed(2) + "m", venda);
-  document.getElementById('mResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
-}
-
 function calcBancada(){
   let cliente = document.getElementById('bCliente').value;
   let c = num('bC'), l = num('bL'), a = num('bA'), modelo = num('bModelo'), margin = num('bMargem')/100;
@@ -298,12 +283,6 @@ function calcBarra(){
   pushOrcamento(cliente, lbl, tuboSel, modelo == 1 ? c.toFixed(2) + "m" : c.toFixed(2) + "x" + a.toFixed(2) + "m", venda);
   document.getElementById('aResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
 }
-  // ... código anterior ...
-
-function calcPrateleira() {
-  let cliente = document.getElementById('pCliente').value;
-  // ... resto do seu código da prateleira que já existe ...
-
 function calcPrateleira() {
   let cliente = document.getElementById('pCliente').value;
   let c = num('pC'), l = num('pL'), a = num('pA'), margin = num('pMargem')/100;
@@ -326,29 +305,24 @@ function calcPrateleira() {
   document.getElementById('pResult').innerHTML = box(rows, total, 'CUSTO TOTAL') + '<div class="result" style="margin-top:10px"><div class="row total"><span>PREÇO DE VENDA</span><strong>' + brl(venda) + '</strong></div></div>';
 }
   function calcMoveis() {
-  // 1. Captura os valores brutos usando os inputs em cm e as funções padrão do seu sistema
   let cliente = document.getElementById('mCliente').value;
-  let compCm = num('mC'), largCm = num('mL'), altCm = num('mA');
+  let c = num('mC'), l = num('mL'), a = num('mA');
   let margin = num('mMargem') / 100;
   let mdfSel = document.getElementById('mMdf').value;
   let metSel = document.getElementById('mMetalon').value;
 
   if (!cliente) { alert("Por favor, insira o nome do cliente."); return; }
 
-  // 2. CONVERSÃO: Transforma centímetros para metros para fins de cálculo de custo
-  let c = compCm / 100;
-  let l = largCm / 100;
-  let a = altCm / 100;
-
-  // 3. Cálculos de Consumo (Lógica baseada nos preços cadastrados na tabela do seu sistema)
+  // 2. Cálculos de Consumo (Lógica baseada nos preços cadastrados na tabela do seu sistema)
   // Área de MDF em m² (Tampo da mesa)
   let areaMdf = c * l;
-  let custoMdf = areaMdf * price(mdfSel);
+  let custoMdf = (areaMdf / (2.75 * 1.84)) * price(mdfSel);
 
-  // Metros lineares de Metalon (Estrutura base da mesa: 2 comprimentos + 2 larguras + 4 pés)
+  //3 Metros lineares de Metalon (Estrutura base da mesa: 2 comprimentos + 2 larguras + 4 pés)
   let metrosTubo = (c * 2) + (l * 2) + (a * 4);
-  // O seu sistema divide o preço do tubo por 6 porque a barra comercial padrão tem 6 metros
-  let custoTubo = metrosTubo * (price(metSel) / 6); 
+  let barrasTubo = Math.ceil(metrosTubo / 6);
+  let custoTubo = barrasTubo * price(metSel);
+
 
   // Componentes fixadores e consumíveis (Buscando os itens direto da sua tabela de preços)
   let fixacoes = price('Borracha para Pés') ? (4 * price('Borracha para Pés')) : 0;
@@ -360,16 +334,14 @@ function calcPrateleira() {
 
   // 5. Montagem das linhas para exibição no box estruturado do seu sistema
   let rows = [
-    [`Metalon - ${metrosTubo.toFixed(2)}m`, brl(custoTubo)],
+    [`Metalon - ${metrosTubo.toFixed(2)}m (${barrasTubo} barra(s))`, brl(custoTubo)],
     [`MDF - ${areaMdf.toFixed(2)}m²`, brl(custoMdf)],
     [`Componentes e Consumíveis`, brl(fixacoes + consumiveis)]
   ];
 
   let lbl = "Móvel / Mesa Industrial";
   let txtMat = metSel + " + MDF " + mdfSel;
-  
-  // Exibição amigável em cm para o texto de tamanho
-  let txtTamanho = compCm + "x" + largCm + "x" + altCm + "cm";
+  let txtTamanho = c.toFixed(2) + "x" + l.toFixed(2) + "x" + a.toFixed(2) + "m";
 
   // 6. Integração com o Gerador de PDF e com o Histórico LocalStorage do seu sistema
   cachePDF = { cliente, modelo: lbl, material: txtMat, tamanho: txtTamanho, preco: venda };
