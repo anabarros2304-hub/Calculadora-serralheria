@@ -217,28 +217,75 @@ function show(id) {
 }
 //menú de seleção dos materiais cadastrados
 function buildDropdowns() {
-  let mMdf = document.getElementById('mMdf'), mMetalon = document.getElementById('mMetalon'), bTubo = document.getElementById('bTubo'), aTubo = document.getElementById('aTubo');
-  let pMetalon = document.getElementById('pMetalon'), pMdf = document.getElementById('pMdf'), pPinus = document.getElementById('pPinus');
-  
-  let optMdf = materiais.filter(m => m[0] === 'MDF').map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
-  let optMetalon = materiais.filter(m => m[0] === 'Metalon').map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
-  let optTubo = materiais.filter(m => m[0] === 'Tubo Inox').map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
+    let mMdf = document.getElementById('mMdf');
+    let pMetalon = document.getElementById('pMetalon');
+    let bTubo = document.getElementById('bTubo');
+    let aTubo = document.getElementById('aTubo');
+    let pPinus = document.getElementById('pPinus');
 
-  if(mMdf) mMdf.innerHTML = optMdf; if(pMdf) pMdf.innerHTML = optMdf;
-  if(mMetalon) mMetalon.innerHTML = optMetalon; if(pMetalon) pMetalon.innerHTML = optMetalon;
-  if(bTubo) bTubo.innerHTML = optTubo;
-  if(aTubo) aTubo.innerHTML = materiais.filter(m => m[0] === 'Tubo Inox' && m[1].includes('1.1/4')).map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
-  if(pPinus) pPinus.innerHTML = materiais.filter(m => m[0] === 'Tábua Pinus').map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
-  updateChapaOpts();
+    // 1. BUSCA INTELIGENTE DE TUBOS (Procura a palavra "tubo")
+    let tubosFiltrados = materiais.filter(m => {
+        let cat = (m[0] || '').toLowerCase();
+        let esp = (m[1] || '').toLowerCase();
+        return cat.includes('tubo') || esp.includes('tubo');
+    });
+    let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    if (bTubo) bTubo.innerHTML = optTubo;
+    if (aTubo) aTubo.innerHTML = optTubo;
+
+    // 2. BUSCA INTELIGENTE DE MDF (Procura a palavra "mdf")
+    let mdfFiltrados = materiais.filter(m => {
+        let cat = (m[0] || '').toLowerCase();
+        let esp = (m[1] || '').toLowerCase();
+        return cat.includes('mdf') || esp.includes('mdf');
+    });
+    let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    if (mMdf) mMdf.innerHTML = optMdf;
+
+    // 3. BUSCA INTELIGENTE DE METALON (Procura a palavra "metalon")
+    let metalonFiltrados = materiais.filter(m => {
+        let cat = (m[0] || '').toLowerCase();
+        let esp = (m[1] || '').toLowerCase();
+        return cat.includes('metalon') || esp.includes('metalon');
+    });
+    let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    if (pMetalon) pMetalon.innerHTML = optMetalon;
+
+    // 4. BUSCA INTELIGENTE DE PINUS / MADEIRA (Procura "pinus" ou "madeira")
+    let pinusFiltrados = materiais.filter(m => {
+        let cat = (m[0] || '').toLowerCase();
+        let esp = (m[1] || '').toLowerCase();
+        return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
+    });
+    let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    if (pPinus) pPinus.innerHTML = optPinus;
+
+    updateChapaOpts();
 }
+
 //atualiza o menú de especificação da chapa de inox
 function updateChapaOpts() {
-  let tipo = document.getElementById('bTipoInox')?.value; 
-  let bChapa = document.getElementById('bChapa');
-  if(!bChapa || !tipo) return;
-  
-  bChapa.innerHTML = materiais.filter(m => m[0] === tipo).map(m => '<option value="' + m[1] + '">' + m[1] + '</option>').join('');
+    let tipo = document.getElementById('bTipoInox');
+    let bChapa = document.getElementById('bChapa');
+    if (!bChapa || !tipo) return;
+
+    let tipoSelecionado = tipo.value.toLowerCase();
+    let numInox = tipoSelecionado.includes('304') ? '304' : '430';
+
+    // Filtra os materiais de forma flexível: procura a palavra "chapa" e o número do inox (304 ou 430)
+    let filtrados = materiais.filter(m => {
+        let cat = (m[0] || '').toLowerCase();
+        let esp = (m[1] || '').toLowerCase();
+        return (cat.includes('chapa') || esp.includes('chapa')) && 
+               (cat.includes(numInox) || esp.includes(numInox));
+    });
+
+    // Monta as opções do menu com os materiais encontrados
+    bChapa.innerHTML = filtrados.map(m => 
+        `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`
+    ).join('');}
 }
+
 
 //mostra a cor do mdf e a opção da tabuas de pinus
 function toggleMadeiraGroup() {
