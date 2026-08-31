@@ -136,7 +136,7 @@ const original = [
   ["Metalon", "15x40 Ch18", "Barra (6m)", 90], ["Metalon", "15x40 Ch20", "Barra (6m)", 82],
   ["Metalon", "15x30 Ch18", "Barra (6m)", 70], ["Metalon", "15x30 Ch20", "Barra (6m)", 63]
 ];
-let materiais = JSON.parse(localStorage.getItem('serralheria_v12_mats')) || [...original, ...extraMaterials];
+let materiais = [];
 let cachePDF = {};
 const extraMaterials = [
   ["Tubo Inox", "1.1/2\" 304 Ch18", "Barra (6m)", 180], ["Tubo Inox", "1.1/2\" 304 Ch20", "Barra (6m)", 160],
@@ -166,6 +166,7 @@ const extraMaterials = [
 ];
 
 window.init = function() {
+  materiais = JSON.parse(localStorage.getItem('serralheria_v12_mats')) || [...original, ...extraMaterials];
   let mdfSel = document.getElementById('mMdf'), pMdfSel = document.getElementById('pMdf');
   let metSel = document.getElementById('mMetalon'), pMetSel = document.getElementById('pMetalon');
   let pinusSel = document.getElementById('pPinus'), bTuboSel = document.getElementById('bTubo');
