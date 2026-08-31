@@ -7,39 +7,235 @@
 <title>Calculadora de Serralheria</title>
 
 <style>
-:root{--bg:#f3f4f6;--card:#fff;--ink:#111827;--muted:#6b7280;--accent:#f59e0b;--dark:#111827;--line:#e5e7eb;--danger:#ef4444}
+:root{
+  --bg:#f3f4f6;
+  --card:#fff;
+  --ink:#111827;
+  --muted:#6b7280;
+  --accent:#f59e0b;
+  --dark:#111827;
+  --line:#e5e7eb;
+  --danger:#ef4444;
+}
+
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink)}
-header{background:linear-gradient(135deg,#111827,#374151);color:white;padding:24px 16px 28px;position:sticky;top:0;z-index:5;box-shadow:0 3px 12px #0002}
-header h1{margin:0;font-size:23px}
-header p{margin:5px 0 0;color:#d1d5db;font-size:13px}
-main{max-width:900px;margin:auto;padding:16px}
+
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  color:var(--ink);
+}
+
+header{
+  background:linear-gradient(135deg,#111827,#374151);
+  color:white;
+  padding:24px 16px 28px;
+  position:sticky;
+  top:0;
+  z-index:5;
+  box-shadow:0 3px 12px #0002;
+}
+
+header h1{
+  margin:0;
+  font-size:23px;
+}
+
+header p{
+  margin:5px 0 0;
+  color:#d1d5db;
+  font-size:13px;
+}
+
+main{
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+}
+
 .screen{display:none}
 .screen.active{display:block}
-.menu{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.menu button,.topbtn{border:0;border-radius:16px;background:var(--card);padding:20px 14px;text-align:left;box-shadow:0 2px 10px #0000000d;font-weight:700;font-size:15px;color:var(--ink);cursor:pointer}
-.menu button span{display:block;font-size:28px;margin-bottom:10px}
-.menu button small{display:block;color:var(--muted);font-weight:400;margin-top:5px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px #00000009}
-.back{background:none;border:0;padding:0 0 12px;font-weight:700;cursor:pointer;color:#374151}
-h2{font-size:20px;margin:4px 0 16px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.field label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
-.field input,.field select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;background:white;font-size:15px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-.primary,.secondary{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}
-.primary{background:var(--dark);color:white}
-.secondary{background:#e5e7eb;color:#111827}
-.result{background:#111827;color:white;border-radius:16px;padding:18px;margin-top:14px}
-.result .row{display:flex;justify-content:space-between;padding:6px 0;color:#d1d5db}
-.result .total{font-size:24px;font-weight:900;color:#fbbf24;border-top:1px solid #ffffff22;margin-top:8px;padding-top:12px}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px 6px;border-bottom:1px solid var(--line);text-align:left}
-th{color:var(--muted);font-size:11px}
-.note{font-size:12px;color:var(--muted);line-height:1.45}
-.price-input,.table-input{width:100%;padding:7px;border:1px solid #ddd;border-radius:7px;font-size:13px}
-.btn-danger{background:var(--danger);color:white;border:0;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:bold}
-.btn-add{background:#10b981;color:white;border:0;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:bold;margin-top:12px;width:100%}
+
+.menu{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.menu button,.topbtn{
+  border:0;
+  border-radius:16px;
+  background:var(--card);
+  padding:20px 14px;
+  text-align:left;
+  box-shadow:0 2px 10px #0000000d;
+  font-weight:700;
+  font-size:15px;
+  color:var(--ink);
+  cursor:pointer;
+}
+
+.menu button span{
+  display:block;
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.menu button small{
+  display:block;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:5px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+  box-shadow:0 2px 8px #00000009;
+}
+
+.back{
+  background:none;
+  border:0;
+  padding:0 0 12px;
+  font-weight:700;
+  cursor:pointer;
+  color:#374151;
+}
+
+h2{
+  font-size:20px;
+  margin:4px 0 16px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:var(--muted);
+  font-weight:700;
+  margin-bottom:5px;
+}
+
+.field input,.field select{
+  width:100%;
+  padding:12px;
+  border:1px solid #d1d5db;
+  border-radius:10px;
+  background:white;
+  font-size:15px;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
+
+.primary,.secondary{
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--dark);
+  color:white;
+}
+
+.secondary{
+  background:#e5e7eb;
+  color:#111827;
+}
+
+.result{
+  background:#111827;
+  color:white;
+  border-radius:16px;
+  padding:18px;
+  margin-top:14px;
+}
+
+.result .row{
+  display:flex;
+  justify-content:space-between;
+  padding:6px 0;
+  color:#d1d5db;
+}
+
+.result .total{
+  font-size:24px;
+  font-weight:900;
+  color:#fbbf24;
+  border-top:1px solid #ffffff22;
+  margin-top:8px;
+  padding-top:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,td{
+  padding:9px 6px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+
+th{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.note{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.45;
+}
+
+.price-input,.table-input{
+  width:100%;
+  padding:7px;
+  border:1px solid #ddd;
+  border-radius:7px;
+  font-size:13px;
+}
+
+.btn-danger{
+  background:var(--danger);
+  color:white;
+  border:0;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.btn-add{
+  background:#10b981;
+  color:white;
+  border:0;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-top:12px;
+  width:100%;
+}
 
 .btn-azul{
   background-color:#2563eb;
@@ -54,22 +250,79 @@ th{color:var(--muted);font-size:11px}
   font-weight:bold;
 }
 
+.btn-aviso{
+  background:#f59e0b;
+  color:white;
+  border:0;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  width:100%;
+  margin-top:10px;
+}
+
+.status{
+  padding:10px;
+  border-radius:8px;
+  margin-top:10px;
+  font-size:13px;
+  font-weight:bold;
+  display:none;
+}
+
+.status.ok{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status.erro{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
 @media(max-width:600px){
-  .grid{grid-template-columns:1fr}
-  .menu{grid-template-columns:1fr 1fr}
-  main{padding:12px}
-  .card{padding:14px}
-  table{font-size:12px}
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .menu{
+    grid-template-columns:1fr 1fr;
+  }
+
+  main{
+    padding:12px;
+  }
+
+  .card{
+    padding:14px;
+  }
+
+  table{
+    font-size:12px;
+  }
 }
 
 @media print{
-  header,.back,.actions,.menu{display:none!important}
-  .screen{display:block!important}
-  .card{box-shadow:none}
+  header,.back,.actions,.menu{
+    display:none!important;
+  }
+
+  .screen{
+    display:block!important;
+  }
+
+  .card{
+    box-shadow:none;
+  }
 }
 </style>
 
-<script src="https://cloudflare.com"></script>
+<!-- Biblioteca para PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 
 <body>
@@ -81,54 +334,56 @@ th{color:var(--muted);font-size:11px}
 
 <main>
 
+<!-- ========================= HOME ========================= -->
+
 <section id="home" class="screen active">
+
 <h2>O que você quer orçar?</h2>
 
 <div class="menu">
 
 <button onclick="show('moveis')">
-<span>🪑</span>
-Móveis Industriais
-<small>MDF + estrutura de metalon</small>
+  <span>🪑</span>
+  Móveis Industriais
+  <small>MDF + estrutura de metalon</small>
 </button>
 
 <button onclick="show('bancadas')">
-<span>🔧</span>
-Bancadas em Inox
-<small>Simples ou dupla gradeada</small>
+  <span>🔧</span>
+  Bancadas em Inox
+  <small>Simples ou dupla gradeada</small>
 </button>
 
 <button onclick="show('barras')">
-<span>♿</span>
-Barras de Apoio
-<small>Reta ou em L</small>
+  <span>♿</span>
+  Barras de Apoio
+  <small>Reta ou em L</small>
 </button>
 
 <button onclick="show('prateleiras')">
-<span>🪜</span>
-Prateleiras Industriais
-<small>Estrutura + MDF ou Pinus</small>
+  <span>🗄️</span>
+  Prateleiras Industriais
+  <small>Estrutura + MDF ou Pinus</small>
 </button>
 
 <button onclick="show('historico')">
-<span>📂</span>
-Orçamentos Salvos
-<small>Consultar e exportar PDFs</small>
+  <span>📂</span>
+  Orçamentos Salvos
+  <small>Consultar e exportar PDFs</small>
 </button>
 
 <button onclick="show('precos')">
-<span>💰</span>
-Preços dos Materiais
-<small>Consultar e alterar valores</small>
+  <span>💰</span>
+  Preços dos Materiais
+  <small>Consultar e alterar valores</small>
 </button>
 
 </div>
+
 </section>
 
 
-<!-- =========================
-     MOVEIS
-========================= -->
+<!-- ========================= MOVEIS ========================= -->
 
 <section id="moveis" class="screen">
 
@@ -189,9 +444,7 @@ Preços dos Materiais
 </section>
 
 
-<!-- =========================
-     BANCADAS
-========================= -->
+<!-- ========================= BANCADAS ========================= -->
 
 <section id="bancadas" class="screen">
 
@@ -268,9 +521,7 @@ Preços dos Materiais
 </section>
 
 
-<!-- =========================
-     BARRAS DE APOIO
-========================= -->
+<!-- ========================= BARRAS ========================= -->
 
 <section id="barras" class="screen">
 
@@ -305,7 +556,6 @@ Preços dos Materiais
 <input id="aA" type="number" step="0.01" value="0.75">
 </div>
 
-<!-- NOVO: ESCOLHA DO TUBO -->
 <div class="field">
 <label>Material do Tubo</label>
 <select id="aTubo"></select>
@@ -330,15 +580,13 @@ Preços dos Materiais
 </section>
 
 
-<!-- =========================
-     PRATELEIRAS
-========================= -->
+<!-- ========================= PRATELEIRAS ========================= -->
 
 <section id="prateleiras" class="screen">
 
 <button class="back" onclick="show('home')">← Voltar</button>
 
-<h2>Orçamento de Prateleiras Industriais</h2>
+<h2>🗄️ Orçamento de Prateleiras Industriais</h2>
 
 <div class="card">
 
@@ -424,9 +672,7 @@ Preços dos Materiais
 </section>
 
 
-<!-- =========================
-     HISTORICO
-========================= -->
+<!-- ========================= HISTORICO ========================= -->
 
 <section id="historico" class="screen">
 
@@ -441,9 +687,7 @@ Preços dos Materiais
 </section>
 
 
-<!-- =========================
-     PRECOS
-========================= -->
+<!-- ========================= PRECOS ========================= -->
 
 <section id="precos" class="screen">
 
@@ -455,7 +699,7 @@ Preços dos Materiais
 
 <p class="note">
 Modifique as categorias, especificações, unidades e valores diretamente nas caixas.
-Suas mudanças ficam salvas no celular.
+Depois clique em <b>Salvar Alterações</b>.
 </p>
 
 <div style="overflow:auto">
@@ -467,7 +711,7 @@ Suas mudanças ficam salvas no celular.
 <th>Categoria</th>
 <th>Especificação</th>
 <th>Unidade</th>
-<th>Preço Todo (R$)</th>
+<th>Preço (R$)</th>
 <th>Ações</th>
 </tr>
 </thead>
@@ -482,9 +726,11 @@ Suas mudanças ficam salvas no celular.
 + Adicionar Novo Material
 </button>
 
-<button id="btn-salvar" class="btn-azul">
+<button id="btn-salvar" class="btn-azul" onclick="salvarMateriais()">
 💾 Salvar Alterações
 </button>
+
+<div id="saveStatus" class="status"></div>
 
 </div>
 
@@ -495,330 +741,472 @@ Suas mudanças ficam salvas no celular.
 
 <script>
 
+/* =========================================================
+   MATERIAIS PADRÃO
+========================================================= */
+
 const original = [
 
-  ["MDF", "Preto", "Chapa (2.75x1.84m)", 250],
-  ["MDF", "Branco", "Chapa (2.75x1.84m)", 210],
-  ["MDF", "Cinza", "Chapa (2.75x1.84m)", 240],
-  ["MDF", "Louro Freijó", "Chapa (2.75x1.84m)", 375],
+["MDF","Preto","Chapa (2.75x1.84m)",250],
+["MDF","Branco","Chapa (2.75x1.84m)",210],
+["MDF","Cinza","Chapa (2.75x1.84m)",240],
+["MDF","Louro Freijó","Chapa (2.75x1.84m)",375],
 
-  ["Fita de Borda", "Preto", "Rolo (20 metros)", 62],
-  ["Fita de Borda", "Branco", "Rolo (20 metros)", 52],
-  ["Fita de Borda", "Cinza", "Rolo (20 metros)", 58],
-  ["Fita de Borda", "Louro Freijó", "Rolo (20 metros)", 68],
+["Fita de Borda","Preto","Rolo (20 metros)",62],
+["Fita de Borda","Branco","Rolo (20 metros)",52],
+["Fita de Borda","Cinza","Rolo (20 metros)",58],
+["Fita de Borda","Louro Freijó","Rolo (20 metros)",68],
 
-  ["Metalon", "15x15 Ch18", "Barra (6m)", 50],
-  ["Metalon", "15x15 Ch20", "Barra (6m)", 45],
+["Metalon","15x15 Ch18","Barra (6m)",50],
+["Metalon","15x15 Ch20","Barra (6m)",45],
 
-  ["Metalon", "20x20 Ch18", "Barra (6m)", 65],
-  ["Metalon", "20x20 Ch20", "Barra (6m)", 58],
+["Metalon","20x20 Ch18","Barra (6m)",65],
+["Metalon","20x20 Ch20","Barra (6m)",58],
 
-  ["Metalon", "30x30 Ch18", "Barra (6m)", 85],
-  ["Metalon", "30x30 Ch20", "Barra (6m)", 76],
+["Metalon","30x30 Ch18","Barra (6m)",85],
+["Metalon","30x30 Ch20","Barra (6m)",76],
 
-  ["Metalon", "40x40 Ch18", "Barra (6m)", 120],
-  ["Metalon", "40x40 Ch20", "Barra (6m)", 110],
+["Metalon","40x40 Ch18","Barra (6m)",120],
+["Metalon","40x40 Ch20","Barra (6m)",110],
 
-  ["Metalon", "30x20 Ch18", "Barra (6m)", 75],
-  ["Metalon", "30x20 Ch20", "Barra (6m)", 68],
+["Metalon","30x20 Ch18","Barra (6m)",75],
+["Metalon","30x20 Ch20","Barra (6m)",68],
 
-  ["Metalon", "30x40 Ch18", "Barra (6m)", 105],
-  ["Metalon", "30x40 Ch20", "Barra (6m)", 95],
+["Metalon","30x40 Ch18","Barra (6m)",105],
+["Metalon","30x40 Ch20","Barra (6m)",95],
 
-  ["Metalon", "30x50 Ch18", "Barra (6m)", 125],
-  ["Metalon", "30x50 Ch20", "Barra (6m)", 115],
+["Metalon","30x50 Ch18","Barra (6m)",125],
+["Metalon","30x50 Ch20","Barra (6m)",115],
 
-  ["Metalon", "30x70 Ch18", "Barra (6m)", 165],
-  ["Metalon", "30x70 Ch20", "Barra (6m)", 150],
+["Metalon","30x70 Ch18","Barra (6m)",165],
+["Metalon","30x70 Ch20","Barra (6m)",150],
 
-  ["Metalon", "15x40 Ch18", "Barra (6m)", 90],
-  ["Metalon", "15x40 Ch20", "Barra (6m)", 82],
+["Metalon","15x40 Ch18","Barra (6m)",90],
+["Metalon","15x40 Ch20","Barra (6m)",82],
 
-  ["Metalon", "15x30 Ch18", "Barra (6m)", 70],
-  ["Metalon", "15x30 Ch20", "Barra (6m)", 63]
+["Metalon","15x30 Ch18","Barra (6m)",70],
+["Metalon","15x30 Ch20","Barra (6m)",63]
+
+];
+
+
+const extraMaterials = [
+
+["Tubo Inox","1.1/2\" 304 Ch18","Barra (6m)",180],
+["Tubo Inox","1.1/2\" 304 Ch20","Barra (6m)",160],
+
+["Tubo Inox","1.1/2\" 430 Ch18","Barra (6m)",170],
+["Tubo Inox","1.1/2\" 430 Ch20","Barra (6m)",150],
+
+["Tubo Inox","2\" 304 Ch18","Barra (6m)",240],
+["Tubo Inox","2\" 304 Ch20","Barra (6m)",215],
+
+["Tubo Inox","1.1/4\" 304 Ch18","Barra (6m)",150],
+["Tubo Inox","1.1/4\" 304 Ch20","Barra (6m)",135],
+
+["Tubo Inox","1.1/4\" 430 Ch18","Barra (6m)",140],
+["Tubo Inox","1.1/4\" 430 Ch20","Barra (6m)",125],
+
+["Chapa Inox 304","Chapa 304 Ch18 (2.00x1.25m)","Peca",470],
+["Chapa Inox 304","Chapa 304 Ch20 (2.00x1.25m)","Peca",410],
+["Chapa Inox 304","Chapa 304 Ch22 (2.00x1.25m)","Peca",360],
+
+["Chapa Inox 304","Chapa 304 Ch18 (3.00x1.25m)","Peca",710],
+["Chapa Inox 304","Chapa 304 Ch20 (3.00x1.25m)","Peca",620],
+["Chapa Inox 304","Chapa 304 Ch22 (3.00x1.25m)","Peca",540],
+
+["Chapa Inox 430","Chapa 430 Ch18 (2.00x1.25m)","Peca",380],
+["Chapa Inox 430","Chapa 430 Ch20 (2.00x1.25m)","Peca",320],
+["Chapa Inox 430","Chapa 430 Ch22 (2.00x1.25m)","Peca",270],
+
+["Chapa Inox 430","Chapa 430 Ch18 (3.00x1.25m)","Peca",560],
+["Chapa Inox 430","Chapa 430 Ch20 (3.00x1.25m)","Peca",490],
+["Chapa Inox 430","Chapa 430 Ch22 (3.00x1.25m)","Peca",410],
+
+["Tábua Pinus","Pinus Aparelhado (3.00x0.30m)","Peca",45],
+
+["Borracha para Pés","Borracha para Pés","Unidade",5],
+
+["Solda TIG + Argônio","Solda TIG + Argônio","Servico",120],
+
+["Insumos Polimento","Insumos Polimento","Servico",80],
+
+["Curva 90° 1.1/4\"","Curva 90° 1.1/4\"","Unidade",10],
+
+["Flange 1.1/4\"","Flange 1.1/4\"","Unidade",10],
+
+["Canopla 1.1/4\"","Canopla 1.1/4\"","Unidade",10],
+
+["Curva 90° 1.1/2\"","Curva 90° 1.1/2\"","Unidade",12],
+
+["Flange 1.1/2\"","Flange 1.1/2\"","Unidade",12],
+
+["Canopla 1.1/2\"","Canopla 1.1/2\"","Unidade",12],
+
+["Discos e Flaps","Discos e Flaps","Servico",35],
+
+["Parafusos e Buchas","Parafusos e Buchas","Servico",20],
+
+["Taxa de Pintura","Taxa de Pintura","Servico",80]
 
 ];
 
 
 let materiais = [];
-let cachePDF = [];
+let cachePDF = {};
 
 
-const extraMaterials = [
+/* =========================================================
+   NORMALIZAÇÃO
+========================================================= */
 
-  ["Tubo Inox", "1.1/2\" 304 Ch18", "Barra (6m)", 180],
-  ["Tubo Inox", "1.1/2\" 304 Ch20", "Barra (6m)", 160],
+function normalizar(texto){
 
-  ["Tubo Inox", "2\" 304 Ch18", "Barra (6m)", 240],
-  ["Tubo Inox", "2\" 304 Ch20", "Barra (6m)", 215],
+  return (texto ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/\s+/g," ");
 
-  ["Tubo Inox", "1.1/4\" 304 Ch18", "Barra (6m)", 150],
-  ["Tubo Inox", "1.1/4\" 304 Ch20", "Barra (6m)", 135],
-
-  ["Chapa Inox 304", "Chapa 304 Ch18 (2.00x1.25m)", "Peca", 470],
-  ["Chapa Inox 304", "Chapa 304 Ch20 (2.00x1.25m)", "Peca", 410],
-  ["Chapa Inox 304", "Chapa 304 Ch22 (2.00x1.25m)", "Peca", 360],
-
-  ["Chapa Inox 304", "Chapa 304 Ch18 (3.00x1.25m)", "Peca", 710],
-  ["Chapa Inox 304", "Chapa 304 Ch20 (3.00x1.25m)", "Peca", 620],
-  ["Chapa Inox 304", "Chapa 304 Ch22 (3.00x1.25m)", "Peca", 540],
-
-  ["Chapa Inox 430", "Chapa 430 Ch18 (2.00x1.25m)", "Peca", 380],
-  ["Chapa Inox 430", "Chapa 430 Ch20 (2.00x1.25m)", "Peca", 320],
-  ["Chapa Inox 430", "Chapa 430 Ch22 (2.00x1.25m)", "Peca", 270],
-
-  ["Chapa Inox 430", "Chapa 430 Ch18 (3.00x1.25m)", "Peca", 560],
-  ["Chapa Inox 430", "Chapa 430 Ch20 (3.00x1.25m)", "Peca", 490],
-  ["Chapa Inox 430", "Chapa 430 Ch22 (3.00x1.25m)", "Peca", 410],
-
-  ["Tábua Pinus", "Pinus Aparelhado (3.00x0.30m)", "Peca", 45],
-
-  ["Borracha para Pés", "Borracha para Pés", "Unidade", 5],
-
-  ["Solda TIG + Argônio", "Solda TIG + Argônio", "Servico", 120],
-
-  ["Insumos Polimento", "Insumos Polimento", "Servico", 80],
-
-  ["Curva 90° 1.1/4\"", "Curva 90° 1.1/4\"", "Unidade", 10],
-
-  ["Flange 1.1/4\"", "Flange 1.1/4\"", "Unidade", 10],
-
-  ["Canopla 1.1/4\"", "Canopla 1.1/4\"", "Unidade", 10],
-
-  ["Discos e Flaps", "Discos e Flaps", "Servico", 35],
-
-  ["Parafusos e Buchas", "Parafusos e Buchas", "Servico", 20],
-
-  /* NOVO INSUMO */
-  ["Taxa de Pintura", "Taxa de Pintura", "Servico", 0]
-
-];
+}
 
 
-window.init = function() {
+/* =========================================================
+   COMPARAÇÃO FLEXÍVEL
+========================================================= */
 
-  let salvo = localStorage.getItem('serralheria_v12_mats');
+function igual(a,b){
 
-  if (salvo) {
+  return normalizar(a) === normalizar(b);
 
-    try {
+}
+
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+
+function init(){
+
+  let salvo = localStorage.getItem("serralheria_v12_mats");
+
+  if(salvo){
+
+    try{
 
       materiais = JSON.parse(salvo);
 
-    } catch(e) {
+      if(!Array.isArray(materiais)){
+        materiais = [];
+      }
 
-      materiais = [...original, ...extraMaterials];
+    }catch(e){
+
+      materiais = [];
 
     }
 
-  } else {
-
-    materiais = [...original, ...extraMaterials];
-
   }
 
+  const todosPadrao = [...original,...extraMaterials];
 
-  /* Garante que a Taxa de Pintura exista mesmo em instalações antigas */
+  todosPadrao.forEach(padrao => {
 
-  let existePintura = materiais.some(m =>
-    m &&
-    m[0] &&
-    m[0].toString().trim().toLowerCase() === "taxa de pintura"
-  );
-
-  if (!existePintura) {
-
-    materiais.push([
-      "Taxa de Pintura",
-      "Taxa de Pintura",
-      "Servico",
-      0
-    ]);
-
-    localStorage.setItem(
-      'serralheria_v12_mats',
-      JSON.stringify(materiais)
+    const existe = materiais.some(m =>
+      m &&
+      igual(m[0],padrao[0]) &&
+      igual(m[1],padrao[1])
     );
 
-  }
+    if(!existe){
+      materiais.push([...padrao]);
+    }
 
+  });
+
+
+  salvarLocal(false);
 
   buildDropdowns();
 
-};
+  toggleMadeiraGroup();
+
+}
 
 
-function save() {
+/* =========================================================
+   SALVAR MATERIAIS
+========================================================= */
+
+function salvarLocal(atualizarInterface=true){
 
   localStorage.setItem(
-    'serralheria_v12_mats',
+    "serralheria_v12_mats",
     JSON.stringify(materiais)
   );
 
-  buildDropdowns();
+  if(atualizarInterface){
+    buildDropdowns();
+  }
 
 }
 
 
-function num(id) {
+/* =========================================================
+   FUNÇÃO SAVE COMPATÍVEL
+========================================================= */
 
-  let el = document.getElementById(id);
+function save(){
 
-  if (!el) return 0;
-
-  return parseFloat(el.value) || 0;
+  salvarLocal(true);
 
 }
 
 
-function brl(v) {
+/* =========================================================
+   CONVERTER NÚMERO
+========================================================= */
 
-  return v.toLocaleString(
-    'pt-BR',
+function numeroValor(valor){
+
+  if(typeof valor === "number"){
+    return isNaN(valor) ? 0 : valor;
+  }
+
+  let texto = String(valor ?? "")
+    .trim()
+    .replace(/\s/g,"")
+    .replace("R$","");
+
+  if(texto.includes(",")){
+    texto = texto.replace(/\./g,"").replace(",",".");
+  }
+
+  const n = parseFloat(texto);
+
+  return isNaN(n) ? 0 : n;
+
+}
+
+
+/* =========================================================
+   PEGAR VALOR DO INPUT
+========================================================= */
+
+function num(id){
+
+  const el = document.getElementById(id);
+
+  if(!el) return 0;
+
+  return numeroValor(el.value);
+
+}
+
+
+/* =========================================================
+   FORMATA REAIS
+========================================================= */
+
+function brl(v){
+
+  return numeroValor(v).toLocaleString(
+    "pt-BR",
     {
-      style:'currency',
-      currency:'BRL'
+      style:"currency",
+      currency:"BRL"
     }
   );
 
 }
 
 
-function price(especificacao) {
+/* =========================================================
+   BUSCAR PREÇO
+========================================================= */
 
-  if (!especificacao) return 0;
+function price(especificacao){
 
-  let busca =
-    especificacao
-      .toString()
-      .trim()
-      .toLowerCase();
+  if(!especificacao) return 0;
 
+  const busca = normalizar(especificacao);
 
   let mat = materiais.find(m =>
-
     m &&
-    m[1] &&
-    m[1]
-      .toString()
-      .trim()
-      .toLowerCase() === busca
-
+    m.length >= 4 &&
+    normalizar(m[1]) === busca
   );
 
+  if(mat){
+    return numeroValor(mat[3]);
+  }
 
-  return mat ? parseFloat(m[3]) || 0 : 0;
+
+  mat = materiais.find(m =>
+    m &&
+    m.length >= 4 &&
+    normalizar(m[0]) === busca
+  );
+
+  if(mat){
+    return numeroValor(mat[3]);
+  }
+
+
+  mat = materiais.find(m =>
+    m &&
+    m.length >= 4 &&
+    (
+      normalizar(m[1]).includes(busca) ||
+      busca.includes(normalizar(m[1]))
+    )
+  );
+
+  if(mat){
+    return numeroValor(mat[3]);
+  }
+
+
+  return 0;
 
 }
 
 
-function show(id) {
+/* =========================================================
+   ENCONTRAR MATERIAL
+========================================================= */
 
-  document
-    .querySelectorAll('.screen')
-    .forEach(s => s.classList.remove('active'));
+function encontrarMaterial(categoria, especificacao){
 
-  let target =
-    document.getElementById(id);
+  return materiais.find(m =>
+    m &&
+    m.length >= 4 &&
+    normalizar(m[0]) === normalizar(categoria) &&
+    normalizar(m[1]) === normalizar(especificacao)
+  );
 
-  if(target)
-    target.classList.add('active');
+}
 
 
-  if (id === 'precos')
+/* =========================================================
+   MOSTRAR TELA
+========================================================= */
+
+function show(id){
+
+  document.querySelectorAll(".screen")
+    .forEach(s => s.classList.remove("active"));
+
+  const target = document.getElementById(id);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+  if(id === "precos"){
     renderTable();
+  }
 
-  if (id === 'historico')
+  if(id === "historico"){
     renderHistorico();
+  }
 
 }
 
 
-function buildDropdowns() {
+/* =========================================================
+   PREENCHER SELECTS
+========================================================= */
 
-  const texto = valor =>
-    (valor ?? '')
-      .toString()
-      .trim()
-      .toLowerCase();
+function buildDropdowns(){
 
+  function preencher(id,filtro){
 
-  function preencher(id, filtro) {
+    const select = document.getElementById(id);
 
-    const select =
-      document.getElementById(id);
+    if(!select) return;
 
-    if (!select) return;
+    const lista = materiais.filter(m =>
+      m &&
+      m.length >= 4 &&
+      filtro(m)
+    );
 
+    select.innerHTML = "";
 
-    const lista =
-      materiais.filter(m =>
-        m &&
-        m.length >= 4 &&
-        filtro(m)
-      );
+    lista.forEach(m => {
 
+      const option = document.createElement("option");
 
-    select.innerHTML =
-      lista.map(m => `
+      option.value = m[1];
 
-        <option value="${m[1]}">
-          ${m[0]} - ${m[1]}
-          (R$ ${parseFloat(m[3] || 0).toFixed(2)})
-        </option>
+      option.textContent =
+        m[0] +
+        " - " +
+        m[1] +
+        " (" +
+        brl(m[3]) +
+        ")";
 
-      `).join('');
+      select.appendChild(option);
+
+    });
 
   }
 
 
   /* MDF */
 
-  preencher('mMdf', m =>
-    texto(m[0]) === 'mdf'
+  preencher("mMdf",m =>
+    normalizar(m[0]) === "mdf"
   );
 
 
-  preencher('pMdf', m =>
-    texto(m[0]) === 'mdf'
+  preencher("pMdf",m =>
+    normalizar(m[0]) === "mdf"
   );
 
 
   /* METALON */
 
-  preencher('mMetalon', m =>
-    texto(m[0]) === 'metalon'
+  preencher("mMetalon",m =>
+    normalizar(m[0]) === "metalon"
   );
 
 
-  preencher('pMetalon', m =>
-    texto(m[0]) === 'metalon'
+  preencher("pMetalon",m =>
+    normalizar(m[0]) === "metalon"
   );
 
 
   /* TUBO INOX DAS BANCADAS */
 
-  preencher('bTubo', m =>
-    texto(m[0]) === 'tubo inox'
+  preencher("bTubo",m =>
+    normalizar(m[0]) === "tubo inox"
   );
 
 
-  /* NOVO: TUBO INOX DAS BARRAS DE APOIO */
+  /* TUBO INOX DAS BARRAS */
 
-  preencher('aTubo', m =>
-    texto(m[0]) === 'tubo inox' &&
+  preencher("aTubo",m =>
+    normalizar(m[0]) === "tubo inox" &&
     (
-      texto(m[1]).includes('1.1/2') ||
-      texto(m[1]).includes('1.1/4')
+      normalizar(m[1]).includes("1.1/2") ||
+      normalizar(m[1]).includes("1.1/4")
+    ) &&
+    (
+      normalizar(m[1]).includes("ch18") ||
+      normalizar(m[1]).includes("ch20")
     )
   );
 
 
   /* PINUS */
 
-  preencher('pPinus', m =>
-    texto(m[0]) === 'tábua pinus' ||
-    texto(m[0]) === 'tabua pinus'
+  preencher("pPinus",m =>
+    normalizar(m[0]) === "tabua pinus"
   );
 
 
@@ -827,169 +1215,145 @@ function buildDropdowns() {
 }
 
 
-function updateChapaOpts() {
+/* =========================================================
+   CHAPAS DE INOX
+========================================================= */
 
-  let tipoInoxEl =
-    document.getElementById('bTipoInox') ||
-    document.querySelector('[id*="TipoInox"]') ||
-    document.querySelector('[id*="tipoInox"]');
+function updateChapaOpts(){
 
+  const tipoEl = document.getElementById("bTipoInox");
 
-  let tipoSelecionado =
-    tipoInoxEl
-      ? tipoInoxEl.value.toLowerCase()
-      : '304';
+  const tipo = tipoEl
+    ? normalizar(tipoEl.value)
+    : "chapa inox 304";
 
-
-  let numInox =
-    tipoSelecionado.includes('430')
-      ? '430'
-      : '304';
+  const numeroInox =
+    tipo.includes("430")
+      ? "430"
+      : "304";
 
 
-  let chapasFiltradas =
-    materiais.filter(m => {
+  const select = document.getElementById("bChapa");
 
-      if (!m || m.length < 2)
-        return false;
+  if(!select) return;
 
 
-      let cat =
-        (m[0] || '')
-          .toString()
-          .toLowerCase();
+  const lista = materiais.filter(m => {
+
+    if(!m || m.length < 4) return false;
+
+    const categoria = normalizar(m[0]);
+    const especificacao = normalizar(m[1]);
+
+    const eChapa =
+      categoria.includes("chapa") ||
+      especificacao.includes("chapa");
+
+    const eAco =
+      categoria.includes(numeroInox) ||
+      especificacao.includes(numeroInox);
+
+    return eChapa && eAco;
+
+  });
 
 
-      let esp =
-        (m[1] || '')
-          .toString()
-          .toLowerCase();
+  select.innerHTML = "";
 
 
-      let contemChapa =
-        cat.includes('chapa') ||
-        esp.includes('chapa');
+  lista.forEach(m => {
 
+    const option = document.createElement("option");
 
-      let contemAco =
-        cat.includes(numInox) ||
-        esp.includes(numInox);
+    option.value = m[1];
 
+    option.textContent =
+      m[0] +
+      " - " +
+      m[1] +
+      " (" +
+      brl(m[3]) +
+      ")";
 
-      return contemChapa && contemAco;
-
-    });
-
-
-  let htmlChapas =
-    chapasFiltradas.map(m => {
-
-      return `
-        <option value="${m[1]}">
-          ${m[0]} ${m[1]}
-          (R$ ${parseFloat(m[3] || 0).toFixed(2)})
-        </option>
-      `;
-
-    }).join('');
-
-
-  let camposChapa =
-    document.querySelectorAll(
-      '[id*="Chapa"], [id*="chapa"]'
-    );
-
-
-  camposChapa.forEach(select => {
-
-    if(select.tagName === 'SELECT') {
-
-      select.innerHTML =
-        htmlChapas;
-
-    }
+    select.appendChild(option);
 
   });
 
 }
 
 
-function toggleMadeiraGroup() {
+/* =========================================================
+   MADEIRA
+========================================================= */
 
-  let el =
-    document.getElementById('pTipoMadeira');
+function toggleMadeiraGroup(){
 
-  if(!el) return;
+  const tipo = document.getElementById("pTipoMadeira");
 
+  if(!tipo) return;
 
-  let val = el.value;
+  const mdf = document.querySelector(".pmdf-group");
+  const pinus = document.querySelector(".ppinus-group");
 
-
-  document
-    .querySelector('.pmdf-group')
-    .style.display =
-      val === 'mdf'
-        ? 'block'
-        : 'none';
+  if(!mdf || !pinus) return;
 
 
-  document
-    .querySelector('.ppinus-group')
-    .style.display =
-      val === 'pinus'
-        ? 'block'
-        : 'none';
+  if(tipo.value === "mdf"){
+
+    mdf.style.display = "block";
+    pinus.style.display = "none";
+
+  }else{
+
+    mdf.style.display = "none";
+    pinus.style.display = "block";
+
+  }
 
 }
 
 
-function box(rows, total, label) {
+/* =========================================================
+   BOX DE RESULTADO
+========================================================= */
+
+function box(rows,total,label){
 
   let html =
     '<div class="card" style="margin-top:15px">' +
     '<h2>Detalhamento do Custo</h2>' +
     '<table>';
 
-
   rows.forEach(r => {
 
     html +=
-      '<tr>' +
-      '<td>' + r[0] + '</td>' +
-      '<td style="text-align:right; font-weight:bold">' +
+      "<tr>" +
+      "<td>" + r[0] + "</td>" +
+      '<td style="text-align:right;font-weight:bold">' +
       r[1] +
-      '</td>' +
-      '</tr>';
+      "</td>" +
+      "</tr>";
 
   });
 
-
   html +=
-    '</table>' +
-
+    "</table>" +
     '<div class="result">' +
-
     '<div class="row total">' +
-
-    '<span>' +
-    label +
-    '</span>' +
-
-    '<strong>' +
-    brl(total) +
-    '</strong>' +
-
-    '</div>' +
-
-    '</div>' +
-
-    '</div>';
-
+    "<span>" + label + "</span>" +
+    "<strong>" + brl(total) + "</strong>" +
+    "</div>" +
+    "</div>" +
+    "</div>";
 
   return html;
 
 }
 
+
+/* =========================================================
+   SALVAR ORÇAMENTO
+========================================================= */
 
 function pushOrcamento(
   cliente,
@@ -997,13 +1361,11 @@ function pushOrcamento(
   materialText,
   dimensoes,
   total
-) {
+){
 
   let salvos =
     JSON.parse(
-      localStorage.getItem(
-        'serralheria_saved_orcs'
-      )
+      localStorage.getItem("serralheria_saved_orcs")
     ) || [];
 
 
@@ -1026,698 +1388,1242 @@ function pushOrcamento(
 
 
   localStorage.setItem(
-    'serralheria_saved_orcs',
+    "serralheria_saved_orcs",
     JSON.stringify(salvos)
   );
 
 }
 
 
-/* =========================
-   BANCADA
-========================= */
+/* =========================================================
+   MÓVEIS / MESAS INDUSTRIAIS
+========================================================= */
 
-function calcBancada(){
+function calcMoveis(){
 
-  let cliente =
-    document.getElementById('bCliente').value;
+  try{
 
+    const cliente =
+      document.getElementById("mCliente").value.trim();
 
-  let c = num('bC');
-  let l = num('bL');
-  let a = num('bA');
+    const c = num("mC");
+    const l = num("mL");
+    const a = num("mA");
 
-  let modelo =
-    num('bModelo');
+    const margin =
+      num("mMargem") / 100;
 
-  let margin =
-    num('bMargem') / 100;
+    const mdfSel =
+      document.getElementById("mMdf").value;
 
-
-  let chapaSel =
-    document.getElementById('bChapa').value;
-
-  let tuboSel =
-    document.getElementById('bTubo').value;
+    const metSel =
+      document.getElementById("mMetalon").value;
 
 
-  let chapa =
-    price(chapaSel);
+    if(!cliente){
 
-  let tubo =
-    price(tuboSel);
+      alert("Por favor, insira o nome do cliente.");
 
+      return;
 
-  let areaChapaBase =
-    chapaSel.includes("2.00")
-      ? (2.00 * 1.25)
-      : (3.00 * 1.25);
+    }
 
 
-  let areaPecaComDobra =
-    (c + 0.06) *
-    (l + 0.06);
+    if(c <= 0 || l <= 0 || a <= 0){
+
+      alert("Informe comprimento, largura e altura corretamente.");
+
+      return;
+
+    }
 
 
-  if(modelo == 1)
-    areaPecaComDobra *= 2;
+    if(!mdfSel || !metSel){
+
+      alert(
+        "Os materiais não foram carregados corretamente. " +
+        "Verifique a tabela de preços."
+      );
+
+      return;
+
+    }
 
 
-  let custoChapa =
-    (areaPecaComDobra / areaChapaBase) *
-    chapa;
+    const precoMdf = price(mdfSel);
+    const precoMetalon = price(metSel);
 
 
-  let custoDobra =
-    (modelo == 1)
-      ? 360
-      : 180;
+    if(precoMdf <= 0){
+
+      alert(
+        "Não encontrei o preço do MDF selecionado: " +
+        mdfSel
+      );
+
+      return;
+
+    }
 
 
-  let metrosTubo =
-    (a * 4);
+    if(precoMetalon <= 0){
+
+      alert(
+        "Não encontrei o preço do Metalon selecionado: " +
+        metSel
+      );
+
+      return;
+
+    }
 
 
-  if(modelo == 2) {
+    /*
+      MDF / TAMPÃO
+    */
 
-    metrosTubo +=
+    const areaMdf = c * l;
+
+    const custoMdf =
+      (areaMdf / (2.75 * 1.84)) *
+      precoMdf;
+
+
+    /*
+      FITA DE BORDA
+      Exatamente o perímetro do tampão.
+    */
+
+    const metrosFita =
       (c * 2) +
       (l * 2);
 
 
-    let qTravessas =
-      Math.ceil(c / 0.33) - 1;
+    const fitaMaterial =
+      materiais.find(m =>
+        normalizar(m[0]) === "fita de borda" &&
+        normalizar(m[1]) === normalizar(mdfSel)
+      );
 
 
-    if(
-      (c / (qTravessas + 1)) > 0.40
-    )
+    let custoFita = 0;
 
-      qTravessas =
-        Math.ceil(c / 0.40) - 1;
+    if(fitaMaterial){
 
+      custoFita =
+        (metrosFita / 20) *
+        numeroValor(fitaMaterial[3]);
 
-    if(qTravessas < 0)
-      qTravessas = 0;
-
-
-    metrosTubo +=
-      (qTravessas * l);
-
-  }
+    }
 
 
-  let custoTubo =
-    metrosTubo *
-    (tubo / 6);
+    /*
+      METALON
+
+      Mesa de 150x60x70:
+      2 peças de 150 cm
+      4 peças de 60 cm
+      4 peças de 70 cm
+
+      Portanto:
+      2 x comprimento
+      4 x largura
+      4 x altura
+    */
+
+    const metrosMetalon =
+      (c * 2) +
+      (l * 4) +
+      (a * 4);
 
 
-  let borrachas =
-    4 *
-    price('Borracha para Pés');
+    const custoMetalon =
+      metrosMetalon *
+      (precoMetalon / 6);
 
 
-  let solda =
-    price('Solda TIG + Argônio');
+    /*
+      COMPONENTES
+    */
+
+    const precoBorracha =
+      price("Borracha para Pés");
+
+    const precoDiscos =
+      price("Discos e Flaps");
+
+    const precoPintura =
+      price("Taxa de Pintura");
 
 
-  let polimento =
-    price('Insumos Polimento');
+    const qtdBorracha = 4;
+
+    const fixacoes =
+      qtdBorracha *
+      precoBorracha;
 
 
-  let total =
-    custoChapa +
-    custoDobra +
-    custoTubo +
-    borrachas +
-    solda +
-    polimento;
+    const consumiveis =
+      precoDiscos;
 
 
-  let venda =
-    margin < 1
-      ? total / (1 - margin)
-      : total;
+    /*
+      TAXA DE PINTURA
+      Uma taxa por mesa/produto.
+    */
+
+    const pintura =
+      precoPintura;
 
 
-  let rows = [
+    /*
+      CUSTO TOTAL
+    */
 
-    [
-      `Chapa Inox - ${areaPecaComDobra.toFixed(2)}m²`,
-      brl(custoChapa)
-    ],
-
-    [
-      `Serviço Dobra Fixo`,
-      brl(custoDobra)
-    ],
-
-    [
-      `Tubo Inox (${tuboSel}) - ${metrosTubo.toFixed(2)}m`,
-      brl(custoTubo)
-    ],
-
-    [
-      `Borrachas (4 un.)`,
-      brl(borrachas)
-    ],
-
-    [
-      `Solda TIG + Argônio (1 serviço)`,
-      brl(solda)
-    ],
-
-    [
-      `Insumos de Polimento (1 serviço)`,
-      brl(polimento)
-    ]
-
-  ];
+    const total =
+      custoMetalon +
+      custoMdf +
+      custoFita +
+      fixacoes +
+      consumiveis +
+      pintura;
 
 
-  let lbl =
-    modelo == 1
-      ? "Bancada Dupla Inox"
-      : "Bancada Simples Gradeada";
+    /*
+      PREÇO DE VENDA
+    */
+
+    const venda =
+      margin > 0 && margin < 1
+        ? total / (1 - margin)
+        : total;
 
 
-  cachePDF = {
+    const rows = [
 
-    cliente,
+      [
+        `Metalon - ${metrosMetalon.toFixed(2)}m`,
+        brl(custoMetalon)
+      ],
 
-    modelo:lbl,
+      [
+        `MDF / Tampão - ${areaMdf.toFixed(2)}m²`,
+        brl(custoMdf)
+      ],
 
-    material:
-      chapaSel +
-      " + Tubo " +
-      tuboSel,
+      [
+        `Fita de Borda - ${metrosFita.toFixed(2)}m`,
+        brl(custoFita)
+      ],
 
-    tamanho:
+      [
+        `Borracha para Pés - ${qtdBorracha} un.`,
+        brl(fixacoes)
+      ],
+
+      [
+        "Discos e Flaps - 1 serviço",
+        brl(consumiveis)
+      ],
+
+      [
+        "Taxa de Pintura - 1 serviço",
+        brl(pintura)
+      ]
+
+    ];
+
+
+    const modelo =
+      "Móvel / Mesa Industrial";
+
+
+    const material =
+      metSel +
+      " + MDF " +
+      mdfSel;
+
+
+    const tamanho =
       c.toFixed(2) +
       "x" +
       l.toFixed(2) +
       "x" +
       a.toFixed(2) +
-      "m",
-
-    preco:venda
-
-  };
+      "m";
 
 
-  pushOrcamento(
+    cachePDF = {
 
-    cliente,
+      cliente,
 
-    lbl,
+      modelo,
 
-    chapaSel +
-    " + Tubo " +
-    tuboSel,
+      material,
 
-    c.toFixed(2) +
-    "x" +
-    l.toFixed(2) +
-    "x" +
-    a.toFixed(2) +
-    "m",
+      tamanho,
 
-    venda
+      preco:venda
 
-  );
+    };
 
 
-  document.getElementById('bResult').innerHTML =
+    pushOrcamento(
+      cliente,
+      modelo,
+      material,
+      tamanho,
+      venda
+    );
 
-    box(
-      rows,
-      total,
-      'CUSTO TOTAL'
-    ) +
 
-    '<div class="result" style="margin-top:10px">' +
+    document.getElementById("mResult").innerHTML =
 
-    '<div class="row total">' +
+      box(
+        rows,
+        total,
+        "CUSTO TOTAL"
+      )
 
-    '<span>PREÇO DE VENDA</span>' +
+      +
 
-    '<strong>' +
-    brl(venda) +
-    '</strong>' +
+      '<div class="result" style="margin-top:10px">' +
+      '<div class="row total">' +
+      '<span>PREÇO DE VENDA</span>' +
+      '<strong>' +
+      brl(venda) +
+      '</strong>' +
+      '</div>' +
+      '</div>';
 
-    '</div>' +
 
-    '</div>';
+  }catch(erro){
+
+    console.error(erro);
+
+    alert(
+      "Ocorreu um erro no cálculo. " +
+      "Abra o console do navegador para verificar."
+    );
+
+  }
 
 }
 
 
-/* =========================
-   BARRA DE APOIO
-========================= */
+/* =========================================================
+   BANCADA
+========================================================= */
 
-function calcBarra(){
+function calcBancada(){
 
-  let cliente =
-    document.getElementById('aCliente').value;
+  try{
 
+    const cliente =
+      document.getElementById("bCliente").value.trim();
 
-  let modelo =
-    num('aModelo');
+    const c = num("bC");
+    const l = num("bL");
+    const a = num("bA");
 
+    const modelo =
+      num("bModelo");
 
-  let c =
-    num('aC');
-
-
-  let a =
-    num('aA');
-
-
-  let margin =
-    num('aMargem') / 100;
+    const margin =
+      num("bMargem") / 100;
 
 
-  /* NOVO: TUBO ESCOLHIDO PELO USUARIO */
+    const chapaSel =
+      document.getElementById("bChapa").value;
 
-  let tuboSel =
-    document.getElementById('aTubo').value;
+    const tuboSel =
+      document.getElementById("bTubo").value;
 
 
-  if(!tuboSel){
+    if(c <= 0 || l <= 0 || a <= 0){
 
-    alert(
-      "Selecione o material do tubo antes de calcular."
+      alert("Informe as dimensões corretamente.");
+
+      return;
+
+    }
+
+
+    if(!chapaSel || !tuboSel){
+
+      alert(
+        "Selecione a chapa e o tubo de inox."
+      );
+
+      return;
+
+    }
+
+
+    const chapa =
+      price(chapaSel);
+
+    const tubo =
+      price(tuboSel);
+
+
+    if(chapa <= 0){
+
+      alert(
+        "Preço da chapa não encontrado: " +
+        chapaSel
+      );
+
+      return;
+
+    }
+
+
+    if(tubo <= 0){
+
+      alert(
+        "Preço do tubo não encontrado: " +
+        tuboSel
+      );
+
+      return;
+
+    }
+
+
+    const areaChapaBase =
+      chapaSel.includes("2.00")
+        ? 2.00 * 1.25
+        : 3.00 * 1.25;
+
+
+    let areaPecaComDobra =
+      (c + 0.06) *
+      (l + 0.06);
+
+
+    if(modelo === 1){
+
+      areaPecaComDobra *= 2;
+
+    }
+
+
+    const custoChapa =
+      (areaPecaComDobra / areaChapaBase) *
+      chapa;
+
+
+    const custoDobra =
+      modelo === 1
+        ? 360
+        : 180;
+
+
+    let metrosTubo =
+      a * 4;
+
+
+    if(modelo === 2){
+
+      metrosTubo +=
+        (c * 2) +
+        (l * 2);
+
+
+      let qTravessas =
+        Math.ceil(c / 0.33) - 1;
+
+
+      if(
+        (c / (qTravessas + 1)) > 0.40
+      ){
+
+        qTravessas =
+          Math.ceil(c / 0.40) - 1;
+
+      }
+
+
+      if(qTravessas < 0){
+
+        qTravessas = 0;
+
+      }
+
+
+      metrosTubo +=
+        qTravessas * l;
+
+    }
+
+
+    const custoTubo =
+      metrosTubo *
+      (tubo / 6);
+
+
+    const qtdBorrachas = 4;
+
+    const borrachas =
+      qtdBorrachas *
+      price("Borracha para Pés");
+
+
+    const solda =
+      price("Solda TIG + Argônio");
+
+
+    const polimento =
+      price("Insumos Polimento");
+
+
+    const total =
+      custoChapa +
+      custoDobra +
+      custoTubo +
+      borrachas +
+      solda +
+      polimento;
+
+
+    const venda =
+      margin > 0 && margin < 1
+        ? total / (1 - margin)
+        : total;
+
+
+    const rows = [
+
+      [
+        `Chapa Inox - ${areaPecaComDobra.toFixed(2)}m²`,
+        brl(custoChapa)
+      ],
+
+      [
+        "Serviço Dobra Fixo",
+        brl(custoDobra)
+      ],
+
+      [
+        `Tubo Inox - ${metrosTubo.toFixed(2)}m`,
+        brl(custoTubo)
+      ],
+
+      [
+        `Borrachas - ${qtdBorrachas} un.`,
+        brl(borrachas)
+      ],
+
+      [
+        "Solda TIG + Argônio - 1 serviço",
+        brl(solda)
+      ],
+
+      [
+        "Insumos Polimento - 1 serviço",
+        brl(polimento)
+      ]
+
+    ];
+
+
+    const lbl =
+      modelo === 1
+        ? "Bancada Dupla Inox"
+        : "Bancada Simples Gradeada";
+
+
+    const tamanho =
+      c.toFixed(2) +
+      "x" +
+      l.toFixed(2) +
+      "x" +
+      a.toFixed(2) +
+      "m";
+
+
+    cachePDF = {
+
+      cliente,
+
+      modelo:lbl,
+
+      material:
+        chapaSel +
+        " + Tubo " +
+        tuboSel,
+
+      tamanho,
+
+      preco:venda
+
+    };
+
+
+    pushOrcamento(
+      cliente,
+      lbl,
+      chapaSel + " + Tubo " + tuboSel,
+      tamanho,
+      venda
     );
 
-    return;
+
+    document.getElementById("bResult").innerHTML =
+
+      box(
+        rows,
+        total,
+        "CUSTO TOTAL"
+      )
+
+      +
+
+      '<div class="result" style="margin-top:10px">' +
+      '<div class="row total">' +
+      '<span>PREÇO DE VENDA</span>' +
+      '<strong>' +
+      brl(venda) +
+      '</strong>' +
+      '</div>' +
+      '</div>';
+
+  }catch(erro){
+
+    console.error(erro);
+
+    alert("Erro no cálculo da bancada.");
 
   }
 
-
-  let metrosTubo =
-    modelo == 1
-      ? c
-      : (c + a);
+}
 
 
-  let custoTubo =
-    metrosTubo *
-    (price(tuboSel) / 6);
+/* =========================================================
+   BARRA DE APOIO
+========================================================= */
+
+function calcBarra(){
+
+  try{
+
+    const cliente =
+      document.getElementById("aCliente").value.trim();
+
+    const modelo =
+      num("aModelo");
+
+    const c =
+      num("aC");
+
+    const a =
+      num("aA");
+
+    const margin =
+      num("aMargem") / 100;
 
 
-  /* QUANTIDADES DOS PEQUENOS INSUMOS */
+    /*
+      AGORA O MATERIAL É ESCOLHIDO NA TELA
+    */
 
-  let qtdCurvas = 2;
-  let qtdFlanges = 2;
-  let qtdCanoplas = 2;
-
-
-  let custoCurvas =
-    qtdCurvas *
-    price('Curva 90° 1.1/4"');
+    const tuboSel =
+      document.getElementById("aTubo").value;
 
 
-  let custoFlanges =
-    qtdFlanges *
-    price('Flange 1.1/4"');
+    if(c <= 0){
+
+      alert(
+        "Informe o comprimento / avanço corretamente."
+      );
+
+      return;
+
+    }
 
 
-  let custoCanoplas =
-    qtdCanoplas *
-    price('Canopla 1.1/4"');
+    if(modelo === 2 && a <= 0){
+
+      alert(
+        "Informe a altura / descida corretamente."
+      );
+
+      return;
+
+    }
 
 
-  let totalComps =
-    custoCurvas +
-    custoFlanges +
-    custoCanoplas;
+    if(!tuboSel){
+
+      alert(
+        "Selecione o material do tubo antes de calcular."
+      );
+
+      return;
+
+    }
 
 
-  let qtdSolda = 0.5;
-  let qtdPolimento = 0.5;
+    const precoTubo =
+      price(tuboSel);
 
 
-  let totalInsumos =
-    qtdSolda *
-    price('Solda TIG + Argônio');
+    if(precoTubo <= 0){
+
+      alert(
+        "Não encontrei o preço do tubo " +
+        tuboSel
+      );
+
+      return;
+
+    }
 
 
-  totalInsumos +=
-    qtdPolimento *
-    price('Insumos Polimento');
+    const metrosTubo =
+      modelo === 1
+        ? c
+        : c + a;
 
 
-  let total =
-    custoTubo +
-    totalComps +
-    totalInsumos;
+    const custoTubo =
+      metrosTubo *
+      (precoTubo / 6);
 
 
-  let venda =
-    margin < 1
-      ? total / (1 - margin)
-      : total;
+    /*
+      COMPONENTES
+      A bitola selecionada determina os acessórios.
+    */
+
+    const tamanhoTubo =
+      normalizar(tuboSel).includes("1.1/2")
+        ? "1.1/2"
+        : "1.1/4";
 
 
-  let rows = [
-
-    [
-      `Tubo Inox (${tuboSel}) - ${metrosTubo.toFixed(2)}m`,
-      brl(custoTubo)
-    ],
-
-    [
-      `Curva 90° 1.1/4" (${qtdCurvas} un.)`,
-      brl(custoCurvas)
-    ],
-
-    [
-      `Flange 1.1/4" (${qtdFlanges} un.)`,
-      brl(custoFlanges)
-    ],
-
-    [
-      `Canopla 1.1/4" (${qtdCanoplas} un.)`,
-      brl(custoCanoplas)
-    ],
-
-    [
-      `Solda TIG + Argônio (${qtdSolda} serviço)`,
-      brl(qtdSolda * price('Solda TIG + Argônio'))
-    ],
-
-    [
-      `Insumos de Polimento (${qtdPolimento} serviço)`,
-      brl(qtdPolimento * price('Insumos Polimento'))
-    ]
-
-  ];
+    const curvaNome =
+      'Curva 90° ' +
+      tamanhoTubo +
+      '"';
 
 
-  let lbl =
-    modelo == 1
-      ? "Barra Apoio Reta"
-      : "Barra Apoio Em L";
+    const flangeNome =
+      'Flange ' +
+      tamanhoTubo +
+      '"';
 
 
-  cachePDF = {
+    const canoplaNome =
+      'Canopla ' +
+      tamanhoTubo +
+      '"';
 
-    cliente,
 
-    modelo:lbl,
+    const qtdCurvas = 2;
+    const qtdFlanges = 2;
+    const qtdCanoplas = 2;
 
-    material:tuboSel,
 
-    tamanho:
-      modelo == 1
+    const curvas =
+      qtdCurvas *
+      price(curvaNome);
+
+
+    const flanges =
+      qtdFlanges *
+      price(flangeNome);
+
+
+    const canoplas =
+      qtdCanoplas *
+      price(canoplaNome);
+
+
+    const totalComps =
+      curvas +
+      flanges +
+      canoplas;
+
+
+    const solda =
+      0.5 *
+      price("Solda TIG + Argônio");
+
+
+    const polimento =
+      0.5 *
+      price("Insumos Polimento");
+
+
+    const totalInsumos =
+      solda +
+      polimento;
+
+
+    const total =
+      custoTubo +
+      totalComps +
+      totalInsumos;
+
+
+    const venda =
+      margin > 0 && margin < 1
+        ? total / (1 - margin)
+        : total;
+
+
+    const rows = [
+
+      [
+        `Tubo Inox - ${metrosTubo.toFixed(2)}m`,
+        brl(custoTubo)
+      ],
+
+      [
+        `Curvas 90° - ${qtdCurvas} un.`,
+        brl(curvas)
+      ],
+
+      [
+        `Flanges - ${qtdFlanges} un.`,
+        brl(flanges)
+      ],
+
+      [
+        `Canoplas - ${qtdCanoplas} un.`,
+        brl(canoplas)
+      ],
+
+      [
+        "Solda - 0,5 serviço",
+        brl(solda)
+      ],
+
+      [
+        "Polimento - 0,5 serviço",
+        brl(polimento)
+      ]
+
+    ];
+
+
+    const lbl =
+      modelo === 1
+        ? "Barra Apoio Reta"
+        : "Barra Apoio Em L";
+
+
+    const tamanho =
+      modelo === 1
         ? c.toFixed(2) + "m"
         : c.toFixed(2) +
           "x" +
           a.toFixed(2) +
-          "m",
-
-    preco:venda
-
-  };
+          "m";
 
 
-  pushOrcamento(
+    cachePDF = {
 
-    cliente,
+      cliente,
 
-    lbl,
+      modelo:lbl,
 
-    tuboSel,
+      material:tuboSel,
 
-    modelo == 1
-      ? c.toFixed(2) + "m"
-      : c.toFixed(2) +
-        "x" +
-        a.toFixed(2) +
-        "m",
+      tamanho,
 
-    venda
+      preco:venda
 
-  );
+    };
 
 
-  document.getElementById('aResult').innerHTML =
+    pushOrcamento(
+      cliente,
+      lbl,
+      tuboSel,
+      tamanho,
+      venda
+    );
 
-    box(
-      rows,
-      total,
-      'CUSTO TOTAL'
-    ) +
 
-    '<div class="result" style="margin-top:10px">' +
+    document.getElementById("aResult").innerHTML =
 
-    '<div class="row total">' +
+      box(
+        rows,
+        total,
+        "CUSTO TOTAL"
+      )
 
-    '<span>PREÇO DE VENDA</span>' +
+      +
 
-    '<strong>' +
-    brl(venda) +
-    '</strong>' +
+      '<div class="result" style="margin-top:10px">' +
+      '<div class="row total">' +
+      '<span>PREÇO DE VENDA</span>' +
+      '<strong>' +
+      brl(venda) +
+      '</strong>' +
+      '</div>' +
+      '</div>';
 
-    '</div>' +
+  }catch(erro){
 
-    '</div>';
+    console.error(erro);
+
+    alert("Erro no cálculo da barra de apoio.");
+
+  }
 
 }
 
 
-/* =========================
+/* =========================================================
    PRATELEIRA
-========================= */
+========================================================= */
 
-function calcPrateleira() {
+function calcPrateleira(){
 
-  let cliente =
-    document.getElementById('pCliente').value;
+  try{
 
+    const cliente =
+      document.getElementById("pCliente").value.trim();
 
-  let c =
-    num('pC');
+    const c = num("pC");
+    const l = num("pL");
+    const a = num("pA");
 
-
-  let l =
-    num('pL');
-
-
-  let a =
-    num('pA');
+    const margin =
+      num("pMargem") / 100;
 
 
-  let margin =
-    num('pMargem') / 100;
+    const mod =
+      document.getElementById("pModelo").value;
+
+    const col =
+      num("pColunas");
+
+    const planos =
+      num("pPlanos");
 
 
-  let mod =
-    document.getElementById('pModelo').value;
+    const metSel =
+      document.getElementById("pMetalon").value;
+
+    const tipoMad =
+      document.getElementById("pTipoMadeira").value;
 
 
-  let col =
-    num('pColunas');
+    if(c <= 0 || l <= 0 || a <= 0){
+
+      alert(
+        "Informe comprimento, largura e altura corretamente."
+      );
+
+      return;
+
+    }
 
 
-  let planos =
-    num('pPlanos');
+    if(col <= 0 || planos <= 0){
+
+      alert(
+        "Informe quantidade de colunas e planos."
+      );
+
+      return;
+
+    }
 
 
-  let metSel =
-    document.getElementById('pMetalon').value;
+    const precoMetalon =
+      price(metSel);
 
 
-  let tipoMad =
-    document.getElementById('pTipoMadeira').value;
+    if(precoMetalon <= 0){
+
+      alert(
+        "Preço do Metalon não encontrado: " +
+        metSel
+      );
+
+      return;
+
+    }
 
 
-  let metrosTubo =
-    (a * col * 2) +
-    (l * col * 2) +
-    (c * planos * 2);
+    /*
+      ESTRUTURA
+    */
+
+    let metrosTubo =
+      (a * col * 2) +
+      (l * col * 2) +
+      (c * planos * 2);
 
 
-  if(mod === 'chao')
-    metrosTubo += (l * 2);
+    if(mod === "chao"){
+
+      metrosTubo += l * 2;
+
+    }
 
 
-  let custoTubo =
-    metrosTubo *
-    (price(metSel) / 6);
+    const custoTubo =
+      metrosTubo *
+      (precoMetalon / 6);
 
 
-  let custoMadeira = 0;
-  let txtMat = "";
+    let custoMadeira = 0;
+
+    let custoFita = 0;
+
+    let metrosFita = 0;
+
+    let txtMat = "";
 
 
-  if(tipoMad === 'mdf') {
+    /*
+      MDF
+    */
 
-    let cor =
-      document.getElementById('pMdf').value;
+    if(tipoMad === "mdf"){
 
-
-    custoMadeira =
-      (
-        (c * l * planos) /
-        (2.75 * 1.84)
-      ) *
-      price(cor);
+      const cor =
+        document.getElementById("pMdf").value;
 
 
-    custoMadeira +=
+      const precoMdf =
+        price(cor);
 
-      (
+
+      if(precoMdf <= 0){
+
+        alert(
+          "Preço do MDF não encontrado: " +
+          cor
+        );
+
+        return;
+
+      }
+
+
+      const areaTotal =
+        c * l * planos;
+
+
+      custoMadeira =
+        (areaTotal / (2.75 * 1.84)) *
+        precoMdf;
+
+
+      /*
+        FITA DE BORDA
+        Cada tampão recebe fita em todo o seu perímetro.
+
+        Perímetro de cada tampão:
+        2 x comprimento + 2 x largura
+
+        Multiplicado pela quantidade de planos.
+      */
+
+      metrosFita =
         (
           (c * 2) +
           (l * 2)
         ) *
-        planos /
-        20
-      ) *
-      price(cor);
+        planos;
 
 
-    txtMat =
-      metSel +
-      " + MDF " +
-      cor;
-
-  } else {
-
-    let pinusSel =
-      document.getElementById('pPinus').value;
+      const fita =
+        materiais.find(m =>
+          normalizar(m[0]) === "fita de borda" &&
+          normalizar(m[1]) === normalizar(cor)
+        );
 
 
-    custoMadeira =
+      if(fita){
+
+        custoFita =
+          (metrosFita / 20) *
+          numeroValor(fita[3]);
+
+      }
+
+
+      txtMat =
+        metSel +
+        " + MDF " +
+        cor;
+
+
+    }else{
+
+      const pinusSel =
+        document.getElementById("pPinus").value;
+
+
+      const precoPinus =
+        price(pinusSel);
+
+
+      if(precoPinus <= 0){
+
+        alert(
+          "Preço do Pinus não encontrado: " +
+          pinusSel
+        );
+
+        return;
+
+      }
+
+
+      custoMadeira =
+        (
+          (c * l * planos) /
+          (3.00 * 0.30)
+        ) *
+        precoPinus;
+
+
+      txtMat =
+        metSel +
+        " + Tábua Pinus";
+
+    }
+
+
+    /*
+      FIXAÇÕES
+    */
+
+    let fixacoes = 0;
+
+    let textoFixacoes = "";
+
+
+    if(mod === "chao"){
+
+      const qtdPezinhos =
+        4;
+
+      fixacoes =
+        qtdPezinhos *
+        price("Borracha para Pés");
+
+      textoFixacoes =
+        "Borracha para Pés - " +
+        qtdPezinhos +
+        " un.";
+
+    }else{
+
+      fixacoes =
+        price("Parafusos e Buchas");
+
+      textoFixacoes =
+        "Parafusos e Buchas - 1 serviço";
+
+    }
+
+
+    const discos =
+      price("Discos e Flaps");
+
+
+    /*
+      TAXA DE PINTURA
+      Todas as peças de ferro da prateleira
+      recebem pintura.
+    */
+
+    const pintura =
+      price("Taxa de Pintura");
+
+
+    /*
+      TOTAL
+    */
+
+    const total =
+      custoTubo +
+      custoMadeira +
+      custoFita +
+      fixacoes +
+      discos +
+      pintura;
+
+
+    const venda =
+      margin > 0 && margin < 1
+        ? total / (1 - margin)
+        : total;
+
+
+    const rows = [
+
+      [
+        `Metalon - ${metrosTubo.toFixed(2)}m`,
+        brl(custoTubo)
+      ],
+
+      [
+        "Madeira",
+        brl(custoMadeira)
+      ]
+
+    ];
+
+
+    /*
+      Mostrar fita somente quando for MDF.
+    */
+
+    if(tipoMad === "mdf"){
+
+      rows.push([
+
+        `Fita de Borda - ${metrosFita.toFixed(2)}m`,
+        brl(custoFita)
+
+      ]);
+
+    }
+
+
+    rows.push(
+
+      [
+        textoFixacoes,
+        brl(fixacoes)
+      ],
+
+      [
+        "Discos e Flaps - 1 serviço",
+        brl(discos)
+      ],
+
+      [
+        "Taxa de Pintura - 1 serviço",
+        brl(pintura)
+      ]
+
+    );
+
+
+    const lbl =
+      "Prateleira Industrial (" +
       (
-        (c * l * planos) /
-        (3.00 * 0.30)
-      ) *
-      price(pinusSel);
+        mod === "chao"
+          ? "Chão"
+          : "Parede"
+      ) +
+      ")";
 
 
-    txtMat =
-      metSel +
-      " + Tábua Pinus";
-
-  }
-
-
-  let fixacoes =
-    (mod === 'chao')
-      ? (
-          4 *
-          price('Borracha para Pés')
-        )
-      : price('Parafusos e Buchas');
-
-
-  let discos =
-    price('Discos e Flaps');
-
-
-  /* NOVO: TAXA DE PINTURA */
-
-  let pintura =
-    price('Taxa de Pintura');
-
-
-  let total =
-    custoTubo +
-    custoMadeira +
-    fixacoes +
-    discos +
-    pintura;
-
-
-  let venda =
-    margin < 1
-      ? total / (1 - margin)
-      : total;
-
-
-  let rows = [
-
-    [
-      `Metalon - ${metrosTubo.toFixed(2)}m`,
-      brl(custoTubo)
-    ],
-
-    [
-      `Madeira Fracionada`,
-      brl(custoMadeira)
-    ]
-
-  ];
-
-
-  if(mod === 'chao') {
-
-    rows.push([
-
-      `Borracha para Pés (4 un.)`,
-
-      brl(
-        4 *
-        price('Borracha para Pés')
-      )
-
-    ]);
-
-  } else {
-
-    rows.push([
-
-      `Parafusos e Buchas (1 serviço)`,
-
-      brl(
-        price('Parafusos e Buchas')
-      )
-
-    ]);
-
-  }
-
-
-  rows.push([
-
-    `Discos e Flaps (1 serviço)`,
-
-    brl(discos)
-
-  ]);
-
-
-  rows.push([
-
-    `Taxa de Pintura (1 serviço)`,
-
-    brl(pintura)
-
-  ]);
-
-
-  let lbl =
-    "Prateleira Industrial (" +
-    (
-      mod === 'chao'
-        ? 'Chão'
-        : 'Parede'
-    ) +
-    ")";
-
-
-  cachePDF = {
-
-    cliente,
-
-    modelo:lbl,
-
-    material:txtMat,
-
-    tamanho:
+    const tamanho =
       c.toFixed(2) +
       "x" +
       l.toFixed(2) +
@@ -1725,297 +2631,70 @@ function calcPrateleira() {
       a.toFixed(2) +
       "m [" +
       planos +
-      " Planos]",
-
-    preco:venda
-
-  };
+      " Planos]";
 
 
-  pushOrcamento(
+    cachePDF = {
 
-    cliente,
+      cliente,
 
-    lbl,
+      modelo:lbl,
 
-    txtMat,
+      material:txtMat,
 
-    c.toFixed(2) +
-    "x" +
-    l.toFixed(2) +
-    "x" +
-    a.toFixed(2) +
-    "m [" +
-    planos +
-    " Planos]",
+      tamanho,
 
-    venda
+      preco:venda
 
-  );
+    };
 
 
-  document.getElementById('pResult').innerHTML =
-
-    box(
-      rows,
-      total,
-      'CUSTO TOTAL'
-    ) +
-
-    '<div class="result" style="margin-top:10px">' +
-
-    '<div class="row total">' +
-
-    '<span>PREÇO DE VENDA</span>' +
-
-    '<strong>' +
-    brl(venda) +
-    '</strong>' +
-
-    '</div>' +
-
-    '</div>';
-
-}
-
-
-/* =========================
-   MOVEIS INDUSTRIAIS
-========================= */
-
-function calcMoveis() {
-
-  let cliente =
-    document.getElementById('mCliente').value;
-
-
-  let c =
-    num('mC');
-
-
-  let l =
-    num('mL');
-
-
-  let a =
-    num('mA');
-
-
-  let margin =
-    num('mMargem') / 100;
-
-
-  let mdfSel =
-    document.getElementById('mMdf').value;
-
-
-  let metSel =
-    document.getElementById('mMetalon').value;
-
-
-  if (!cliente) {
-
-    alert(
-      "Por favor, insira o nome do cliente."
+    pushOrcamento(
+      cliente,
+      lbl,
+      txtMat,
+      tamanho,
+      venda
     );
 
-    return;
+
+    document.getElementById("pResult").innerHTML =
+
+      box(
+        rows,
+        total,
+        "CUSTO TOTAL"
+      )
+
+      +
+
+      '<div class="result" style="margin-top:10px">' +
+      '<div class="row total">' +
+      '<span>PREÇO DE VENDA</span>' +
+      '<strong>' +
+      brl(venda) +
+      '</strong>' +
+      '</div>' +
+      '</div>';
+
+  }catch(erro){
+
+    console.error(erro);
+
+    alert("Erro no cálculo da prateleira.");
 
   }
 
-
-  /* MDF */
-
-  let areaMdf =
-    c * l;
-
-
-  let custoMdf =
-    (
-      areaMdf /
-      (2.75 * 1.84)
-    ) *
-    price(mdfSel);
-
-
-  /*
-    NOVO CALCULO DO METALON
-
-    Exemplo:
-    Mesa 1,50 x 0,60 x 0,70
-
-    2 peças de 1,50
-    4 peças de 0,60
-    4 peças de 0,70
-
-    Total:
-    3,00 + 2,40 + 2,80 = 8,20m
-  */
-
-  let metrosTubo =
-
-    (c * 2) +
-    (l * 4) +
-    (a * 4);
-
-
-  let barrasTubo =
-    Math.ceil(
-      metrosTubo / 6
-    );
-
-
-  let custoTubo =
-    barrasTubo *
-    price(metSel);
-
-
-  /* COMPONENTES */
-
-  let qtdBorrachas = 4;
-
-
-  let custoBorrachas =
-    qtdBorrachas *
-    price('Borracha para Pés');
-
-
-  let custoDiscos =
-    price('Discos e Flaps');
-
-
-  /* NOVO: PINTURA */
-
-  let custoPintura =
-    price('Taxa de Pintura');
-
-
-  let total =
-
-    custoTubo +
-    custoMdf +
-    custoBorrachas +
-    custoDiscos +
-    custoPintura;
-
-
-  let venda =
-    margin < 1
-      ? total / (1 - margin)
-      : total;
-
-
-  let rows = [
-
-    [
-      `Metalon - ${metrosTubo.toFixed(2)}m (${barrasTubo} barra(s))`,
-      brl(custoTubo)
-    ],
-
-    [
-      `MDF - ${areaMdf.toFixed(2)}m²`,
-      brl(custoMdf)
-    ],
-
-    [
-      `Borracha para Pés (${qtdBorrachas} un.)`,
-      brl(custoBorrachas)
-    ],
-
-    [
-      `Discos e Flaps (1 serviço)`,
-      brl(custoDiscos)
-    ],
-
-    [
-      `Taxa de Pintura (1 serviço)`,
-      brl(custoPintura)
-    ]
-
-  ];
-
-
-  let lbl =
-    "Móvel / Mesa Industrial";
-
-
-  let txtMat =
-    metSel +
-    " + MDF " +
-    mdfSel;
-
-
-  let txtTamanho =
-    c.toFixed(2) +
-    "x" +
-    l.toFixed(2) +
-    "x" +
-    a.toFixed(2) +
-    "m";
-
-
-  cachePDF = {
-
-    cliente,
-
-    modelo:lbl,
-
-    material:txtMat,
-
-    tamanho:txtTamanho,
-
-    preco:venda
-
-  };
-
-
-  pushOrcamento(
-
-    cliente,
-
-    lbl,
-
-    txtMat,
-
-    txtTamanho,
-
-    venda
-
-  );
-
-
-  document.getElementById('mResult').innerHTML =
-
-    box(
-      rows,
-      total,
-      'CUSTO TOTAL'
-    ) +
-
-    '<div class="result" style="margin-top:10px">' +
-
-    '<div class="row total">' +
-
-    '<span>PREÇO DE VENDA</span>' +
-
-    '<strong>' +
-    brl(venda) +
-    '</strong>' +
-
-    '</div>' +
-
-    '</div>';
-
 }
 
 
-/* =========================
-   PDF
-========================= */
+/* =========================================================
+   GERAR PDF
+========================================================= */
 
-function generatePDF(screen) {
+function generatePDF(screen){
 
-  if (!cachePDF.preco) {
+  if(!cachePDF || !cachePDF.preco){
 
     alert(
       "Por favor, realize o cálculo na tela antes de gerar o PDF."
@@ -2026,7 +2705,19 @@ function generatePDF(screen) {
   }
 
 
-  const { jsPDF } =
+  if(!window.jspdf){
+
+    alert(
+      "A biblioteca de PDF ainda não carregou. " +
+      "Verifique sua conexão com a internet."
+    );
+
+    return;
+
+  }
+
+
+  const {jsPDF} =
     window.jspdf;
 
 
@@ -2039,9 +2730,7 @@ function generatePDF(screen) {
     "bold"
   );
 
-
   doc.setFontSize(20);
-
 
   doc.text(
     "ORÇAMENTO DE SERRALHERIA",
@@ -2051,7 +2740,6 @@ function generatePDF(screen) {
 
 
   doc.setLineWidth(0.5);
-
 
   doc.line(
     14,
@@ -2063,7 +2751,6 @@ function generatePDF(screen) {
 
   doc.setFontSize(12);
 
-
   doc.text(
     "CLIENTE: " +
     cachePDF.cliente.toUpperCase(),
@@ -2074,7 +2761,7 @@ function generatePDF(screen) {
 
   doc.text(
     "DATA: " +
-    new Date().toLocaleDateString('pt-BR'),
+    new Date().toLocaleDateString("pt-BR"),
     14,
     47
   );
@@ -2180,7 +2867,6 @@ function generatePDF(screen) {
 
   doc.setFontSize(10);
 
-
   doc.setFont(
     "Helvetica",
     "italic"
@@ -2196,23 +2882,23 @@ function generatePDF(screen) {
 
   doc.save(
     "Orcamento_" +
-    cachePDF.cliente.replace(/\s+/g, '_') +
+    cachePDF.cliente.replace(/\s+/g,"_") +
     ".pdf"
   );
 
 }
 
 
-/* =========================
-   PDF HISTORICO
-========================= */
+/* =========================================================
+   PDF DO HISTÓRICO
+========================================================= */
 
-function renderHistoricPDF(idx) {
+function renderHistoricPDF(idx){
 
   let salvos =
     JSON.parse(
       localStorage.getItem(
-        'serralheria_saved_orcs'
+        "serralheria_saved_orcs"
       )
     ) || [];
 
@@ -2221,7 +2907,21 @@ function renderHistoricPDF(idx) {
     salvos[idx];
 
 
-  const { jsPDF } =
+  if(!o) return;
+
+
+  if(!window.jspdf){
+
+    alert(
+      "Biblioteca PDF não carregada."
+    );
+
+    return;
+
+  }
+
+
+  const {jsPDF} =
     window.jspdf;
 
 
@@ -2234,9 +2934,7 @@ function renderHistoricPDF(idx) {
     "bold"
   );
 
-
   doc.setFontSize(20);
-
 
   doc.text(
     "ORÇAMENTO DE SERRALHERIA",
@@ -2246,7 +2944,6 @@ function renderHistoricPDF(idx) {
 
 
   doc.setLineWidth(0.5);
-
 
   doc.line(
     14,
@@ -2269,7 +2966,7 @@ function renderHistoricPDF(idx) {
 
   doc.text(
     "DATA: " +
-    new Date(o.id).toLocaleDateString('pt-BR'),
+    new Date(o.id).toLocaleDateString("pt-BR"),
     14,
     47
   );
@@ -2366,66 +3063,44 @@ function renderHistoricPDF(idx) {
   );
 
 
-  doc.setTextColor(
-    107,
-    114,
-    128
-  );
-
-
-  doc.setFontSize(10);
-
-
-  doc.setFont(
-    "Helvetica",
-    "italic"
-  );
-
-
-  doc.text(
-    "Validade: 10 dias. Sujeito a alteração de custos dos distribuidores.",
-    14,
-    145
-  );
-
-
   doc.save(
     "Orcamento_" +
-    o.cliente.replace(/\s+/g, '_') +
+    o.cliente.replace(/\s+/g,"_") +
     ".pdf"
   );
 
 }
 
 
-/* =========================
-   HISTORICO
-========================= */
+/* =========================================================
+   HISTÓRICO
+========================================================= */
 
-function renderHistorico() {
+function renderHistorico(){
 
-  let container =
+  const container =
     document.getElementById(
-      'historyContainer'
+      "historyContainer"
     );
 
 
-  let salvos =
+  const salvos =
     JSON.parse(
       localStorage.getItem(
-        'serralheria_saved_orcs'
+        "serralheria_saved_orcs"
       )
     ) || [];
 
 
-  if(!container)
-    return;
+  if(!container) return;
 
 
-  if(salvos.length === 0) {
+  if(salvos.length === 0){
 
     container.innerHTML =
-      "<p class='note'>Nenhum orçamento salvo ainda.</p>";
+      "<p class='note'>" +
+      "Nenhum orçamento salvo ainda." +
+      "</p>";
 
     return;
 
@@ -2433,65 +3108,82 @@ function renderHistorico() {
 
 
   container.innerHTML =
-    salvos.map((o, idx) => {
+    salvos.map((o,idx) => {
 
-      return
+      return (
 
-        '<div class="history-item" style="background:var(--bg); padding:12px; border-radius:12px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">' +
+        '<div style="' +
+        'background:var(--bg);' +
+        'padding:12px;' +
+        'border-radius:12px;' +
+        'margin-bottom:8px;' +
+        'display:flex;' +
+        'justify-content:space-between;' +
+        'align-items:center;">' +
 
         '<div>' +
 
-        '<strong>' +
+        "<strong>" +
         o.cliente +
-        '</strong>' +
+        "</strong>" +
 
-        '<br>' +
+        "<br>" +
 
-        '<small>' +
+        "<small>" +
         o.modelo +
-        ' | ' +
+        " | " +
         o.dimensoes +
-        '<br>' +
+        "<br>" +
         o.materialText +
-        '</small>' +
+        "</small>" +
 
-        '<br>' +
+        "<br>" +
 
-        '<span style="color:var(--accent); font-weight:900">' +
+        '<span style="' +
+        'color:var(--accent);' +
+        'font-weight:900">' +
+
         brl(o.total) +
-        '</span>' +
 
-        '</div>' +
+        "</span>" +
 
-        '<div style="display:flex; gap:6px;">' +
+        "</div>" +
 
-        '<button class="primary" style="padding:6px 10px; font-size:12px;" onclick="renderHistoricPDF(' +
+        '<div style="display:flex;gap:6px;">' +
+
+        '<button class="primary" ' +
+        'style="padding:6px 10px;font-size:12px;" ' +
+        'onclick="renderHistoricPDF(' +
         idx +
         ')">PDF</button>' +
 
-        '<button class="btn-danger" style="padding:6px 10px; font-size:12px; background:var(--danger);" onclick="deleteHistoric(' +
+        '<button class="btn-danger" ' +
+        'style="padding:6px 10px;font-size:12px;" ' +
+        'onclick="deleteHistoric(' +
         idx +
         ')">X</button>' +
 
-        '</div>' +
+        "</div>" +
 
-        '</div>';
+        "</div>"
 
-    }).join('');
+      );
+
+    }).join("");
 
 }
 
 
-/* =========================
-   APAGAR HISTORICO
-========================= */
+/* =========================================================
+   EXCLUIR HISTÓRICO
+========================================================= */
 
-function deleteHistoric(idx) {
+function deleteHistoric(idx){
 
   let salvos =
     JSON.parse(
       localStorage.getItem(
-        'serralheria_saved_orcs'
+        "serralheria_saved_orcs"
       )
     ) || [];
 
@@ -2500,7 +3192,7 @@ function deleteHistoric(idx) {
     confirm(
       "Remover este orçamento permanentemente?"
     )
-  ) {
+  ){
 
     salvos.splice(
       idx,
@@ -2509,7 +3201,7 @@ function deleteHistoric(idx) {
 
 
     localStorage.setItem(
-      'serralheria_saved_orcs',
+      "serralheria_saved_orcs",
       JSON.stringify(salvos)
     );
 
@@ -2521,226 +3213,309 @@ function deleteHistoric(idx) {
 }
 
 
-/* =========================
+/* =========================================================
    TABELA DE PREÇOS
-========================= */
+========================================================= */
 
-function renderTable() {
+function renderTable(){
 
-  let tbody =
+  const tbody =
     document.getElementById(
-      'priceTable'
+      "priceTable"
     );
 
 
-  if(!tbody)
-    return;
+  if(!tbody) return;
 
 
-  tbody.innerHTML = '';
+  tbody.innerHTML = "";
 
 
   materiais.forEach(
-    (mat, idx) => {
+    (mat,idx) => {
 
-      let tr =
-        document.createElement('tr');
+      const tr =
+        document.createElement("tr");
 
 
       tr.innerHTML =
 
         '<td>' +
+        '<input class="table-input" ' +
+        'value="' +
+        escapeHTML(mat[0]) +
+        '">' +
+        "</td>" +
 
-        '<input class="table-input" value="' +
-        mat[0] +
-        '" onchange="materiais[' +
-        idx +
-        '][0]=this.value; save();">' +
+        '<td>' +
+        '<input class="table-input" ' +
+        'value="' +
+        escapeHTML(mat[1]) +
+        '">' +
+        "</td>" +
 
-        '</td>' +
+        '<td>' +
+        '<input class="table-input" ' +
+        'value="' +
+        escapeHTML(mat[2]) +
+        '">' +
+        "</td>" +
+
+        '<td>' +
+        '<input class="price-input" ' +
+        'type="number" ' +
+        'step="0.01" ' +
+        'value="' +
+        numeroValor(mat[3]) +
+        '">' +
+        "</td>" +
 
         '<td>' +
 
-        '<input class="table-input" value="' +
-        mat[1] +
-        '" onchange="materiais[' +
+        '<button class="btn-danger" ' +
+        'onclick="removerMaterial(' +
         idx +
-        '][1]=this.value; save();">' +
+        ')">' +
 
-        '</td>' +
+        "X" +
 
-        '<td>' +
+        "</button>" +
 
-        '<input class="table-input" value="' +
-        mat[2] +
-        '" onchange="materiais[' +
-        idx +
-        '][2]=this.value; save();">' +
+        "</td>";
 
-        '</td>' +
 
-        '<td>' +
+      const inputs =
+        tr.querySelectorAll("input");
 
-        '<input class="price-input" type="number" step="0.01" value="' +
-        mat[3] +
-        '" onchange="materiais[' +
-        idx +
-        '][3]=parseFloat(this.value)||0; save();">' +
 
-        '</td>' +
+      inputs[0].addEventListener(
+        "input",
+        function(){
+          materiais[idx][0] =
+            this.value;
+        }
+      );
 
-        '<td>' +
 
-        '<button class="btn-danger" onclick="materiais.splice(' +
-        idx +
-        ',1); save(); renderTable();">X</button>' +
+      inputs[1].addEventListener(
+        "input",
+        function(){
+          materiais[idx][1] =
+            this.value;
+        }
+      );
 
-        '</td>';
+
+      inputs[2].addEventListener(
+        "input",
+        function(){
+          materiais[idx][2] =
+            this.value;
+        }
+      );
+
+
+      inputs[3].addEventListener(
+        "input",
+        function(){
+          materiais[idx][3] =
+            numeroValor(this.value);
+        }
+      );
 
 
       tbody.appendChild(tr);
 
     }
-
   );
 
 }
 
 
-/* =========================
-   ADICIONAR MATERIAL
-========================= */
+/* =========================================================
+   ESCAPAR HTML
+========================================================= */
 
-function addNewMaterial() {
+function escapeHTML(valor){
+
+  return String(valor ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   REMOVER MATERIAL
+========================================================= */
+
+function removerMaterial(idx){
+
+  if(
+    confirm(
+      "Deseja realmente excluir este material?"
+    )
+  ){
+
+    materiais.splice(
+      idx,
+      1
+    );
+
+
+    salvarLocal(false);
+
+    renderTable();
+
+    buildDropdowns();
+
+  }
+
+}
+
+
+/* =========================================================
+   ADICIONAR NOVO MATERIAL
+========================================================= */
+
+function addNewMaterial(){
 
   materiais.push([
-
     "Nova Categoria",
     "Nova Especificação",
     "Unidade",
     0
-
   ]);
 
 
-  save();
-
+  salvarLocal(false);
 
   renderTable();
 
 }
 
 
-/* =========================
-   SALVAR MATERIAIS
-========================= */
+/* =========================================================
+   SALVAR ALTERAÇÕES
+========================================================= */
 
-function salvarMateriais() {
+function salvarMateriais(){
 
-  let linhas =
-    document.querySelectorAll(
-      'table tr'
+  materiais =
+    materiais.map(m => [
+
+      String(m[0] ?? "").trim(),
+
+      String(m[1] ?? "").trim(),
+
+      String(m[2] ?? "").trim(),
+
+      numeroValor(m[3])
+
+    ]);
+
+
+  localStorage.setItem(
+    "serralheria_v12_mats",
+    JSON.stringify(materiais)
+  );
+
+
+  buildDropdowns();
+
+
+  const status =
+    document.getElementById(
+      "saveStatus"
     );
 
 
-  let novosMateriais = [];
+  if(status){
 
+    status.className =
+      "status ok";
 
-  linhas.forEach(linha => {
-
-    let inputs =
-      linha.querySelectorAll(
-        'input'
-      );
-
-
-    if(inputs.length >= 4) {
-
-      novosMateriais.push([
-
-        inputs[0].value,
-
-        inputs[1].value,
-
-        inputs[2].value,
-
-        parseFloat(
-          inputs[3].value
-        ) || 0
-
-      ]);
-
-    }
-
-  });
-
-
-  if(novosMateriais.length > 0) {
-
-    materiais =
-      novosMateriais;
-
-
-    localStorage.setItem(
-      'serralheria_v12_mats',
-      JSON.stringify(materiais)
-    );
-
-
-    buildDropdowns();
-
-
-    alert(
-      '✅ Alterações salvas com sucesso!'
-    );
-
-  } else {
-
-    alert(
-      '⚠️ Nenhum material encontrado para salvar.'
-    );
+    status.textContent =
+      "✅ Alterações salvas com sucesso!";
 
   }
+
+
+  alert(
+    "✅ Alterações salvas com sucesso!"
+  );
 
 }
 
 
-/* =========================
-   BOTAO SALVAR
-========================= */
+/* =========================================================
+   TESTE DOS MATERIAIS
+========================================================= */
 
-document.addEventListener(
-  'DOMContentLoaded',
-  () => {
+function testarMateriais(){
 
-    let btnSalvar =
-      document.getElementById(
-        'btn-salvar'
-      );
+  const testes = [
+
+    "Borracha para Pés",
+
+    "Solda TIG + Argônio",
+
+    "Insumos Polimento",
+
+    "Discos e Flaps",
+
+    'Curva 90° 1.1/4"',
+
+    'Flange 1.1/4"',
+
+    'Canopla 1.1/4"',
+
+    'Curva 90° 1.1/2"',
+
+    'Flange 1.1/2"',
+
+    'Canopla 1.1/2"',
+
+    "Taxa de Pintura"
+
+  ];
 
 
-    if(btnSalvar) {
+  let mensagem =
+    "TESTE DOS MATERIAIS:\n\n";
 
-      btnSalvar.addEventListener(
-        'click',
-        salvarMateriais
-      );
 
-    }
+  testes.forEach(nome => {
+
+    mensagem +=
+      nome +
+      " = " +
+      brl(price(nome)) +
+      "\n";
+
+  });
+
+
+  alert(mensagem);
+
+}
+
+
+/* =========================================================
+   INICIAR SISTEMA
+========================================================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    init();
 
   }
 );
-
-
-/* =========================
-   INICIALIZACAO
-========================= */
-
-window.onload = function() {
-
-  window.init();
-
-};
 
 </script>
 
