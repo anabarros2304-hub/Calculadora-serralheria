@@ -272,7 +272,6 @@ function updateChapaOpts() {
     let tipoSelecionado = tipo.value.toLowerCase();
     let numInox = tipoSelecionado.includes('304') ? '304' : '430';
 
-    // Filtra os materiais de forma flexível: procura a palavra "chapa" e o número do inox (304 ou 430)
     let filtrados = materiais.filter(m => {
         let cat = (m[0] || '').toLowerCase();
         let esp = (m[1] || '').toLowerCase();
@@ -280,11 +279,11 @@ function updateChapaOpts() {
                (cat.includes(numInox) || esp.includes(numInox));
     });
 
-    // Monta as opções do menu com os materiais encontrados
     bChapa.innerHTML = filtrados.map(m => 
         `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`
-    ).join('');}
+    ).join('');
 }
+
 
 
 //mostra a cor do mdf e a opção da tabuas de pinus
