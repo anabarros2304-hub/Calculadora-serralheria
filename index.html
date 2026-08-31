@@ -217,7 +217,6 @@ function show(id) {
 }
 //menú de seleção dos materiais cadastrados
  function buildDropdowns() {
-  // Helper para verificar o texto com segurança e evitar travamentos
   function obterTexto(campo) {
     return (campo || '').toString().toLowerCase();
   }
@@ -229,10 +228,12 @@ function show(id) {
     let esp = obterTexto(m[1]);
     return cat.includes('tubo') || esp.includes('tubo');
   });
-  let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  let optTubo = tubosFiltrados.map(m => {
+    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
+  }).join('');
   
-  document.querySelectorAll('[id*="Tubo"], [id*="tubo"]').forEach(select => {
-    if (select.tagName === 'SELECT') select.innerHTML = optTubo;
+  document.querySelectorAll('[id*="Tubo"], [id*="tubo"]').forEach(sel => {
+    if (sel.tagName === 'SELECT') sel.innerHTML = optTubo;
   });
 
   // 2. FILTRAR E MONTAR OPÇÕES PARA MDF
@@ -242,23 +243,28 @@ function show(id) {
     let esp = obterTexto(m[1]);
     return cat.includes('mdf') || esp.includes('mdf');
   });
-  let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  let optMdf = mdfFiltrados.map(m => {
+    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
+  }).join('');
   
-  document.querySelectorAll('[id*="Mdf"], [id*="mdf"]').forEach(select => {
-    if (select.tagName === 'SELECT') select.innerHTML = optMdf;
+  document.querySelectorAll('[id*="Mdf"], [id*="mdf"]').forEach(sel => {
+    if (sel.tagName === 'SELECT') sel.innerHTML = optMdf;
   });
 
-  // 3. FILTRAR E MONTAR OPÇÕES PARA METALON
+
+    // 3. FILTRAR E MONTAR OPÇÕES PARA METALON
   let metalonFiltrados = materiais.filter(m => {
     if (!m || m.length < 2) return false;
     let cat = obterTexto(m[0]);
     let esp = obterTexto(m[1]);
     return cat.includes('metalon') || esp.includes('metalon');
   });
-  let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  let optMetalon = metalonFiltrados.map(m => {
+    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
+  }).join('');
   
-  document.querySelectorAll('[id*="Metalon"], [id*="metalon"]').forEach(select => {
-    if (select.tagName === 'SELECT') select.innerHTML = optMetalon;
+  document.querySelectorAll('[id*="Metalon"], [id*="metalon"]').forEach(sel => {
+    if (sel.tagName === 'SELECT') sel.innerHTML = optMetalon;
   });
 
   // 4. FILTRAR E MONTAR OPÇÕES PARA PINUS / MADEIRA
@@ -268,10 +274,12 @@ function show(id) {
     let esp = obterTexto(m[1]);
     return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
   });
-  let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  let optPinus = pinusFiltrados.map(m => {
+    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
+  }).join('');
   
-  document.querySelectorAll('[id*="Pinus"], [id*="pinus"], [id*="Madeira"], [id*="madeira"]').forEach(select => {
-    if (select.tagName === 'SELECT') select.innerHTML = optPinus;
+  document.querySelectorAll('[id*="Pinus"], [id*="pinus"], [id*="Madeira"], [id*="madeira"]').forEach(sel => {
+    if (sel.tagName === 'SELECT') sel.innerHTML = optPinus;
   });
 
   // Atualiza automaticamente as chapas de inox
@@ -279,10 +287,7 @@ function show(id) {
 }
 
 function updateChapaOpts() {
-  // Procura por qualquer seletor de tipo de inox na tela aberta
   let tipoInoxEl = document.getElementById('bTipoInox') || document.querySelector('[id*="TipoInox"]') || document.querySelector('[id*="tipoInox"]');
-  
-  // Se não achar o seletor na tela atual, define como padrão '304' para não travar o código das outras abas
   let tipoSelecionado = tipoInoxEl ? tipoInoxEl.value.toLowerCase() : '304';
   let numInox = tipoSelecionado.includes('430') ? '430' : '304';
 
@@ -290,17 +295,15 @@ function updateChapaOpts() {
     if (!m || m.length < 2) return false;
     let cat = (m[0] || '').toString().toLowerCase();
     let esp = (m[1] || '').toString().toLowerCase();
-    
     let contemChapa = cat.includes('chapa') || esp.includes('chapa');
     let contemAco = cat.includes(numInox) || esp.includes(numInox);
     return contemChapa && contemAco;
   });
 
-  let htmlChapas = chapasFiltradas.map(m => 
-    `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`
-  ).join('');
+  let htmlChapas = chapasFiltradas.map(m => {
+    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
+  }).join('');
 
-  // Injeta o resultado em todos os campos de chapa que existirem no HTML
   let camposChapa = document.querySelectorAll('[id*="Chapa"], [id*="chapa"]');
   camposChapa.forEach(select => {
     if (select.tagName === 'SELECT') {
@@ -308,6 +311,7 @@ function updateChapaOpts() {
     }
   });
 }
+
 
  
 
