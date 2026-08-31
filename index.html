@@ -223,13 +223,13 @@ function buildDropdowns() {
     let aTubo = document.getElementById('aTubo');
     let pPinus = document.getElementById('pPinus');
 
-    // 1. TUBOS (Busca inteligente na categoria ou especificação)
+    // 1. TUBOS
     let tubosFiltrados = materiais.filter(m => {
         let cat = (m && m[0] || '').toLowerCase();
         let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('tubo') || esp.includes('tubo');
     });
-    let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
     if (bTubo) bTubo.innerHTML = optTubo;
     if (aTubo) aTubo.innerHTML = optTubo;
 
@@ -239,7 +239,7 @@ function buildDropdowns() {
         let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('mdf') || esp.includes('mdf');
     });
-    let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
     if (mMdf) mMdf.innerHTML = optMdf;
 
     // 3. METALON
@@ -248,7 +248,7 @@ function buildDropdowns() {
         let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('metalon') || esp.includes('metalon');
     });
-    let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
     if (pMetalon) pMetalon.innerHTML = optMetalon;
 
     // 4. PINUS / MADEIRA
@@ -257,13 +257,12 @@ function buildDropdowns() {
         let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
     });
-    let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
+    let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
     if (pPinus) pPinus.innerHTML = optPinus;
 
     updateChapaOpts();
 }
 
- //atualiza o menú de especificação da chapa de inox
 function updateChapaOpts() {
     let tipo = document.getElementById('bTipoInox');
     let bChapa = document.getElementById('bChapa');
@@ -280,9 +279,11 @@ function updateChapaOpts() {
     });
 
     bChapa.innerHTML = filtrados.map(m => 
-        `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`
+        `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`
     ).join('');
 }
+
+
 
 
 
