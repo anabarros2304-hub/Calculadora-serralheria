@@ -216,13 +216,7 @@ function show(id) {
   if (id === 'historico') renderHistorico();
 }
 //menú de seleção dos materiais cadastrados
-function buildDropdowns() {
-  let mMdf = document.getElementById('mMdf');
-  let pMetalon = document.getElementById('pMetalon');
-  let bTubo = document.getElementById('bTubo');
-  let aTubo = document.getElementById('aTubo');
-  let pPinus = document.getElementById('pPinus');
-
+ function buildDropdowns() {
   // Helper para verificar o texto com segurança e evitar travamentos
   function obterTexto(campo) {
     return (campo || '').toString().toLowerCase();
@@ -236,8 +230,10 @@ function buildDropdowns() {
     return cat.includes('tubo') || esp.includes('tubo');
   });
   let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
-  if (bTubo) bTubo.innerHTML = optTubo;
-  if (aTubo) aTubo.innerHTML = optTubo;
+  
+  document.querySelectorAll('[id*="Tubo"], [id*="tubo"]').forEach(select => {
+    if (select.tagName === 'SELECT') select.innerHTML = optTubo;
+  });
 
   // 2. FILTRAR E MONTAR OPÇÕES PARA MDF
   let mdfFiltrados = materiais.filter(m => {
@@ -247,7 +243,10 @@ function buildDropdowns() {
     return cat.includes('mdf') || esp.includes('mdf');
   });
   let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
-  if (mMdf) mMdf.innerHTML = optMdf;
+  
+  document.querySelectorAll('[id*="Mdf"], [id*="mdf"]').forEach(select => {
+    if (select.tagName === 'SELECT') select.innerHTML = optMdf;
+  });
 
   // 3. FILTRAR E MONTAR OPÇÕES PARA METALON
   let metalonFiltrados = materiais.filter(m => {
@@ -257,7 +256,10 @@ function buildDropdowns() {
     return cat.includes('metalon') || esp.includes('metalon');
   });
   let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
-  if (pMetalon) pMetalon.innerHTML = optMetalon;
+  
+  document.querySelectorAll('[id*="Metalon"], [id*="metalon"]').forEach(select => {
+    if (select.tagName === 'SELECT') select.innerHTML = optMetalon;
+  });
 
   // 4. FILTRAR E MONTAR OPÇÕES PARA PINUS / MADEIRA
   let pinusFiltrados = materiais.filter(m => {
@@ -267,19 +269,22 @@ function buildDropdowns() {
     return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
   });
   let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
-  if (pPinus) pPinus.innerHTML = optPinus;
+  
+  document.querySelectorAll('[id*="Pinus"], [id*="pinus"], [id*="Madeira"], [id*="madeira"]').forEach(select => {
+    if (select.tagName === 'SELECT') select.innerHTML = optPinus;
+  });
 
   // Atualiza automaticamente as chapas de inox
   updateChapaOpts();
 }
 
 function updateChapaOpts() {
-  // Captura o seletor do tipo de Inox da aba ativa (Bancada, Coifa, Cozinha, etc.)
+  // Procura por qualquer seletor de tipo de inox na tela aberta
   let tipoInoxEl = document.getElementById('bTipoInox') || document.querySelector('[id*="TipoInox"]') || document.querySelector('[id*="tipoInox"]');
-  if (!tipoInoxEl) return;
-
-  let tipoSelecionado = tipoInoxEl.value.toLowerCase();
-  let numInox = tipoSelecionado.includes('304') ? '304' : '430';
+  
+  // Se não achar o seletor na tela atual, define como padrão '304' para não travar o código das outras abas
+  let tipoSelecionado = tipoInoxEl ? tipoInoxEl.value.toLowerCase() : '304';
+  let numInox = tipoSelecionado.includes('430') ? '430' : '304';
 
   let chapasFiltradas = materiais.filter(m => {
     if (!m || m.length < 2) return false;
@@ -295,7 +300,7 @@ function updateChapaOpts() {
     `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`
   ).join('');
 
-  // Aplica a lista de chapas correspondente em todos os seletores de chapa do site de uma vez
+  // Injeta o resultado em todos os campos de chapa que existirem no HTML
   let camposChapa = document.querySelectorAll('[id*="Chapa"], [id*="chapa"]');
   camposChapa.forEach(select => {
     if (select.tagName === 'SELECT') {
@@ -304,9 +309,7 @@ function updateChapaOpts() {
   });
 }
 
-
-
-
+ 
 
 //mostra a cor do mdf e a opção da tabuas de pinus
 function toggleMadeiraGroup() {
