@@ -223,10 +223,10 @@ function buildDropdowns() {
     let aTubo = document.getElementById('aTubo');
     let pPinus = document.getElementById('pPinus');
 
-    // 1. TUBOS (Procura na Categoria m[0] ou Especificação m[1])
+    // 1. TUBOS (Busca inteligente na categoria ou especificação)
     let tubosFiltrados = materiais.filter(m => {
-        let cat = (m[0] || '').toLowerCase();
-        let esp = (m[1] || '').toLowerCase();
+        let cat = (m && m[0] || '').toLowerCase();
+        let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('tubo') || esp.includes('tubo');
     });
     let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
@@ -235,8 +235,8 @@ function buildDropdowns() {
 
     // 2. MDF
     let mdfFiltrados = materiais.filter(m => {
-        let cat = (m[0] || '').toLowerCase();
-        let esp = (m[1] || '').toLowerCase();
+        let cat = (m && m[0] || '').toLowerCase();
+        let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('mdf') || esp.includes('mdf');
     });
     let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
@@ -244,8 +244,8 @@ function buildDropdowns() {
 
     // 3. METALON
     let metalonFiltrados = materiais.filter(m => {
-        let cat = (m[0] || '').toLowerCase();
-        let esp = (m[1] || '').toLowerCase();
+        let cat = (m && m[0] || '').toLowerCase();
+        let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('metalon') || esp.includes('metalon');
     });
     let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
@@ -253,8 +253,8 @@ function buildDropdowns() {
 
     // 4. PINUS / MADEIRA
     let pinusFiltrados = materiais.filter(m => {
-        let cat = (m[0] || '').toLowerCase();
-        let esp = (m[1] || '').toLowerCase();
+        let cat = (m && m[0] || '').toLowerCase();
+        let esp = (m && m[1] || '').toLowerCase();
         return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
     });
     let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
@@ -263,7 +263,7 @@ function buildDropdowns() {
     updateChapaOpts();
 }
 
-//atualiza o menú de especificação da chapa de inox
+ //atualiza o menú de especificação da chapa de inox
 function updateChapaOpts() {
     let tipo = document.getElementById('bTipoInox');
     let bChapa = document.getElementById('bChapa');
@@ -273,8 +273,8 @@ function updateChapaOpts() {
     let numInox = tipoSelecionado.includes('304') ? '304' : '430';
 
     let filtrados = materiais.filter(m => {
-        let cat = (m[0] || '').toLowerCase();
-        let esp = (m[1] || '').toLowerCase();
+        let cat = (m && m[0] || '').toLowerCase();
+        let esp = (m && m[1] || '').toLowerCase();
         return (cat.includes('chapa') || esp.includes('chapa')) && 
                (cat.includes(numInox) || esp.includes(numInox));
     });
@@ -283,6 +283,7 @@ function updateChapaOpts() {
         `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`
     ).join('');
 }
+
 
 
 
