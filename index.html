@@ -136,7 +136,7 @@ const original = [
   ["Metalon", "15x40 Ch18", "Barra (6m)", 90], ["Metalon", "15x40 Ch20", "Barra (6m)", 82],
   ["Metalon", "15x30 Ch18", "Barra (6m)", 70], ["Metalon", "15x30 Ch20", "Barra (6m)", 63]
 ];
-let materiais = [];
+let materiais = JSON.parse(localStorage.getItem('serralheria_v12_mats')) || [...original, ...extraMaterials];
 let cachePDF = {};
 const extraMaterials = [
   ["Tubo Inox", "1.1/2\" 304 Ch18", "Barra (6m)", 180], ["Tubo Inox", "1.1/2\" 304 Ch20", "Barra (6m)", 160],
