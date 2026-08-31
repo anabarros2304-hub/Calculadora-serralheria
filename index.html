@@ -206,8 +206,17 @@ function save() { localStorage.setItem('serralheria_v12_mats', JSON.stringify(ma
 function num(id) { return parseFloat(document.getElementById(id).value) || 0; }
 function brl(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 function price(especificacao) {
-  let mat = materiais.find(m => m[1] === especificacao);
-  return mat ? parseFloat(mat[3]) : 0;
+  if (!especificacao) return 0;
+
+  let busca = especificacao.toString().trim().toLowerCase();
+
+  let mat = materiais.find(m =>
+    m &&
+    m[1] &&
+    m[1].toString().trim().toLowerCase() === busca
+  );
+
+  return mat ? parseFloat(m[3]) || 0 : 0;
 }
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -260,8 +269,8 @@ function show(id) {
     return cat.includes('metalon') || esp.includes('metalon');
   });
   let optMetalon = metalonFiltrados.map(m => {
-    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
-  }).join('');
+  return `<option value="${m[1]}">${m[0]} ${m[1]} (R$ ${parseFloat(m[3]).toFixed(2)})</option>`;
+}).join('');
   
   document.querySelectorAll('[id*="Metalon"], [id*="metalon"]').forEach(sel => {
     if (sel.tagName === 'SELECT') sel.innerHTML = optMetalon;
@@ -301,8 +310,8 @@ function updateChapaOpts() {
   });
 
   let htmlChapas = chapasFiltradas.map(m => {
-    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
-  }).join('');
+  return `<option value="${m[1]}">${m[0]} ${m[1]} (R$ ${parseFloat(m[3]).toFixed(2)})</option>`;
+}).join('');
 
   let camposChapa = document.querySelectorAll('[id*="Chapa"], [id*="chapa"]');
   camposChapa.forEach(select => {
@@ -512,7 +521,7 @@ function salvarMateriais() {
     // Atualiza a lista do sistema e salva permanentemente no celular
     if (novosMateriais.length > 0) {
         materiais = novosMateriais;
-        localStorage.setItem('materiais', JSON.stringify(materiais));
+        localStorage.setItem('serralheria_v12_mats', JSON.stringify(materiais));
         alert('✅ Alterações salvas com sucesso!');
     } else {
         alert('⚠️ Nenhum material encontrado para salvar.');
