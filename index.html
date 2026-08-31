@@ -223,7 +223,7 @@ function buildDropdowns() {
     let aTubo = document.getElementById('aTubo');
     let pPinus = document.getElementById('pPinus');
 
-    // 1. BUSCA INTELIGENTE DE TUBOS (Procura a palavra "tubo")
+    // 1. TUBOS (Procura na Categoria m[0] ou Especificação m[1])
     let tubosFiltrados = materiais.filter(m => {
         let cat = (m[0] || '').toLowerCase();
         let esp = (m[1] || '').toLowerCase();
@@ -233,7 +233,7 @@ function buildDropdowns() {
     if (bTubo) bTubo.innerHTML = optTubo;
     if (aTubo) aTubo.innerHTML = optTubo;
 
-    // 2. BUSCA INTELIGENTE DE MDF (Procura a palavra "mdf")
+    // 2. MDF
     let mdfFiltrados = materiais.filter(m => {
         let cat = (m[0] || '').toLowerCase();
         let esp = (m[1] || '').toLowerCase();
@@ -242,7 +242,7 @@ function buildDropdowns() {
     let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
     if (mMdf) mMdf.innerHTML = optMdf;
 
-    // 3. BUSCA INTELIGENTE DE METALON (Procura a palavra "metalon")
+    // 3. METALON
     let metalonFiltrados = materiais.filter(m => {
         let cat = (m[0] || '').toLowerCase();
         let esp = (m[1] || '').toLowerCase();
@@ -251,7 +251,7 @@ function buildDropdowns() {
     let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[1]} (R$ ${m[3]})</option>`).join('');
     if (pMetalon) pMetalon.innerHTML = optMetalon;
 
-    // 4. BUSCA INTELIGENTE DE PINUS / MADEIRA (Procura "pinus" ou "madeira")
+    // 4. PINUS / MADEIRA
     let pinusFiltrados = materiais.filter(m => {
         let cat = (m[0] || '').toLowerCase();
         let esp = (m[1] || '').toLowerCase();
