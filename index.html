@@ -177,29 +177,16 @@ const extraMaterials = [
   ["Discos e Flaps", "Discos e Flaps", "Servico", 35],
   ["Parafusos e Buchas", "Parafusos e Buchas", "Servico", 20]
 ];
-
 window.init = function() {
-  materiais = JSON.parse(localStorage.getItem('serralheria_v12_mats')) || [...original, ...extraMaterials];
-  let mdfSel = document.getElementById('mMdf'), pMdfSel = document.getElementById('pMdf');
-  let metSel = document.getElementById('mMetalon'), pMetSel = document.getElementById('pMetalon');
-  let pinusSel = document.getElementById('pPinus'), bTuboSel = document.getElementById('bTubo');
-  
-  if(mdfSel) mdfSel.innerHTML = ''; if(pMdfSel) pMdfSel.innerHTML = '';
-  if(metSel) metSel.innerHTML = ''; if(pMetSel) pMetSel.innerHTML = '';
-  if(pinusSel) pinusSel.innerHTML = ''; if(bTuboSel) bTuboSel.innerHTML = '';
 
-  materiais.forEach(m => {
-    // CORREÇÃO: m[1] pega o nome do material e m[3] pega o preço base da tabela
-    let opt = `<option value="${m[1]}">${m[1]} (R$ ${m[3].toFixed(2)})</option>`;
-    
-    // CORREÇÃO: m[0] checa a categoria correta (ex: se é "MDF" ou "Metalon")
-    if(m[0] === "MDF") { if(mdfSel) mdfSel.innerHTML += opt; if(pMdfSel) pMdfSel.innerHTML += opt; }
-    if(m[0] === "Metalon") { if(metSel) metSel.innerHTML += opt; if(pMetSel) pMetSel.innerHTML += opt; }
-    if(m[0] === "Tábua Pinus" && pinusSel) pinusSel.innerHTML += opt;
-    if(m[0] === "Tubo Inox" && bTuboSel) bTuboSel.innerHTML += opt;
-  });
-  updateChapaOpts();
+  materiais = JSON.parse(
+    localStorage.getItem('serralheria_v12_mats')
+  ) || [...original, ...extraMaterials];
+
+  buildDropdowns();
 };
+
+
 
 
 function save() { localStorage.setItem('serralheria_v12_mats', JSON.stringify(materiais)); buildDropdowns(); }
@@ -226,72 +213,55 @@ function show(id) {
 }
 //menú de seleção dos materiais cadastrados
  function buildDropdowns() {
-  function obterTexto(campo) {
-    return (campo || '').toString().toLowerCase();
+
+  const texto = valor =>
+    (valor ?? '').toString().trim().toLowerCase();
+
+  function preencher(id, filtro) {
+    const select = document.getElementById(id);
+    if (!select) return;
+
+    const lista = materiais.filter(m =>
+      m && m.length >= 4 && filtro(m)
+    );
+
+    select.innerHTML = lista.map(m => `
+      <option value="${m[1]}">
+        ${m[0]} - ${m[1]} (R$ ${parseFloat(m[3] || 0).toFixed(2)})
+      </option>
+    `).join('');
   }
 
-  // 1. FILTRAR E MONTAR OPÇÕES PARA TUBOS
-  let tubosFiltrados = materiais.filter(m => {
-    if (!m || m.length < 2) return false;
-    let cat = obterTexto(m[0]);
-    let esp = obterTexto(m[1]);
-    return cat.includes('tubo') || esp.includes('tubo');
-  });
-  let optTubo = tubosFiltrados.map(m => {
-    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
-  }).join('');
-  
-  document.querySelectorAll('[id*="Tubo"], [id*="tubo"]').forEach(sel => {
-    if (sel.tagName === 'SELECT') sel.innerHTML = optTubo;
-  });
+  // MDF
+  preencher('mMdf', m =>
+    texto(m[0]) === 'mdf'
+  );
 
-  // 2. FILTRAR E MONTAR OPÇÕES PARA MDF
-  let mdfFiltrados = materiais.filter(m => {
-    if (!m || m.length < 2) return false;
-    let cat = obterTexto(m[0]);
-    let esp = obterTexto(m[1]);
-    return cat.includes('mdf') || esp.includes('mdf');
-  });
-  let optMdf = mdfFiltrados.map(m => {
-    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
-  }).join('');
-  
-  document.querySelectorAll('[id*="Mdf"], [id*="mdf"]').forEach(sel => {
-    if (sel.tagName === 'SELECT') sel.innerHTML = optMdf;
-  });
+  preencher('pMdf', m =>
+    texto(m[0]) === 'mdf'
+  );
 
+  // METALON
+  preencher('mMetalon', m =>
+    texto(m[0]) === 'metalon'
+  );
 
-    // 3. FILTRAR E MONTAR OPÇÕES PARA METALON
-  let metalonFiltrados = materiais.filter(m => {
-    if (!m || m.length < 2) return false;
-    let cat = obterTexto(m[0]);
-    let esp = obterTexto(m[1]);
-    return cat.includes('metalon') || esp.includes('metalon');
-  });
-  let optMetalon = metalonFiltrados.map(m => {
-  return `<option value="${m[1]}">${m[0]} ${m[1]} (R$ ${parseFloat(m[3]).toFixed(2)})</option>`;
-}).join('');
-  
-  document.querySelectorAll('[id*="Metalon"], [id*="metalon"]').forEach(sel => {
-    if (sel.tagName === 'SELECT') sel.innerHTML = optMetalon;
-  });
+  preencher('pMetalon', m =>
+    texto(m[0]) === 'metalon'
+  );
 
-  // 4. FILTRAR E MONTAR OPÇÕES PARA PINUS / MADEIRA
-  let pinusFiltrados = materiais.filter(m => {
-    if (!m || m.length < 2) return false;
-    let cat = obterTexto(m[0]);
-    let esp = obterTexto(m[1]);
-    return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
-  });
-  let optPinus = pinusFiltrados.map(m => {
-    return `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`;
-  }).join('');
-  
-  document.querySelectorAll('[id*="Pinus"], [id*="pinus"], [id*="Madeira"], [id*="madeira"]').forEach(sel => {
-    if (sel.tagName === 'SELECT') sel.innerHTML = optPinus;
-  });
+  // TUBO INOX
+  preencher('bTubo', m =>
+    texto(m[0]) === 'tubo inox'
+  );
 
-  // Atualiza automaticamente as chapas de inox
+  // PINUS
+  preencher('pPinus', m =>
+    texto(m[0]) === 'tábua pinus' ||
+    texto(m[0]) === 'tabua pinus'
+  );
+
+  // CHAPAS DE INOX
   updateChapaOpts();
 }
 
