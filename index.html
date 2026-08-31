@@ -217,102 +217,93 @@ function show(id) {
 }
 //menú de seleção dos materiais cadastrados
 function buildDropdowns() {
-    let mMdf = document.getElementById('mMdf');
-    let pMetalon = document.getElementById('pMetalon');
-    let bTubo = document.getElementById('bTubo');
-    let aTubo = document.getElementById('aTubo');
-    let pPinus = document.getElementById('pPinus');
+  let mMdf = document.getElementById('mMdf');
+  let pMetalon = document.getElementById('pMetalon');
+  let bTubo = document.getElementById('bTubo');
+  let aTubo = document.getElementById('aTubo');
+  let pPinus = document.getElementById('pPinus');
 
-    // Função interna para ler o material de forma inteligente (seja objeto ou lista)
-    function extrairDados(m) {
-        if (!m) return { cat: '', esp: '', preco: 0 };
-        // Se for objeto com nomes:
-        let cat = (m.categoria || m.category || m[0] || '').toString().toLowerCase();
-        let esp = (m.especificacao || m.especificacao || m[1] || '').toString().toLowerCase();
-        let preco = m.preco || m.value || m[3] || 0;
-        let nomeCompleto = `${m.categoria || m[0] || ''} ${m.especificacao || m[1] || ''}`;
-        return { cat, esp, preco, nomeCompleto };
-    }
+  // Helper para verificar o texto com segurança e evitar travamentos
+  function obterTexto(campo) {
+    return (campo || '').toString().toLowerCase();
+  }
 
-    // 1. FILTRO DE TUBOS (Busca por "tubo" ou "metalon" dependendo do campo)
-    let tubosFiltrados = materiais.filter(m => {
-        let d = extrairDados(m);
-        return d.cat.includes('tubo') || d.esp.includes('tubo') || d.cat.includes('metalon') || d.esp.includes('metalon');
-    });
-    let optTubo = tubosFiltrados.map(m => {
-        let d = extrairDados(m);
-        return `<option value="${d.preco}">${d.nomeCompleto} (R$ ${d.preco})</option>`;
-    }).join('');
-    
-    if (bTubo) bTubo.innerHTML = optTubo;
-    if (aTubo) aTubo.innerHTML = optTubo;
+  // 1. FILTRAR E MONTAR OPÇÕES PARA TUBOS
+  let tubosFiltrados = materiais.filter(m => {
+    if (!m || m.length < 2) return false;
+    let cat = obterTexto(m[0]);
+    let esp = obterTexto(m[1]);
+    return cat.includes('tubo') || esp.includes('tubo');
+  });
+  let optTubo = tubosFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  if (bTubo) bTubo.innerHTML = optTubo;
+  if (aTubo) aTubo.innerHTML = optTubo;
 
-    // 2. FILTRO DE MDF
-    let mdfFiltrados = materiais.filter(m => {
-        let d = extrairDados(m);
-        return d.cat.includes('mdf') || d.esp.includes('mdf');
-    });
-    if (mMdf) {
-        mMdf.innerHTML = mdfFiltrados.map(m => {
-            let d = extrairDados(m);
-            return `<option value="${d.preco}">${d.nomeCompleto} (R$ ${d.preco})</option>`;
-        }).join('');
-    }
+  // 2. FILTRAR E MONTAR OPÇÕES PARA MDF
+  let mdfFiltrados = materiais.filter(m => {
+    if (!m || m.length < 2) return false;
+    let cat = obterTexto(m[0]);
+    let esp = obterTexto(m[1]);
+    return cat.includes('mdf') || esp.includes('mdf');
+  });
+  let optMdf = mdfFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  if (mMdf) mMdf.innerHTML = optMdf;
 
-    // 3. FILTRO DE METALON
-    let metalonFiltrados = materiais.filter(m => {
-        let d = extrairDados(m);
-        return d.cat.includes('metalon') || d.esp.includes('metalon');
-    });
-    if (pMetalon) {
-        pMetalon.innerHTML = metalonFiltrados.map(m => {
-            let d = extrairDados(m);
-            return `<option value="${d.preco}">${d.nomeCompleto} (R$ ${d.preco})</option>`;
-        }).join('');
-    }
+  // 3. FILTRAR E MONTAR OPÇÕES PARA METALON
+  let metalonFiltrados = materiais.filter(m => {
+    if (!m || m.length < 2) return false;
+    let cat = obterTexto(m[0]);
+    let esp = obterTexto(m[1]);
+    return cat.includes('metalon') || esp.includes('metalon');
+  });
+  let optMetalon = metalonFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  if (pMetalon) pMetalon.innerHTML = optMetalon;
 
-    // 4. FILTRO DE PINUS / MADEIRA
-    let pinusFiltrados = materiais.filter(m => {
-        let d = extrairDados(m);
-        return d.cat.includes('pinus') || d.cat.includes('madeira') || d.esp.includes('pinus') || d.esp.includes('madeira');
-    });
-    if (pPinus) {
-        pPinus.innerHTML = pinusFiltrados.map(m => {
-            let d = extrairDados(m);
-            return `<option value="${d.preco}">${d.nomeCompleto} (R$ ${d.preco})</option>`;
-        }).join('');
-    }
+  // 4. FILTRAR E MONTAR OPÇÕES PARA PINUS / MADEIRA
+  let pinusFiltrados = materiais.filter(m => {
+    if (!m || m.length < 2) return false;
+    let cat = obterTexto(m[0]);
+    let esp = obterTexto(m[1]);
+    return cat.includes('pinus') || cat.includes('madeira') || esp.includes('pinus') || esp.includes('madeira');
+  });
+  let optPinus = pinusFiltrados.map(m => `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`).join('');
+  if (pPinus) pPinus.innerHTML = optPinus;
 
-    updateChapaOpts();
+  // Atualiza automaticamente as chapas de inox
+  updateChapaOpts();
 }
 
 function updateChapaOpts() {
-    let tipo = document.getElementById('bTipoInox');
-    let bChapa = document.getElementById('bChapa');
-    if (!bChapa || !tipo) return;
+  // Captura o seletor do tipo de Inox da aba ativa (Bancada, Coifa, Cozinha, etc.)
+  let tipoInoxEl = document.getElementById('bTipoInox') || document.querySelector('[id*="TipoInox"]') || document.querySelector('[id*="tipoInox"]');
+  if (!tipoInoxEl) return;
 
-    let tipoSelecionado = tipo.value.toLowerCase();
-    let numInox = tipoSelecionado.includes('304') ? '304' : '430';
+  let tipoSelecionado = tipoInoxEl.value.toLowerCase();
+  let numInox = tipoSelecionado.includes('304') ? '304' : '430';
 
-    // Filtra as chapas buscando "chapa" e o número do inox (304 ou 430)
-    let filtrados = materiais.filter(m => {
-        if (!m) return false;
-        let cat = (m.categoria || m[0] || '').toString().toLowerCase();
-        let esp = (m.especificacao || m[1] || '').toString().toLowerCase();
-        
-        let contemChapa = cat.includes('chapa') || esp.includes('chapa');
-        let contemAco = cat.includes(numInox) || esp.includes(numInox);
-        
-        return contemChapa && contemAco;
-    });
+  let chapasFiltradas = materiais.filter(m => {
+    if (!m || m.length < 2) return false;
+    let cat = (m[0] || '').toString().toLowerCase();
+    let esp = (m[1] || '').toString().toLowerCase();
+    
+    let contemChapa = cat.includes('chapa') || esp.includes('chapa');
+    let contemAco = cat.includes(numInox) || esp.includes(numInox);
+    return contemChapa && contemAco;
+  });
 
-    bChapa.innerHTML = filtrados.map(m => {
-        let cat = m.categoria || m[0] || '';
-        let esp = m.especificacao || m[1] || '';
-        let preco = m.preco || m[3] || 0;
-        return `<option value="${preco}">${cat} ${esp} (R$ ${preco})</option>`;
-    }).join('');
+  let htmlChapas = chapasFiltradas.map(m => 
+    `<option value="${m[3]}">${m[0]} ${m[1]} (R$ ${m[3]})</option>`
+  ).join('');
+
+  // Aplica a lista de chapas correspondente em todos os seletores de chapa do site de uma vez
+  let camposChapa = document.querySelectorAll('[id*="Chapa"], [id*="chapa"]');
+  camposChapa.forEach(select => {
+    if (select.tagName === 'SELECT') {
+      select.innerHTML = htmlChapas;
+    }
+  });
 }
+
 
 
 
